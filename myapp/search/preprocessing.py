@@ -58,8 +58,8 @@ _CODE_RE = re.compile(r"^(?=.*\d)(?=.*[a-z])[a-z0-9]+$")  # mixed letters + digi
 
 def fix_encoding(text: str) -> str:
     """
-    Repair badly decoded UTF-8 (mojibake), e.g. "itâ€™s" -> "it’s". About 6% of descriptions contain
-    non-ASCII characters, many of them produced by a cp1252/utf-8 mix-up during crawling.
+    Repair badly decoded UTF-8 (mojibake), e.g. "itâ€™s" -> "it’s". A small number of descriptions
+    (~0.3%) were decoded with the wrong encoding (sometimes twice) during crawling.
     :param text: raw text
     :return: text with encoding errors fixed
     """
@@ -278,4 +278,6 @@ def preprocess_corpus(df: pd.DataFrame, **text_kwargs) -> pd.DataFrame:
     :return: DataFrame with one processed document per row, indexed by pid
     """
     records = [preprocess_document(row, **text_kwargs) for row in df.to_dict(orient="records")]
-    return pd.DataFrame(records).set_index("pid", drop=False)
+    processed = pd.DataFrame(records)
+    processed.index = processed["pid"].values  # lookup by pid, while keeping pid as a normal column
+    return processed
