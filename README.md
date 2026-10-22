@@ -1,4 +1,18 @@
-# Information Retrieval and Web Analytics (IRWA) - Final Project template
+# Information Retrieval and Web Analytics (IRWA) - Final Project
+
+**Group:** U233738, U233436, U232597
+
+| Part | Folder | Tag |
+|---|---|---|
+| Part 1 – Text Processing and EDA | [`project_progress/part_1`](project_progress/part_1) | `IRWA-2026-part-1` |
+| Part 2 – Indexing and Evaluation | `project_progress/part_2` | – |
+| Part 3 – Ranking and Filtering | `project_progress/part_3` | – |
+| Part 4 – RAG, UI and Web Analytics | `web_app.py`, `myapp/` | – |
+
+Each part folder has its own `README.md` with the steps to reproduce its results.
+
+----
+## Original template description
 
 <table>
   <tr>
@@ -37,10 +51,13 @@
 Open a terminal console and execute:
 ```
 cd <your preferred projects root directory>
-git clone https://github.com/trokhymovych/irwa-search-engine.git
+git clone https://github.com/victorbrull/irwa-search-engine.git
 ```
 
 ## Setting up the Python environment (only for the first time you run the project)
+
+> **Python ≥ 3.10 is required** (`numpy==2.2.6` in `requirements.txt` does not install on 3.8/3.9). We use Python 3.11.
+> If `virtualenv` is not available you can also use `python3.11 -m venv irwa_venv`.
 ### Install virtualenv
 Setting up a virtualenv is recommended to isolate the project dependencies from other Python projects on your machine.
 It allows you to manage packages on a per-project basis, avoiding potential conflicts between different projects.
@@ -81,6 +98,11 @@ And then install all the packages listed in `requirements.txt` with:
 pip install -r requirements.txt
 ```
 
+The NER part of the analysis also needs the small English spaCy model:
+```bash
+python -m spacy download en_core_web_sm
+```
+
 If you need to add more packages in the future, you can install them with pip and then update `requirements.txt` with:
 ```bash
 pip freeze > requirements.txt
@@ -94,7 +116,7 @@ Enjoy!
 python -V
 # Make sure we use Python 3
 
-cd search-engine-web-app
+cd irwa-search-engine
 python web_app.py
 ```
 The above will start a web server with the application:
@@ -126,7 +148,7 @@ git push -u origin main
 ```
 
 ## Usage: 
-0. Put the data file `fashion_products_dataset.json` in the `data` folder. It will be provided to you by the instructor.
+0. Put the data files `fashion_products_dataset.json` and `validation_labels.csv` in the `data` folder. It will be provided to you by the instructor.
 1. As for Parts 1, 2, and 3 of the project, please use the `project_progress` folder to store your solutions. Each part should contain `.pdf` file with your report and `.ipynb` (Jupyter Notebook) file with your code for solution and `README.md` with explanation of the content and instructions for results reproduction.
 2. For the Part 4, of the project, you should build a web application using Flask that allows users to search through a collection of documents and view analytics about their searches. You should work mailnly in the `web_app.py` file `myapp` and `templates` folders. Feel free to change any code or add new files as needed. The provided code is just a starting point to help you get started quickly.
 3. Make sure to update the `.env` file with your Groq API key (can be found [here](https://groq.com/), the free version is more than enough for our purposes) and any other necessary configurations. IMPORTANT: Do not share your `.env` file publicly as it contains sensitive information. It is included in `.gitignore` to prevent accidental commits. (It should never be included in the repos and appear here only for demonstration purposes).
