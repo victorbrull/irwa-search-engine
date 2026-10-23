@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>IRWA 2026 – Part 1 report</title>
+<style>
+  @page { size: A4; margin: 18mm 17mm 18mm 17mm; }
+  body { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10.3pt; line-height: 1.42; color: #1a1a1a; }
+  h1 { font-size: 18pt; margin: 0 0 4px 0; color: #1f3b6e; }
+  h2 { font-size: 13pt; margin: 18px 0 6px 0; color: #1f3b6e; border-bottom: 1px solid #c9d3e6; padding-bottom: 2px; }
+  h3 { font-size: 11pt; margin: 12px 0 4px 0; }
+  h2, h3 { page-break-after: avoid; break-after: avoid; }
+  p { margin: 5px 0; text-align: justify; }
+  ul, ol { margin: 4px 0 6px 0; padding-left: 20px; }
+  li { margin: 2px 0; }
+  table { border-collapse: collapse; margin: 6px 0 8px 0; font-size: 9.2pt; width: 100%; }
+  th, td { border: 1px solid #c9ccd3; padding: 3px 6px; vertical-align: top; text-align: left; }
+  th { background: #eef2f8; }
+  td.num, th.num { text-align: right; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 8.8pt; background: #f3f4f6; padding: 0 2px; }
+  figure { margin: 8px 0; text-align: center; page-break-inside: avoid; }
+  figure img { max-width: 100%; }
+  figcaption { font-size: 8.8pt; color: #555; margin-top: 2px; }
+  .meta { font-size: 9.8pt; color: #333; margin-bottom: 10px; }
+  .meta td { border: none; padding: 1px 8px 1px 0; }
+  .two { display: flex; gap: 10px; }
+  .two figure { flex: 1; }
+  .box { background: #f6f8fb; border-left: 3px solid #1f3b6e; padding: 5px 9px; margin: 6px 0; }
+  .avoid { page-break-inside: avoid; }
+</style>
+</head>
+<body>
+
+<h1>IRWA Final Project – Part 1: Text Processing and Exploratory Data Analysis</h1>
+<table class="meta">
+  <tr><td><b>Students</b></td><td>u233738, u233436, u232597</td></tr>
+  <tr><td><b>GitHub</b></td><td>https://github.com/victorbrull/irwa-search-engine</td></tr>
+  <tr><td><b>Tag</b></td><td><code>IRWA-2026-part-1</code> (code in <code>project_progress/part_1/</code> and <code>myapp/search/preprocessing.py</code>)</td></tr>
+</table>
+
+<h2>1. Introduction</h2>
+<p>The corpus contains <b>28,080 fashion products</b> crawled from Flipkart, with 17 fields each. In this first part we
+prepare the documents, and we describe the data with an exploratory analysis.
+Before deciding anything we inspected the raw data, and several of our decisions come from data-quality problems we found
+there (section 2). For the decisions about the fields (questions 3 and 4) we used <code>validation_labels.csv</code> as
+evidence, as suggested in the statement.</p>
+<p>All the code is in the notebook <code>processing_eda.ipynb</code>. The pre-processing functions are in a separate python file,
+<code>/preprocessing.py</code>, to be cleaner.</p>
+
+<h2>2. Raw data and quality problems</h2>
+<p><code>pid</code> is unique (no duplicates), so we use it as the document identifier. Missing values are stored as empty
+strings, not <code>null</code>. The most important ones are: <b>description empty in 39.7%</b> of the products, rating missing
+in 8.1%, brand in 7.2%, seller in 5.9% and actual price/discount in ~2.8%. Prices, discount and rating are strings
+(<code>"2,999"</code>, <code>"69% off"</code>, <code>"3.9"</code>) and <code>product_details</code> is a list of
+one-key dictionaries. While inspecting the data we found four problems that affect retrieval:</p>
+<ol>
+  <li><b>Encoding errors.</b> 6.5% of descriptions contain non-ASCII characters (curly quotes, non-breaking spaces) and 43 have real
+      <i>mojibake</i> (text decoded with the wrong encoding, sometimes twice, e.g. <code>itÃ\x83Â¢Ã\x82Â\x80…s</code> instead of <i>it's</i>).</li>
+  <li><b>Glued words.</b> In 7.4% of descriptions, sentences are joined without a space (<code>look.Designed</code>,
+      <code>Comfort,Skin</code>) and sometimes even the brand is glued to the next word (<code>ECKO UnltdSlim Fit</code>).</li>
+  <li><b>Truncated brands.</b> Most brand names are cut: <code>Pu</code>, <code>REEB</code>, <code>ECKO Unl</code>, <code>True Bl</code>.
+      A user searching for <i>puma</i> would never match <code>pu</code>. The URL slug, however, starts with the complete brand name
+      (<code>flipkart.com/puma-full-sleeve-…</code>), so we use it to complete the brand. This works for 24,741 of the 26,071 products
+      with a brand (94.9%).</li>
+  <li><b>Gender in the URL contradicts the title.</b> We compared the gender word (<i>men</i>/<i>women</i>) in the title, the URL
+      and the <code>Ideal For</code> detail. Title and <code>Ideal For</code> agree in <b>100%</b> of the 16,433 products where both
+      exist, but the URL agrees with them only <b>~50%</b> of the time, which is what you would get by chance. In the validation file all
+      20 products of query 1 say <i>Women</i> in the title and <i>men</i> in the URL, and the labels follow the title. Our conclusion is
+      that the visible fields were modified and the URL was not, so <b>we never index the URL as text</b>. We only use it to complete the brand
+      and to give the user a link.</li>
+</ol>
+
+<h2>3. Text pre-processing</h2>
+<p>The function <code>preprocess_text</code> is applied to every text field and will also be applied to queries:</p>
+<table class="avoid">
+  <tr><th>#</th><th>Step</th><th>Reason / detail</th></tr>
+  <tr><td>1</td><td>Encoding repair (<code>ftfy</code>)</td><td>fixes the mojibake of problem 1</td></tr>
+  <tr><td>2</td><td>ASCII folding (Unicode NFKD)</td><td><code>’</code>→<code>'</code>, <code>é</code>→<code>e</code>, removes symbols such as <code>•</code> and <code>™</code></td></tr>
+  <tr><td>3</td><td>Split glued words</td><td><code>look.Designed</code> → <code>look. Designed</code>; <code>UnltdSlim</code> → <code>Unltd Slim</code> (problem 2)</td></tr>
+  <tr><td>4</td><td>Lowercase</td><td><i>Cotton</i> = <i>cotton</i></td></tr>
+  <tr><td>5</td><td>Domain normalisation</td><td><code>women's</code>/<code>womens</code>/<code>woman</code> → <code>women</code>; <code>t-shirt</code>/<code>t shirt</code>/<code>tee</code> → <code>tshirt</code>; <code>sweat shirt</code> → <code>sweatshirt</code>; typo <code>regulor</code> → <code>regular</code></td></tr>
+  <tr><td>6</td><td><b>Tokenization</b> with regex <code>[a-z0-9]+</code></td><td>every other character is a separator, so <b>punctuation is removed</b> in the same step</td></tr>
+  <tr><td>7</td><td><b>Stop-word removal</b> (NLTK English)</td><td>we checked that the list does not contain <i>men, women, full, slim, blue</i>, which are key query terms</td></tr>
+  <tr><td>8</td><td>Remove 1-char tokens and product codes</td><td>codes that mix letters and digits (<code>1005combo2</code>) are identifiers; pure numbers (<i>100</i>% cotton, size <i>32</i>) are kept</td></tr>
+  <tr><td>9</td><td><b>Stemming</b> (Porter)</td><td><code>sleeves</code>→<code>sleev</code>, <code>jeans</code>→<code>jean</code>; Porter keeps <code>sleeveless</code> different from <code>sleev</code>, which is what we want</td></tr>
+</table>
+<p>Steps 1–3, 5 and 8 are our additions (the "anything else" point), and each one fixes a problem seen in the data. We used a regex tokenizer
+instead of <code>nltk.word_tokenize</code> because <code>word_tokenize</code> keeps punctuation as tokens and handles hyphens inconsistently.
+For example, the two validation queries become <code>[women, full, sleev, sweatshirt, cotton]</code> and <code>[men, slim, jean, blue]</code>.
+To measure the effect of each step, we computed the vocabulary of title + description after adding the steps one by one:</p>
+<table class="avoid">
+  <tr><th>Pipeline</th><th class="num">Vocabulary</th><th class="num">Avg. tokens / doc</th></tr>
+  <tr><td>whitespace split</td><td class="num">13,521</td><td class="num">36.2</td></tr>
+  <tr><td>+ lowercase</td><td class="num">10,606</td><td class="num">36.2</td></tr>
+  <tr><td>+ punctuation removal (regex tokenizer)</td><td class="num">6,503</td><td class="num">37.6</td></tr>
+  <tr><td>+ encoding fix, glued words, domain normalisation</td><td class="num">6,432</td><td class="num">36.7</td></tr>
+  <tr><td>+ stop words, codes, 1-char tokens</td><td class="num">6,187</td><td class="num">25.0</td></tr>
+  <tr><td>+ Porter stemming (final)</td><td class="num">4,717</td><td class="num">25.0</td></tr>
+</table>
+<p>Lowercasing and punctuation removal halve the vocabulary, and stemming reduces it by another 24%. Stop words barely change the vocabulary,
+but they remove about a third of the tokens of each document. The normalisation step has a small effect on size (−71 terms), but it fixes
+exactly the cases that matter for matching (<code>women's</code>, <code>t-shirt</code>, <code>UnltdSlim</code>).</p>
+
+<h2>4. Fields returned to the user</h2>
+<p>For every document the processed corpus keeps the 14 required fields (<code>pid, title, description, brand, category, sub_category,
+product_details, seller, out_of_stock, selling_price, discount, actual_price, average_rating, url</code>) in a <b>readable, typed form</b>:
+original text with only the encoding fixed, prices as numbers, <code>product_details</code> as a dictionary. The stemmed terms are stored
+in separate columns (<code>&lt;field&gt;_terms</code>) because they are only used for matching. Missing values are returned as <code>None</code>
+instead of <code>""</code> or 0, so the interface can show "not available". The original (truncated) brand is shown to the user, and the
+completed brand (<code>brand_full</code>) is only used for search.</p>
+
+<h2>5. Q3 – category, sub_category, brand, product_details and seller</h2>
+<table class="avoid">
+  <tr><th style="width:22%">Option</th><th>Pros</th><th>Cons</th></tr>
+  <tr><td><b>A.</b> Merge all into one text field</td><td>simplest index; any term matches anywhere; works directly with TF-IDF + cosine</td><td>all fields weigh the same (a match in a washing instruction counts like one in the title); repeated values make documents longer; no filtering by brand/seller</td></tr>
+  <tr><td><b>B.</b> Separate fields in the index</td><td>each field gets its own weight (title &gt; details &gt; description); field queries and filters (<code>brand:puma</code>); per-field statistics</td><td>more complex index and ranking; weights must be tuned; very short fields (brand) have skewed length statistics</td></tr>
+  <tr><td><b>C.</b> Structured attributes, not text</td><td>low-cardinality fields work better as filters or facets</td><td>they don't help free-text matching</td></tr>
+</table>
+<p>To decide, we looked at (1) how distinctive each field is and (2) whether it helps separate relevant from non-relevant products in the validation set.</p>
+<table class="avoid">
+  <tr><th>Field</th><th class="num">Distinct values</th><th class="num">Missing</th><th>Most common value</th><th class="num">Entropy (bits)</th></tr>
+  <tr><td>category</td><td class="num">4</td><td class="num">0%</td><td>Clothing and Accessories (96.6%)</td><td class="num">0.22</td></tr>
+  <tr><td>sub_category</td><td class="num">24</td><td class="num">0%</td><td>Topwear (54.5%)</td><td class="num">2.28</td></tr>
+  <tr><td>brand (completed)</td><td class="num">323</td><td class="num">7.2%</td><td>ecko unltd (3.6%)</td><td class="num">6.83</td></tr>
+  <tr><td>seller</td><td class="num">534</td><td class="num">5.9%</td><td>RetailNet (5.3%)</td><td class="num">7.13</td></tr>
+</table>
+<p><code>category</code> carries almost no information: as a term its IDF is ≈ 0. <code>brand</code> and <code>seller</code> are very distinctive,
+but users type brands in queries, not seller names. <code>product_details</code> contains exactly the attributes people search for:
+<i>Sleeve</i> (Full Sleeve in 6,372 products), <i>Fit</i> (Slim in 3,831), <i>Fabric</i>, <i>Color</i>, <i>Ideal For</i>. Then, for each validation product,
+we computed the fraction of the query terms found in each field (Figure 1).</p>
+<div class="two">
+  <figure><img src="figures/field_separation_validation.png"><figcaption>Figure 1. Query-term coverage of relevant minus non-relevant products, per field.</figcaption></figure>
+  <figure><img src="figures/product_details_keys.png"><figcaption>Figure 2. Most common product_details keys (grey = excluded).</figcaption></figure>
+</div>
+<p>The result was clear. With a <b>single merged field</b>, all the candidates of query 1 (relevant or not) contain the five query terms somewhere,
+so the coverage is 1.00 vs 1.00 and the field cannot separate them. The <b>title</b> separates best (0.80 vs 0.46 for query 1), because the
+non-relevant products are T-shirts that mention <i>sweatshirt</i> or <i>cotton</i> only in other fields. <b>product_details</b> also helps (+0.14 / +0.18):
+the <i>Sleeve</i> value separates all four T-shirts (<i>Half Sleeve</i>) of query 1, and <i>Fabric</i> explains one of the non-relevant sweatshirts
+(<i>Polyester Blend</i>). The <b>description</b> is slightly negative, and brand, category, sub_category and seller never contain the query terms.</p>
+<div class="box"><b>Decision (a hybrid of A, B and C).</b>
+<ol>
+  <li>We keep a <b>separate term list per field</b> (title, description, product_details, brand, sub_category, category, seller), so that in Part 3 we can
+      weight them (title &gt; product_details &gt; brand &gt; description) or use a field-weighted model such as BM25F.</li>
+  <li>We also build a <b>merged field</b> <code>all_terms</code> = title + description + brand + sub_category + product_details for the basic TF-IDF index
+      of Part 2 (simple, good recall). <code>category</code> (no discriminative power) and <code>seller</code> (noise for product queries) are <b>not</b> merged.</li>
+  <li><code>category</code>, <code>sub_category</code>, <code>brand</code> and <code>seller</code> are also kept as <b>raw values for filters/facets</b>.</li>
+  <li>From <code>product_details</code> we index <b>only the values</b> (keys such as <i>Fabric</i> appear in almost every product), and we drop keys that don't
+      describe the product: <i>Style Code, Fabric Care, Sales Package, Country of Origin, Pack of, Reversible, Number of Contents in Sales Package</i>.</li>
+</ol></div>
+<p><b>Note about the labels.</b> They are partly inconsistent. Products with the same title and brand get different labels (Puma
+<i>Full Sleeve Printed Women Sweatshirt</i>: 1, 1, 0; ECKO <i>Tapered Fit Men Blue Jeans</i>: 0, 1, 1). Two cotton-blend Puma sweatshirts are non-relevant although
+they look like the relevant ones, and three <i>Women</i> jeans are relevant for <i>men slim jeans blue</i>. No text-only ranking can reproduce these labels
+perfectly, and we will keep that in mind when we evaluate in Part 2.</p>
+
+<h2>6. Q4 – out_of_stock, selling_price, discount, actual_price, average_rating</h2>
+<p><b>They are not indexed as textual terms.</b> As terms, <i>921</i> and <i>920</i> would be unrelated, while what matters about a number is its order and
+distance (cheaper than, rated above), which an inverted index of terms cannot express. Users ask for <i>"under 500"</i> or <i>"best rated"</i>, which are
+range filters or ranking signals, not exact matches. Number tokens would also add thousands of useless terms. Instead, we parse them into typed
+attributes: <code>"2,999"</code> → 2999.0, <code>"69% off"</code> → 69.0, <code>"3.9"</code> → 3.9, <code>out_of_stock</code> → boolean.
+<b>Missing values stay missing (never 0)</b>: an unrated product is not a product rated 0, and a missing price does not mean free. If the discount is missing but both
+prices exist, we compute it. We checked the consistency of the fields: the stated discount matches <code>(actual − selling)/actual</code> within one point for
+100% of the products, and no product has a selling price above its actual price. For the next parts we plan to use <code>out_of_stock</code> as a filter or penalty,
+<code>selling_price</code> as a range filter and for sorting, and <code>discount</code> and <code>average_rating</code> as ranking signals combined with the text score.</p>
+
+<h2>7. Exploratory data analysis</h2>
+<h3>7.1 Text statistics</h3>
+<p>Titles are short and very regular: 6.5 words on average (median 6). Descriptions are empty in 39.7% of products, and the non-empty ones have 49.4 words on average
+(median 39, max 623), with 3.2 sentences of 15.3 words. Sentence splitting was done after repairing the glued sentences, otherwise
+<code>look.Designed</code> would not be split. After pre-processing, the collection has <b>1.26M terms and a vocabulary of 5,865 terms</b> (1,216 appear only once).
+Per field, the vocabulary is 716 (title), 4,528 (description) and 2,960 (product_details).</p>
+<div class="two">
+  <figure><img src="figures/length_distributions.png"><figcaption>Figure 3. Words per title and per non-empty description.</figcaption></figure>
+</div>
+<figure><img src="figures/term_frequencies_zipf.png" style="max-width:92%"><figcaption>Figure 4. Most frequent terms and rank-frequency plot (log-log) compared with Zipf's law.</figcaption></figure>
+<p>The rank-frequency curve follows Zipf's law in the middle ranks. The most frequent terms (<i>neck, tshirt, cotton, wear, round, women, men, sleev</i>) come largely from
+<code>product_details</code>. For example, <i>Suitable For: Western Wear</i> appears in 19k products. This matters for the validation queries: <i>cotton</i> is in 71% of the documents and
+<i>sleev</i> in 64%, so their IDF is low, and <i>sweatshirt</i> (5%) and <i>jean</i> (9%) will do most of the ranking work.</p>
+<figure><img src="figures/wordclouds.png"><figcaption>Figure 5. Word clouds of titles and descriptions (pre-processed without stemming so that the words are readable).</figcaption></figure>
+<p>Titles are dominated by gender and product type (<i>women, men, tshirt, neck, printed, solid</i>), while descriptions use marketing vocabulary
+(<i>wear, casual, look, comfort, quality, perfect</i>). This is one more argument for giving more weight to the title.</p>
+
+<h3>7.2 Categories, brands and sellers</h3>
+<figure><img src="figures/categories.png"><figcaption>Figure 6. Products per category and sub-category.</figcaption></figure>
+<figure><img src="figures/top_brands_sellers.png"><figcaption>Figure 7. Top 15 brands (completed from the URL) and sellers.</figcaption></figure>
+<p>The collection is almost only clothing (96.6%), and more than half is <i>Topwear</i>. There are 323 brands and 534 sellers. The largest brands are ECKO Unltd (951),
+Free Authority (860), Arbour (806), Reebok (802) and Puma (798). Without completing the brands, the chart would show <i>ECKO Unl</i>, <i>Free Authori</i> or <i>Pu</i>.
+Among the brands with at least 50 rated products, the best average ratings are Sorang (4.61), PixFab (4.46) and Cotson (4.44); among sellers, SORANG (4.61),
+EVINCEMARKETERS (4.48) and PixFab (4.46). RetailNet, the largest seller (1,411 products), has a good average of 4.11.</p>
+
+<h3>7.3 Stock, prices, discounts and ratings</h3>
+<figure><img src="figures/numeric_distributions.png"><figcaption>Figure 8. out_of_stock, selling price (log scale), discount and rating distributions.</figcaption></figure>
+<p><b>5.9%</b> of the products are out of stock (1,644). Selling prices range from 99 to 7,999 (median 545), and the actual price has a median of 1,199. Discounts
+are very high (median 52%, maximum 87%, 0% for some products). Ratings go from 1.0 to 5.0 (median 3.8). <b>329 products have a perfect 5.0</b> (several out of stock),
+and since we don't have the number of reviews, these are probably based on few ratings. Ranking only by rating would push them to the top, so in Part 3 we will
+combine the rating with the text score instead. Among the 10 largest sub-categories, <i>Clothing Accessories</i> has the highest out-of-stock rate (17%) and the best mean rating (3.95), and
+<i>Blazers, Waistcoats and Suits</i> is the most expensive (median 1,799).</p>
+
+<h2>8. Conclusions and next steps</h2>
+<p>The main lesson of this part was that the data needed more care than the standard pipeline: encoding repair, glued words, truncated brands, and a URL that
+contradicts the title. The validation labels showed that a single merged field cannot separate relevant from non-relevant products, while the title and the
+product details can. For this reason we keep a term list per field plus a merged field, and keep the numeric fields as typed attributes. The processed corpus is
+saved in <code>data/processed_corpus.pkl</code> and will be the input of the inverted index and the TF-IDF ranking of Part 2.</p>
+
+<h2>AI usage statement</h2>
+<p>We used Claude (Anthropic) as an assistant during this part: to help write and debug the pre-processing functions and help in the notebook code, to suggest checks on the
+data (e.g. the comparison between title, URL and <i>Ideal For</i>), and to draft parts of this report. We ran all the code ourselves, checked that every number in
+the report matches the notebook output, and reviewed and edited the text. The decisions and their justification are our own responsibility.</p>
+
+</body>
+</html>
