@@ -1,0 +1,71 @@
+query,text,rank,score,pid,title,brand
+Q1,women full sleeve sweatshirt cotton,1,0.6396,SWSFZVTTQCB4SJ7F,Full Sleeve Solid Women Sweatshirt,Lev
+Q1,women full sleeve sweatshirt cotton,2,0.6211,SWSFZVTNGM4HG8BC,Full Sleeve Printed Women Sweatshirt,Lev
+Q1,women full sleeve sweatshirt cotton,3,0.601,SWSFQGS456JAZCQB,Full Sleeve Printed Women Sweatshirt,Lev
+Q1,women full sleeve sweatshirt cotton,4,0.5925,SWSFV5JNFW5HZQWY,Full Sleeve Printed Women Sweatshirt,ECKO Unl
+Q1,women full sleeve sweatshirt cotton,5,0.5715,SWSFYRKYAHH4HHSM,Full Sleeve Printed Women Sweatshirt,Steenb
+Q1,women full sleeve sweatshirt cotton,6,0.5616,SWSFYTYMNTBNARUN,Full Sleeve Solid Women Sweatshirt,ARBO
+Q1,women full sleeve sweatshirt cotton,7,0.5591,SWSFZ2H4KMYXZXX7,Full Sleeve Solid Women Sweatshirt,ECKO Unl
+Q1,women full sleeve sweatshirt cotton,8,0.5591,SWSFY37UKWPG4AZ2,Full Sleeve Solid Women Sweatshirt,ECKO Unl
+Q1,women full sleeve sweatshirt cotton,9,0.5557,SWSFY38ADYPVZHYZ,Full Sleeve Printed Women Sweatshirt,ECKO Unl
+Q1,women full sleeve sweatshirt cotton,10,0.5535,SWSFYRH2F7NHW63A,Full Sleeve Solid Women Sweatshirt,Steenb
+Q2,men slim jeans blue,1,0.4326,JEAFTGSGTYKZGAEZ,Slim Men Blue Jeans,Lev
+Q2,men slim jeans blue,2,0.427,JEAFSKYHZHSZZC9S,Slim Men Blue Jeans,ECKO Unl
+Q2,men slim jeans blue,3,0.427,JEAFEKQZ4C2Z6GCX,Slim Men Blue Jeans,True Bl
+Q2,men slim jeans blue,4,0.427,JEAFEKQZQPYHHVGS,Slim Men Blue Jeans,True Bl
+Q2,men slim jeans blue,5,0.4107,JEAFM3Y9ZNMVG6ZM,Slim Men Blue Jeans,True Bl
+Q2,men slim jeans blue,6,0.4059,JEAFEKQZNAWHW8PT,Slim Men Dark Blue Jeans,True Bl
+Q2,men slim jeans blue,7,0.4015,JEAFQF6JBUSEXHVF,Slim Men Blue Jeans,ECKO Unl
+Q2,men slim jeans blue,8,0.3817,JEAFSKYHSYMTKEJD,Slim Men Blue Jeans,ECKO Unl
+Q2,men slim jeans blue,9,0.3799,JEAFEKQZWYPVGYCJ,Slim Men Blue Jeans,True Bl
+Q2,men slim jeans blue,10,0.3744,JEAFS57EYDGY4EJM,Slim Men Blue Jeans,CANTAB
+T1,men black track pants polyester,1,0.9242,TKPFZMZSWZN5HKEZ,Solid Men Black Track Pants,
+T1,men black track pants polyester,2,0.6814,TKPFWCVUMWW96BEY,Solid Men Black Track Pants,Breakboun
+T1,men black track pants polyester,3,0.6554,TKPFZDVZVQHWEUVF,Solid Men Black Track Pants,Onei
+T1,men black track pants polyester,4,0.651,TKPFPT6HZFHXZ4TN,Solid Men Black Track Pants,Pu
+T1,men black track pants polyester,5,0.6296,TKPFZ3JRTTXYMHFN,Solid Men Black Track Pants,REEB
+T1,men black track pants polyester,6,0.6296,TKPFZ3JR5AHMQSXT,Solid Men Black Track Pants,REEB
+T1,men black track pants polyester,7,0.6296,TKPFZ3JRXCCAKDGD,Solid Men Black Track Pants,REEB
+T1,men black track pants polyester,8,0.6296,TKPFZ3JRVFG4JUWW,Solid Men Black Track Pants,REEB
+T1,men black track pants polyester,9,0.6296,TKPFZ3JRTMEHYPF9,Solid Men Black Track Pants,REEB
+T1,men black track pants polyester,10,0.6296,TKPFZ3JRST9YCECV,Solid Men Black Track Pants,REEB
+T2,women black v neck tshirt,1,0.4989,TSHEM8ZKVPWUT7BE,Solid Women V-neck Black T-Shirt,T10 Spor
+T2,women black v neck tshirt,2,0.4906,TSHFNYTT4WNPPPVQ,Solid Women Round Neck Black T-Shirt,ARBO
+T2,women black v neck tshirt,3,0.4877,TSHFNXNJTZDWYMZK,Solid Women V Neck Black T-Shirt,ARBO
+T2,women black v neck tshirt,4,0.458,TSHEQFS4RQMHBKDJ,Solid Women V-neck Black T-Shirt,Pu
+T2,women black v neck tshirt,5,0.4419,TSHFKJET3YVMZCAS,Solid Women Round Neck Black T-Shirt,V
+T2,women black v neck tshirt,6,0.4386,TSHFZ8ZJKJVF5UJH,Printed Women Round Neck Black T-Shirt,True Bl
+T2,women black v neck tshirt,7,0.436,TSHFHX4BSHTX5ZMT,Printed Women Round Neck Black T-Shirt,Pu
+T2,women black v neck tshirt,8,0.4239,TSHFUF2YM9KZWHR8,Solid Women Round Neck Black T-Shirt,Mett
+T2,women black v neck tshirt,9,0.4199,TSHEM8ZEBTXNJB7U,Solid Women Polo Neck Black T-Shirt,T10 Spor
+T2,women black v neck tshirt,10,0.4163,TSHEM8ZK5BNQMX6V,Solid Women Polo Neck Black T-Shirt,T10 Spor
+T3,men grey hooded sweatshirt,1,0.6418,SWSFZ2H4PW2GHY9H,Full Sleeve Solid Men Sweatshirt,ECKO Unl
+T3,men grey hooded sweatshirt,2,0.6418,SWSFZ2HJXN9HNG7E,Full Sleeve Solid Men Sweatshirt,ECKO Unl
+T3,men grey hooded sweatshirt,3,0.628,SWSFVEMQPH2V96BF,Full Sleeve Printed Men Sweatshirt,Steenb
+T3,men grey hooded sweatshirt,4,0.6215,SWSFYQFQZTYY3YVM,Full Sleeve Printed Men Sweatshirt,Rose We
+T3,men grey hooded sweatshirt,5,0.5862,SWSFZKX9T2SGSKRA,Full Sleeve Color Block Men Sweatshirt,REEB
+T3,men grey hooded sweatshirt,6,0.5571,SWSFYNY4CWHCDWM5,Full Sleeve Printed Men Sweatshirt,MASH UNLIMIT
+T3,men grey hooded sweatshirt,7,0.5568,JCKFUFGMPV6PXHZ6,Full Sleeve Solid Men Sweatshirt,Pu
+T3,men grey hooded sweatshirt,8,0.5557,JCKFUFGQSGTVHWZA,Full Sleeve Solid Men Sweatshirt,Pu
+T3,men grey hooded sweatshirt,9,0.4805,SWSFZ7GXWNGANCUA,Sleeveless Solid Men Sweatshirt,LIVST
+T3,men grey hooded sweatshirt,10,0.4644,SWSE8FYZMDFNNTHH,Full Sleeve Solid Men Sweatshirt,Scott Internation
+T4,women striped shirt,1,0.6355,SHTFSYCUNEAUZFTG,Women Slim Fit Striped Casual Shirt,True Bl
+T4,women striped shirt,2,0.625,SHTFWP8CDRGUQTBP,Women Regular Fit Striped Casual Shirt,Mett
+T4,women striped shirt,3,0.625,SHTFWP8C4QRRU2GA,Women Regular Fit Striped Casual Shirt,Mett
+T4,women striped shirt,4,0.6045,SHTFWP8CK8GAUWFA,Women Regular Fit Striped Casual Shirt,Mett
+T4,women striped shirt,5,0.6045,SHTFWP8CYSMGNH5T,Women Regular Fit Striped Casual Shirt,Mett
+T4,women striped shirt,6,0.6045,SHTFWP8CBMF6TXXV,Women Regular Fit Striped Casual Shirt,Mett
+T4,women striped shirt,7,0.6039,SHTFRR7FDFMZYXJU,Women Slim Fit Striped Casual Shirt,ECKO Unl
+T4,women striped shirt,8,0.6023,SHTFS6WCTGZRHDNA,Women Slim Fit Striped Casual Shirt,True Bl
+T4,women striped shirt,9,0.5976,SHTFWPYKB3GYHZZG,Women Regular Fit Striped Casual Shirt,Mett
+T4,women striped shirt,10,0.5976,SHTFWPYKEMZMUEGK,Women Regular Fit Striped Casual Shirt,Mett
+T5,men denim jacket,1,0.8375,JCKFZZN6AWQZ8FC2,Full Sleeve Solid Men Denim Jacket,
+T5,men denim jacket,2,0.667,JCKFWC5ZAF3BRTPA,Full Sleeve Solid Men Denim Jacket,VOXA
+T5,men denim jacket,3,0.6293,JCKFZJWZNCGGZGSE,Full Sleeve Washed Men Denim Jacket,saltla
+T5,men denim jacket,4,0.6293,JCKFZJWZBZCCTYXM,Full Sleeve Washed Men Denim Jacket,saltla
+T5,men denim jacket,5,0.6208,JCKFSHEZUYMTUDH7,Full Sleeve Solid Men Denim Jacket,Solid Styl
+T5,men denim jacket,6,0.6043,JCKFVDPW4WNPBGS2,Full Sleeve Solid Men Denim Jacket,VOXA
+T5,men denim jacket,7,0.6029,JCKFWC5YZKFWXGEB,Full Sleeve Solid Men Denim Jacket,VOXA
+T5,men denim jacket,8,0.5998,JCKFY6HR34AW28PV,Sleeveless Solid Men Jacket,MagMatri
+T5,men denim jacket,9,0.5954,JCKFWC5ZHSAEVYMS,Full Sleeve Solid Men Denim Jacket,VOXA
+T5,men denim jacket,10,0.5934,JCKFURYWGYKVKFH3,Full Sleeve Solid Men Denim Jacket,VOXA

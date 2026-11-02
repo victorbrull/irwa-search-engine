@@ -1,0 +1,7 @@
+variant,val MAP,val NDCG@10,val R@20,test MAP,test NDCG@10,test P@10,test recall (whole list),test docs returned (mean),AP T1,AP T2,AP T3,AP T4,AP T5
+baseline: AND + cosine TF-IDF on the merged field,0.76,0.858,0.8,0.723,0.885,0.86,0.935,378.0,0.821,0.106,0.8,0.933,0.953
+"BM25 (k1=1.2, b=0.75) on the merged field",0.772,0.859,0.8,0.736,0.817,0.82,0.935,378.0,0.839,0.083,0.804,0.956,0.996
+"field-weighted TF-IDF (title x3, details x2, brand x2)",0.766,0.856,0.8,0.727,0.885,0.86,0.935,378.0,0.823,0.105,0.801,0.943,0.963
+"soft AND (>= n-1 terms), ranked by TF-IDF",0.877,0.886,1.0,0.256,0.429,0.4,1.0,2730.6,0.309,0.087,0.186,0.277,0.419
+"AND results first, then the documents that miss one term",0.89,0.89,1.0,0.736,0.885,0.86,1.0,2730.6,0.864,0.106,0.826,0.933,0.953
+what-if pre-processing: 'vneck' term + keys of 'Yes' details,0.754,0.856,0.8,0.923,1.0,1.0,0.972,76.8,0.821,0.918,0.987,0.935,0.953

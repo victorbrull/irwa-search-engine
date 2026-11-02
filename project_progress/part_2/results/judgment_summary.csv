@@ -1,0 +1,6 @@
+query,text,relevant in the collection (R),AND matches,relevant and returned,precision of the AND set,recall of the AND set
+T1,men black track pants polyester,79,79,68,0.861,0.861
+T2,women black v neck tshirt,43,1584,43,0.027,1.0
+T3,men grey hooded sweatshirt,48,40,39,0.975,0.812
+T4,women striped shirt,74,114,74,0.649,1.0
+T5,men denim jacket,38,73,38,0.521,1.0

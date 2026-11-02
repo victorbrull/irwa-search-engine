@@ -1,0 +1,180 @@
+{
+ "index": {
+  "documents (N)": 28080,
+  "vocabulary (terms)": 5865,
+  "postings (term-document pairs)": 875911,
+  "average postings list length": 149.3,
+  "longest postings list": 20987,
+  "terms in only one document": 1332,
+  "average document length (terms)": 44.7,
+  "build time (s)": 0.93
+ },
+ "val_unreturned": {
+  "Q2": [
+   {
+    "pid": "JEAFUZXTXTHZEFV5",
+    "label": 0,
+    "missing": [
+     "men"
+    ],
+    "title": "Super Skinny Women Blue Jeans"
+   },
+   {
+    "pid": "JEAF8CHSVCP5GUH9",
+    "label": 1,
+    "missing": [
+     "men"
+    ],
+    "title": "Slim Women Blue Jeans"
+   },
+   {
+    "pid": "JEAFUZXRDYSVFK4Y",
+    "label": 1,
+    "missing": [
+     "men"
+    ],
+    "title": "Super Skinny Women Blue Jeans"
+   },
+   {
+    "pid": "JEAFS2JG6N7ZTFYS",
+    "label": 0,
+    "missing": [
+     "men"
+    ],
+    "title": "Slim Women Blue Jeans"
+   },
+   {
+    "pid": "JEAFWG4GK2HGF7AF",
+    "label": 0,
+    "missing": [
+     "men"
+    ],
+    "title": "Slim Women Blue Jeans"
+   },
+   {
+    "pid": "JEAFUZXRAGHXHEGB",
+    "label": 0,
+    "missing": [
+     "men"
+    ],
+    "title": "Super Skinny Women Blue Jeans"
+   },
+   {
+    "pid": "JEAFQFGWXSVSMRWC",
+    "label": 0,
+    "missing": [
+     "men"
+    ],
+    "title": "Slim Women Dark Blue Jeans"
+   },
+   {
+    "pid": "JEAFUPSWVCTKXMHF",
+    "label": 1,
+    "missing": [
+     "slim"
+    ],
+    "title": "Tapered Fit Men Blue Jeans"
+   },
+   {
+    "pid": "JEAFUZXSMRFFNGC2",
+    "label": 1,
+    "missing": [
+     "men"
+    ],
+    "title": "Super Skinny Women Blue Jeans"
+   },
+   {
+    "pid": "JEAFWZXE6KYHBZRU",
+    "label": 0,
+    "missing": [
+     "men"
+    ],
+    "title": "Slim Women Blue Jeans"
+   },
+   {
+    "pid": "JEAFS2JWKPBRNYTU",
+    "label": 0,
+    "missing": [
+     "men"
+    ],
+    "title": "Slim Women Blue Jeans"
+   },
+   {
+    "pid": "JEAEKZFJHSKJMV58",
+    "label": 0,
+    "missing": [
+     "men"
+    ],
+    "title": "Slim Women Blue Jeans"
+   }
+  ]
+ },
+ "val_unreturned_missing_terms": {
+  "Q2": {
+   "men": 11,
+   "slim": 1
+  }
+ },
+ "val1_len_judged": 72.5,
+ "val1_len_and": 49.997983870967744,
+ "val1_len_top10": 20.5,
+ "val1_rank_min": 159,
+ "val1_rank_max": 492,
+ "out_of_stock_top20": 13,
+ "top20_total": 100,
+ "out_of_stock_rate_collection": 0.05854700854700855,
+ "distinct_titles_top10": {
+  "T1": 1,
+  "T2": 5,
+  "T3": 4,
+  "T4": 2,
+  "T5": 3
+ },
+ "distinct_brands_top10": {
+  "T1": 4,
+  "T2": 6,
+  "T3": 8,
+  "T4": 3,
+  "T5": 4
+ },
+ "reebok_total": 877,
+ "reebok_in_text": 193,
+ "reebok_only_completed": 684,
+ "whatif": {
+  "T1": {
+   "and_before": 79,
+   "and_after": 79,
+   "relevant_returned_before": 68,
+   "relevant_returned_after": 68,
+   "R": 79
+  },
+  "T2": {
+   "and_before": 1584,
+   "and_after": 69,
+   "relevant_returned_before": 43,
+   "relevant_returned_after": 43,
+   "R": 43
+  },
+  "T3": {
+   "and_before": 40,
+   "and_after": 49,
+   "relevant_returned_before": 39,
+   "relevant_returned_after": 48,
+   "R": 48
+  },
+  "T4": {
+   "and_before": 114,
+   "and_after": 114,
+   "relevant_returned_before": 74,
+   "relevant_returned_after": 74,
+   "R": 74
+  },
+  "T5": {
+   "and_before": 73,
+   "and_after": 73,
+   "relevant_returned_before": 38,
+   "relevant_returned_after": 38,
+   "R": 38
+  }
+ }
+}

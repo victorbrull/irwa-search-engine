@@ -1,0 +1,6 @@
+id,query,terms after pre-processing,df of each term,AND matches,what it tests
+T1,men black track pants polyester,men black track pant polyest,"14251, 6313, 1815, 2028, 3033",79,"attribute combination with popular terms (colour, fabric, product type)"
+T2,women black v neck tshirt,women black neck tshirt,"13826, 6313, 14585, 13063",1584,V neck: the 1-character token 'v' is removed by the Part 1 pre-processing
+T3,men grey hooded sweatshirt,men grey hood sweatshirt,"14251, 3046, 920, 1420",40,stemming and indexed values: 'hooded' / 'Hooded: Yes'
+T4,women striped shirt,women stripe shirt,"13826, 1464, 4813",114,'shirt' vs 'tshirt' and other products that mention shirts in their text
+T5,men denim jacket,men denim jacket,"14251, 1778, 1097",73,"a fabric that is also a product type ('denim' appears in jeans, shirts, jackets)"

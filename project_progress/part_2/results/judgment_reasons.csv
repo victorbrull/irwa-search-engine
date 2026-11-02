@@ -1,0 +1,14 @@
+query,reason,documents
+T1,colour is not black,4
+T1,fabric is not polyester,4
+T1,not a track pant,3
+T2,colour is not black,9
+T2,not a T-shirt,45
+T2,not a V neck,1367
+T2,not for women,120
+T3,colour is not grey,1
+T4,not a shirt,31
+T4,not for women,1
+T4,not striped,8
+T5,not a jacket,31
+T5,not denim,4

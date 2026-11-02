@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>IRWA 2026 – Part 2 report</title>
+<style>
+  @page { size: A4; margin: 18mm 17mm 18mm 17mm; }
+  body { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10.3pt; line-height: 1.42; color: #1a1a1a; }
+  h1 { font-size: 18pt; margin: 0 0 4px 0; color: #1f3b6e; }
+  h2 { font-size: 13pt; margin: 18px 0 6px 0; color: #1f3b6e; border-bottom: 1px solid #c9d3e6; padding-bottom: 2px; }
+  h3 { font-size: 11pt; margin: 12px 0 4px 0; }
+  h2, h3 { page-break-after: avoid; break-after: avoid; }
+  p { margin: 5px 0; text-align: justify; }
+  ul, ol { margin: 4px 0 6px 0; padding-left: 20px; }
+  li { margin: 2px 0; }
+  table { border-collapse: collapse; margin: 6px 0 8px 0; font-size: 9.2pt; width: 100%; }
+  th, td { border: 1px solid #c9ccd3; padding: 3px 6px; vertical-align: top; text-align: left; }
+  th { background: #eef2f8; }
+  td.num, th.num { text-align: right; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 8.8pt; background: #f3f4f6; padding: 0 2px; }
+  figure { margin: 8px 0; text-align: center; page-break-inside: avoid; }
+  figure img { max-width: 100%; }
+  figcaption { font-size: 8.8pt; color: #555; margin-top: 2px; }
+  .meta { font-size: 9.8pt; color: #333; margin-bottom: 10px; }
+  .meta td { border: none; padding: 1px 8px 1px 0; }
+  .two { display: flex; gap: 10px; }
+  .two figure { flex: 1; }
+  .box { background: #f6f8fb; border-left: 3px solid #1f3b6e; padding: 5px 9px; margin: 6px 0; }
+  .avoid { page-break-inside: avoid; }
+
+  .num { text-align: right; }
+  td.c, th.c { text-align: center; }
+  table.res td, table.res th { text-align: right; padding: 3px 7px; }
+  table.res td:first-child, table.res th:first-child { text-align: left; }
+  table.res th.g { text-align: center; }
+  .cap { font-size: 8.8pt; color: #555; margin: -4px 0 8px 0; }
+  div.avoid { break-inside: avoid; page-break-inside: avoid; }
+  .small { font-size: 9pt; }
+</style>
+</head>
+<body>
+
+<h1>IRWA Final Project – Part 2: Indexing and Evaluation</h1>
+<table class="meta">
+  <tr><td><b>Students</b></td><td>u233738, u233436, u232597</td></tr>
+  <tr><td><b>GitHub</b></td><td>https://github.com/victorbrull/irwa-search-engine</td></tr>
+  <tr><td><b>Tag</b></td><td><code>IRWA-2026-part-2</code></td></tr>
+</table>
+
+<h2>1. Introduction</h2>
+<p>In this part we build the inverted index and the TF-IDF ranking on top of the corpus of Part 1, we implement the seven evaluation
+metrics, and we evaluate the system with the two validation queries and with five queries of our own, for which we also produce
+the relevance judgments. The Part 1 code is used <b>without any change</b>: <code>preprocess_text</code> processes documents and
+queries, and the processed corpus reproduces the figures of Part 1 (1.26M terms, vocabulary of 5,865).
+The code is in the notebook <code>indexing_evaluation.ipynb</code> and in three small modules (<code>indexing.py</code>,
+<code>evaluation.py</code>, <code>judgments.py</code>) with tests (<code>test_part2.py</code>). Every number of this report is
+written by the notebook in <code>results/</code>, and we recomputed all the metrics with a second, independent implementation.</p>
+
+<h2>2. Indexing</h2>
+<h3>2.1 Inverted index</h3>
+<p>We index the merged field <code>all_terms</code> of Part 1 (title + description + brand + sub_category + product_details values),
+which is the field that Part 1 kept for the basic TF-IDF index. The structure is the vocabulary of the practical labs, with the term
+frequency added: every term has an id and <code>postings[term_id] = [(doc_id, tf), …]</code>, sorted by <code>doc_id</code>. Sorted lists allow a linear
+intersection, and storing <code>tf</code> lets TF-IDF be computed from the index alone.</p>
+<table class='avoid'><tr><th>Index statistics</th><th class=num>Value</th></tr><tr><td>Documents (N)</td><td class=num>28,080</td></tr><tr><td>Vocabulary (terms)</td><td class=num>5,865</td></tr><tr><td>Postings (term, document) pairs</td><td class=num>875,911</td></tr><tr><td>Average / longest postings list</td><td class=num>149.3 / 20,987 (<code>wear</code>)</td></tr><tr><td>Terms that appear in one document only</td><td class=num>1,332</td></tr><tr><td>Average document length (terms)</td><td class=num>44.7</td></tr><tr><td>Build time</td><td class=num>0.9 s</td></tr></table>
+<h3>2.2 Conjunctive (AND) queries</h3>
+<p>A document is returned only if it contains <b>all</b> the query terms. The query goes through the same <code>preprocess_text</code>
+as the documents, and the postings lists are intersected from the shortest (rarest term) to the longest with a two-pointer merge,
+so the intermediate result is as small as possible. A term that is not in the vocabulary gives an empty result. We checked the
+result against a brute-force scan of the collection for the seven queries. For example, query 1 has five terms with document
+frequencies 13,826 (<i>women</i>), 7,177 (<i>full</i>), 18,034 (<i>sleev</i>), 1,420 (<i>sweatshirt</i>) and 19,905 (<i>cotton</i>), and 496 documents contain all of them.</p>
+
+<h2>3. Test queries</h2>
+<p>The statement suggests choosing popular terms. We ranked all the terms by the TF-IDF weight they carry in the whole collection
+(sum over the documents of (1 + log tf)·idf, so a term scores high when it is frequent <i>and</i> discriminative). The top terms are
+attributes (<i>round, neck, print, solid, regular, fit, blue, black, slim, full</i>), product types (<i>tshirt, shirt, polo</i>) and gender (<i>women, men</i>). Each of our five
+queries combines popular terms of different kinds and was designed to show a different behaviour of the system. We also needed
+queries whose relevant documents can be defined from the visible attributes of a product (section 7).</p>
+<table class='avoid'><tr><th>Id</th><th>Query</th><th>Terms after pre-processing</th><th>df of each term</th><th class=num>AND matches</th><th>What it tests</th></tr><tr><td>T1</td><td>men black track pants polyester</td><td><code>men black track pant polyest</code></td><td>14251, 6313, 1815, 2028, 3033</td><td class=num>79</td><td>attribute combination with popular terms (colour, fabric, product type)</td></tr><tr><td>T2</td><td>women black v neck tshirt</td><td><code>women black neck tshirt</code></td><td>13826, 6313, 14585, 13063</td><td class=num>1,584</td><td>V neck: the 1-character token &#x27;v&#x27; is removed by the Part 1 pre-processing</td></tr><tr><td>T3</td><td>men grey hooded sweatshirt</td><td><code>men grey hood sweatshirt</code></td><td>14251, 3046, 920, 1420</td><td class=num>40</td><td>stemming and indexed values: &#x27;hooded&#x27; / &#x27;Hooded: Yes&#x27;</td></tr><tr><td>T4</td><td>women striped shirt</td><td><code>women stripe shirt</code></td><td>13826, 1464, 4813</td><td class=num>114</td><td>&#x27;shirt&#x27; vs &#x27;tshirt&#x27; and other products that mention shirts in their text</td></tr><tr><td>T5</td><td>men denim jacket</td><td><code>men denim jacket</code></td><td>14251, 1778, 1097</td><td class=num>73</td><td>a fabric that is also a product type (&#x27;denim&#x27; appears in jeans, shirts, jackets)</td></tr></table>
+
+<h2>4. TF-IDF ranking</h2>
+<p>The documents returned by the AND are ranked by cosine similarity in the vector space model:</p>
+<div class="box">w<sub>t,d</sub> = (1 + log<sub>10</sub> tf<sub>t,d</sub>) · log<sub>10</sub>(N / df<sub>t</sub>)
+&nbsp;&nbsp;&nbsp; score(q, d) = Σ<sub>t</sub> w<sub>t,q</sub> · w<sub>t,d</sub> / (‖q‖ · ‖d‖)</div>
+<p>The query weights <i>w<sub>t,q</sub></i> use the same formula with the query term frequency. The norm ‖d‖ is computed over <b>all</b>
+the terms of the document and precomputed, so a long document that contains the query terms among many other terms scores lower than a short one
+that is about the query. Ties are broken by document id, so the ranking is deterministic. The implementation is tested against a dense
+NumPy computation on random corpora. As an example, the top 5 of query T1:</p>
+<table class='avoid'><tr><th>Rank</th><th class=num>Score</th><th>pid</th><th>Title</th><th>Brand (as stored)</th></tr><tr><td>1</td><td class=num>0.924</td><td><code>TKPFZMZSWZN5HKEZ</code></td><td>Solid Men Black Track Pants</td><td>—</td></tr><tr><td>2</td><td class=num>0.681</td><td><code>TKPFWCVUMWW96BEY</code></td><td>Solid Men Black Track Pants</td><td>Breakboun</td></tr><tr><td>3</td><td class=num>0.655</td><td><code>TKPFZDVZVQHWEUVF</code></td><td>Solid Men Black Track Pants</td><td>Onei</td></tr><tr><td>4</td><td class=num>0.651</td><td><code>TKPFPT6HZFHXZ4TN</code></td><td>Solid Men Black Track Pants</td><td>Pu</td></tr><tr><td>5</td><td class=num>0.630</td><td><code>TKPFZ3JRTTXYMHFN</code></td><td>Solid Men Black Track Pants</td><td>REEB</td></tr></table>
+
+<h2>5. Evaluation metrics and protocol</h2>
+<p>The seven metrics are implemented in <code>evaluation.py</code>. A ranking is a list of pids and the judgments of a query are
+<code>{pid: label}</code> with binary labels; a document without judgment is not relevant.</p>
+<table class='avoid'><tr><th>Metric</th><th>Definition</th></tr><tr><td>P@K</td><td>relevant documents in the first K positions / K (if there are fewer than K results, the missing positions are misses)</td></tr><tr><td>R@K</td><td>relevant documents in the first K positions / R, where R is the number of relevant documents of the query</td></tr><tr><td>F1@K</td><td>harmonic mean of P@K and R@K</td></tr><tr><td>AP@K</td><td>(1 / min(K, R)) · Σ<sub>i≤K</sub> P@i · rel<sub>i</sub>. Without cut-off the denominator is R (classic Average Precision)</td></tr><tr><td>MAP</td><td>mean of the Average Precision over the queries</td></tr><tr><td>MRR</td><td>mean over the queries of 1 / (rank of the first relevant document)</td></tr><tr><td>NDCG@K</td><td>DCG@K / IDCG@K, DCG@K = Σ<sub>i≤K</sub> rel<sub>i</sub> / log<sub>2</sub>(i+1); IDCG@K is the DCG@K of the ideal ranking</td></tr></table>
+<p>The tests compare them with values computed by hand and with scikit-learn (<code>ndcg_score</code>, <code>average_precision_score</code>)
+on 50 random rankings. We report K = 5, 10 and 20.</p>
+<p><b>Protocol for the validation queries.</b> <code>validation_labels.csv</code> judges 20 documents per query, out of 28,080. The system
+returns the AND results ranked by TF-IDF, and we keep, in the same order, only the judged documents that it returns (the <i>condensed list</i>
+of Sakai, 2007): a document without judgment has not been judged, it is not a non-relevant document. The judged documents that the
+system does <b>not</b> return stay in R, so the loss caused by the AND semantics is counted by the recall-oriented metrics. Section 8.2
+shows the effect of two other protocols.</p>
+
+<h2>6. Results on the validation queries</h2>
+<p class="cap" style="margin-top:6px">Query 1: women full sleeve sweatshirt cotton &nbsp;·&nbsp; Query 2: men slim jeans blue</p>
+<table class='res avoid'><tr><th rowspan='2'></th><th class='g' colspan='3'>Query 1</th><th class='g' colspan='3'>Query 2</th><th class='g' colspan='3'>Mean</th></tr><tr><th>K=5</th><th>K=10</th><th>K=20</th><th>K=5</th><th>K=10</th><th>K=20</th><th>K=5</th><th>K=10</th><th>K=20</th></tr><tr><td>P@K</td><td>1.000</td><td>1.000</td><td>0.650</td><td>0.800</td><td>0.600</td><td>0.300</td><td>0.900</td><td>0.800</td><td>0.475</td></tr><tr><td>R@K</td><td>0.385</td><td>0.769</td><td>1.000</td><td>0.400</td><td>0.600</td><td>0.600</td><td>0.392</td><td>0.685</td><td>0.800</td></tr><tr><td>AP@K (Mean: MAP@K)</td><td>1.000</td><td>1.000</td><td>0.950</td><td>0.800</td><td>0.569</td><td>0.569</td><td>0.900</td><td>0.785</td><td>0.760</td></tr><tr><td>F1@K</td><td>0.556</td><td>0.870</td><td>0.788</td><td>0.533</td><td>0.600</td><td>0.400</td><td>0.544</td><td>0.735</td><td>0.594</td></tr><tr><td>NDCG@K</td><td>1.000</td><td>1.000</td><td>0.988</td><td>0.869</td><td>0.716</td><td>0.716</td><td>0.934</td><td>0.858</td><td>0.852</td></tr></table>
+<table class='res avoid'><tr><th></th><th>Query 1</th><th>Query 2</th><th>Mean</th></tr><tr><td>AP (Mean: MAP)</td><td>0.950</td><td>0.569</td><td>0.760</td></tr><tr><td>RR (Mean: MRR)</td><td>1.000</td><td>1.000</td><td>1.000</td></tr></table>
+
+<h2>7. Our relevance judgments</h2>
+<p>We act as the expert judges. For every query we wrote guidelines: a product is relevant when it satisfies <i>every</i> attribute that the
+query asks for, judged from what a shopper sees (title and product details), not from the presence of the stemmed terms in some field. When
+title/details and the free-text description disagree, title and details win. The guidelines are implemented in <code>judgments.py</code> and
+applied to <b>all the 28,080 documents</b> for each query, so every document has a label and a reason (a label per document, as asked, and
+not only for the documents that we retrieve). After running the rules we read the results: all the documents returned by the AND for T1, T3,
+T4 and T5, the 43 relevant documents and a sample of the negatives of T2, and every relevant document that the AND does not return. No label had to be changed.
+The labels are in <code>relevance_judgments.csv</code>.</p>
+<table class='avoid'><tr><th>Id</th><th>Query</th><th>Relevant if the product is…</th></tr><tr><td>T1</td><td>men black track pants polyester</td><td>Track pants (not a track suit) for men, black (also if one of several colours), polyester (blends and polycotton count; cotton-only or cotton blend do not).</td></tr><tr><td>T2</td><td>women black v neck tshirt</td><td>T-shirt with a V neck for women, black (also if one of several colours). T-shirts have no Color detail, so the colour is read from the title.</td></tr><tr><td>T3</td><td>men grey hooded sweatshirt</td><td>Sweatshirt for men with a hood, grey (also if one of several colours). Sleeveless and half-sleeve count: the query does not ask for sleeves.</td></tr><tr><td>T4</td><td>women striped shirt</td><td>Shirt (not T-shirt, vest, sweater or unstitched shirt fabric) for women with a striped pattern (also if the pattern list has other patterns).</td></tr><tr><td>T5</td><td>men denim jacket</td><td>Jacket for men made of denim: <i>denim</i> in the title, the fabric or the jacket type (denim blend counts). Other jackets and other denim products do not.</td></tr></table>
+<table class='avoid'><tr><th>Id</th><th class=num>R (relevant in the collection)</th><th class=num>AND matches</th><th class=num>Relevant and returned</th><th class=num>Precision of the AND set</th><th class=num>Recall of the AND set</th></tr><tr><td>T1</td><td class=num>79</td><td class=num>79</td><td class=num>68</td><td class=num>0.861</td><td class=num>0.861</td></tr><tr><td>T2</td><td class=num>43</td><td class=num>1,584</td><td class=num>43</td><td class=num>0.027</td><td class=num>1.000</td></tr><tr><td>T3</td><td class=num>48</td><td class=num>40</td><td class=num>39</td><td class=num>0.975</td><td class=num>0.812</td></tr><tr><td>T4</td><td class=num>74</td><td class=num>114</td><td class=num>74</td><td class=num>0.649</td><td class=num>1.000</td></tr><tr><td>T5</td><td class=num>38</td><td class=num>73</td><td class=num>38</td><td class=num>0.521</td><td class=num>1.000</td></tr></table>
+
+<h2>8. Analysis</h2>
+<h3>8.1 The metrics: what each one tells and how they differ</h3>
+<p>The table gives the five test queries (K = 10) and the whole-ranking metrics; the judgments are complete, so R is the number of relevant documents of the collection.</p>
+<table class='res avoid'><tr><th></th><th>P@10</th><th>R@10</th><th>AP@10</th><th>F1@10</th><th>NDCG@10</th><th>AP (MAP)</th><th>RR (MRR)</th></tr><tr><td>T1</td><td>1.000</td><td>0.127</td><td>1.000</td><td>0.225</td><td>1.000</td><td>0.821</td><td>1.000</td></tr><tr><td>T2</td><td>0.300</td><td>0.070</td><td>0.242</td><td>0.113</td><td>0.425</td><td>0.106</td><td>1.000</td></tr><tr><td>T3</td><td>1.000</td><td>0.208</td><td>1.000</td><td>0.345</td><td>1.000</td><td>0.800</td><td>1.000</td></tr><tr><td>T4</td><td>1.000</td><td>0.135</td><td>1.000</td><td>0.238</td><td>1.000</td><td>0.933</td><td>1.000</td></tr><tr><td>T5</td><td>1.000</td><td>0.263</td><td>1.000</td><td>0.417</td><td>1.000</td><td>0.953</td><td>1.000</td></tr><tr><td>Mean</td><td>0.860</td><td>0.161</td><td>0.848</td><td>0.268</td><td>0.885</td><td>0.723</td><td>1.000</td></tr></table>
+<ul>
+  <li><b>P@K</b> is the fraction of the first K results that are relevant: it is what the user sees, but it ignores the order inside the K and the relevant documents that are not shown.
+      T2 has P@5 = 0.600 and P@10 = 0.300; the other four queries have P@10 = 1.000.</li>
+  <li><b>R@K</b> is the fraction of the relevant documents found in the first K. It cannot exceed K/R: with R = 79 relevant documents, T1 has R@10 = 0.127 = 10/79 even though all ten results are relevant.
+      So a low R@K with a large R does not say that the system is bad, and R@K is only informative when R is not much larger than K (validation query 1: R@20 = 1.000).</li>
+  <li><b>F1@K</b> combines both and is maximal where precision and recall are balanced. For validation query 1 it is 0.870 at K = 10 and 0.788 at K = 20: recall reaches 1.000 but precision falls to 0.650.
+      For the test queries F1@K keeps increasing with K (T5: 0.233, 0.417, 0.690) because precision stays at 1.000 while recall grows.</li>
+  <li><b>AP@K</b> adds the order: a relevant document counts more the higher it is. For T2, P@5 = 0.600 but AP@5 = 0.483: the relevant documents are at ranks 1, 3 and 4, their precisions (1.000, 0.667, 0.750) are added and divided by min(K, R) = 5.
+      The whole-ranking AP also divides by R, so it is the only one of these that sees the relevant documents the system never returns:
+      T1 has P@20 = 1.000 but AP = 0.821, because 11 of its 79 relevant documents are not in the AND set and some non-relevant documents are above relevant ones. <b>MAP</b> is the mean of AP: 0.723 for the test queries, where T2 (0.106) pulls the mean down from about 0.877.</li>
+  <li><b>MRR</b> only looks at the first relevant document. It is 1.000 for the five test queries and for the two validation queries (condensed list), so it does not separate any of the systems we compare, and it hides the problems of T2 and of the validation queries (under the strict protocol of section 8.2 it is 0.503). It is useful when the user needs only one good result.</li>
+  <li><b>NDCG@K</b> discounts the gain of each position with 1/log<sub>2</sub>(i+1), a gentler discount than the one implicit in AP, and normalises by the ideal ranking, so it is comparable between queries with different R and it equals 1.000 whenever the top K is as good as possible.
+      For T2 at K = 10: P@10 = 0.300, AP@10 = 0.242, NDCG@10 = 0.425. With binary labels NDCG gives no advantage over AP; its strength (graded relevance) is not used here.</li>
+</ul>
+
+<h3>8.2 Analysis of the results</h3>
+<p><b>Validation queries.</b> Inside the judged documents the ranking is good (Query 1: P@10 = 1.000, AP = 0.950; Query 2: P@5 = 0.800, AP = 0.569), but Figure 1 shows two problems.</p>
+<figure class="avoid"><img src="figures/validation_judged_documents.png" style="max-width:100%">
+<figcaption>Figure 1. Position of the judged documents in the AND ranking (the dotted line is the end of the ranking).</figcaption></figure>
+<ul>
+  <li><b>Query 1: the judged documents are at the bottom of the ranking.</b> All 20 are returned, but at ranks 159 to 492 of 496. They are long documents (72.5 terms on average, against 20.5 for the top 10 results and 50.0 for all the AND results), and cosine normalisation favours short documents.
+      With a strict protocol (every unjudged document is non-relevant) all the metrics of query 1 at K ≤ 20 are 0.000 and the MAP of the two queries is 0.080, which measures the overlap between our ranking and the sample that was judged, not the quality of the ranking; the condensed list gives MAP 0.760.</li>
+  <li><b>Query 2: the AND semantics loses judged documents.</b> Only 8 of the 20 are returned, and 4 of the 10 relevant documents are not. The 12 that are lost miss one term: 11 are “Women” products (they do not contain <i>men</i>) and 1 is a “Tapered Fit” jean without <i>slim</i>. The recall ceiling is 6/10 = 0.600. A re-ranking of the 20 judged documents without the AND (protocol C) reaches R@20 = 1.000 and MAP 0.877.
+      In addition, the labels are not consistent with the text, as noticed in Part 1: three “Women” jeans are relevant for a query about men, and one ECKO “Tapered Fit Men Blue Jeans” is non-relevant while two products with the same title and brand are relevant. No text-based system can reach 1.000 with these labels.</li>
+</ul>
+<div class="avoid"><table class='avoid'><tr><th>Protocol</th><th class=num>MAP</th><th class=num>MRR</th><th class=num>P@10</th><th class=num>R@20</th><th class=num>NDCG@10</th></tr><tr><td>A strict (unjudged = non-relevant)</td><td class=num>0.080</td><td class=num>0.503</td><td class=num>0.050</td><td class=num>0.050</td><td class=num>0.110</td></tr><tr><td>B condensed list (reported)</td><td class=num>0.760</td><td class=num>1.000</td><td class=num>0.800</td><td class=num>0.800</td><td class=num>0.858</td></tr><tr><td>C re-rank of the judged pool, no AND</td><td class=num>0.877</td><td class=num>1.000</td><td class=num>0.850</td><td class=num>1.000</td><td class=num>0.886</td></tr></table>
+<p class="cap">Table: the same ranking under three protocols. A: whole AND ranking, unjudged = non-relevant. B: condensed list (reported in section 6). C: re-ranking of the judged pool without the AND.</p>
+</div>
+<p><b>Our test queries.</b> For T1, T3, T4 and T5 the top 20 are all relevant (P@20 = 1.000, NDCG@10 = 1.000) and AP is between 0.800 and 0.953. The loss of AP has two causes: non-relevant documents that are
+ranked above relevant ones inside the AND set (T4: 40 of the 114 returned documents are not relevant, T5: 35 of 73, mostly T-shirts, vests, jeans, track pants or sweaters whose text mentions a shirt or a jacket), and relevant documents that the AND does not return (T1: 11, T3: 9).
+T2 is the exception: the AND returns 1,584 documents of which only 43 are relevant (precision 0.027) and they are spread over ranks 1 to 1,433, so AP = 0.106; the ranking cannot tell a V neck from a round neck because the pre-processing removed the letter <i>v</i> (section 8.3).</p>
+<figure class="avoid"><img src="figures/test_queries_ranking.png" style="max-width:100%">
+<figcaption>Figure 2. (a) Position of the relevant documents in the AND ranking of each test query. (b) Interpolated precision-recall curves.</figcaption></figure>
+
+<h3>8.3 Limitations of the current system and proposals</h3>
+<p>To measure how much each problem costs, we changed <b>one thing at a time</b> and evaluated again on both sets of judgments (val. = validation queries with the condensed list; test = our five queries).</p>
+<table class='avoid'><tr><th>Variant</th><th class=num>Val. MAP</th><th class=num>Val. R@20</th><th class=num>Test MAP</th><th class=num>Test NDCG@10</th><th class=num>Test recall (whole list)</th><th class=num>Docs returned (mean)</th></tr><tr><td>Baseline: AND + cosine TF-IDF, merged field</td><td class=num>0.760</td><td class=num>0.800</td><td class=num>0.723</td><td class=num>0.885</td><td class=num>0.935</td><td class=num>378</td></tr><tr><td>BM25 (k1 = 1.2, b = 0.75), merged field</td><td class=num>0.772</td><td class=num>0.800</td><td class=num>0.736</td><td class=num>0.817</td><td class=num>0.935</td><td class=num>378</td></tr><tr><td>TF-IDF, field-weighted (title ×3, details ×2, brand ×2)</td><td class=num>0.766</td><td class=num>0.800</td><td class=num>0.727</td><td class=num>0.885</td><td class=num>0.935</td><td class=num>378</td></tr><tr><td>Soft AND (≥ n−1 terms) ranked by TF-IDF</td><td class=num>0.877</td><td class=num>1.000</td><td class=num>0.256</td><td class=num>0.429</td><td class=num>1.000</td><td class=num>2,731</td></tr><tr><td>AND results first, then documents missing one term</td><td class=num>0.890</td><td class=num>1.000</td><td class=num>0.736</td><td class=num>0.885</td><td class=num>1.000</td><td class=num>2,731</td></tr><tr><td>What-if pre-processing: <code>vneck</code> term + key kept for “Yes” details</td><td class=num>0.754</td><td class=num>0.800</td><td class=num>0.923</td><td class=num>1.000</td><td class=num>0.972</td><td class=num>77</td></tr></table>
+<p class="cap" style="break-after:avoid;page-break-after:avoid;margin-top:8px">Average precision of each test query for the same variants:</p>
+<table class='avoid'><tr><th>Variant</th><th class=num>T1</th><th class=num>T2</th><th class=num>T3</th><th class=num>T4</th><th class=num>T5</th></tr><tr><td>Baseline: AND + cosine TF-IDF, merged field</td><td class=num>0.821</td><td class=num>0.106</td><td class=num>0.800</td><td class=num>0.933</td><td class=num>0.953</td></tr><tr><td>BM25 (k1 = 1.2, b = 0.75), merged field</td><td class=num>0.839</td><td class=num>0.083</td><td class=num>0.804</td><td class=num>0.956</td><td class=num>0.996</td></tr><tr><td>TF-IDF, field-weighted (title ×3, details ×2, brand ×2)</td><td class=num>0.823</td><td class=num>0.105</td><td class=num>0.801</td><td class=num>0.943</td><td class=num>0.963</td></tr><tr><td>Soft AND (≥ n−1 terms) ranked by TF-IDF</td><td class=num>0.309</td><td class=num>0.087</td><td class=num>0.186</td><td class=num>0.277</td><td class=num>0.419</td></tr><tr><td>AND results first, then documents missing one term</td><td class=num>0.864</td><td class=num>0.106</td><td class=num>0.826</td><td class=num>0.933</td><td class=num>0.953</td></tr><tr><td>What-if pre-processing: <code>vneck</code> term + key kept for “Yes” details</td><td class=num>0.821</td><td class=num>0.918</td><td class=num>0.987</td><td class=num>0.935</td><td class=num>0.953</td></tr></table>
+
+<table>
+<tr><th style="width:17%">Problem</th><th style="width:43%">Evidence</th><th>Proposed solutions</th></tr>
+<tr><td><b>1. The AND loses relevant documents when the query and the document use different words</b></td>
+<td>Validation query 2: 4 of the 10 relevant documents are not returned (11 judged documents lack <i>men</i>, 1 lacks <i>slim</i>). T1: 11 of 79 relevant lost because <i>polycotton</i> (2,803 documents) and <i>polyester</i> (3,033) are different terms; T3: 9 of 48.
+Other variants: <i>hoodie</i> → <code>hoodi</code> (634 docs) vs <i>hooded</i> → <code>hood</code> (920); <i>gray</i> (57) vs <i>grey</i> (3,046); <i>leggings</i> → <code>leg</code> (over-stemming).
+Relaxing the AND to “≥ n−1 terms” gives recall 1.000 but returns 2,731 documents per query and drops test MAP to 0.256, because cosine does not reward matching <i>all</i> the terms. Putting the AND results first and then the documents that miss one term keeps the top unchanged and raises val. MAP from 0.760 to 0.890 and test recall from 0.935 to 1.000.</td>
+<td>Rank by <b>number of matched terms first</b> (a coordination factor) and use the AND only as the first level, or fall back to “n−1 terms” when the AND returns few results. Query expansion with synonyms and spelling variants (<i>gray/grey</i>, <i>hoodie/hooded</i>, <i>polycotton/polyester</i>, <i>trousers/pants</i>), a lemmatiser instead of Porter, or a character n-gram index for fuzzy matching.</td></tr>
+<tr><td><b>2. Indexing decisions of Part 1 hide information</b></td>
+<td>(a) 1-character tokens are removed: <i>V neck</i> becomes <i>neck</i>, so T2 returns 1,584 documents and only 43 are relevant. (b) Only the <i>values</i> of product_details are indexed: <i>Hooded: Yes</i> becomes the term <i>yes</i>, so T3 loses 9 relevant sweatshirts.
+With a modified pre-processing (term <code>vneck</code>; key kept when the value is “Yes”; the Part 1 files are untouched): T2 returns 69 documents and AP goes from 0.106 to 0.918; T3 recall goes from 39/48 to 48/48. Test MAP rises from 0.723 to 0.923 and NDCG@10 to 1.000; the validation queries do not change (0.760 → 0.754).</td>
+<td>Keep the meaningful short tokens (<i>V neck</i> → <i>vneck</i>, in the same way as <i>t-shirt</i> → <i>tshirt</i>), index bigrams or support phrase queries. Index <b>key=value</b> pairs (<code>hooded:yes</code>, <code>sleeve:full sleeve</code>) and keep a separate field for each categorical attribute (colour, fabric, fit, pattern, sleeve), so that each query term can be matched against the right field and used as a filter.</td></tr>
+<tr><td><b>3. Ranking: one merged field, same weight for everything, and length normalisation</b></td>
+<td>Validation query 1: the judged documents are long and are ranked 159–492 of 496. Words that appear in the description of other products reduce the precision of the AND set: T4 0.649, T5 0.521. However, other ranking functions change little: BM25 gives val. MAP 0.772 and test MAP 0.736 (baseline 0.760 / 0.723), the field-weighted TF-IDF 0.766 / 0.727, and BM25 even lowers test NDCG@10 (0.817 vs 0.885). The top 20 of T3, T4 and T5 are already perfect; the problems are what is indexed (problems 1 and 2), not the weighting.</td>
+<td>A field-aware model (BM25F or TF-IDF per field) with weights tuned on judgments, matching in the title and in the product type (<i>Generic Name</i>, sub_category) before the description, phrase matching (<i>track pants</i>, <i>denim jacket</i>), and pivoted length normalisation so that a long description is not a penalty. With more judged queries these weights could be learned (learning to rank).</td></tr>
+<tr><td><b>4. Structured and numeric fields are ignored</b></td>
+<td>The ranking does not use stock, price, discount or rating: 13 of the 100 documents in the top 20 of the five test queries are out of stock (5.9% in the whole collection). Queries such as “jeans under 500” or “best rated” cannot be expressed.</td>
+<td>Penalise or filter out-of-stock products; range filters (price) and facets (brand, sub_category) built from the typed fields of Part 1; combine the text score with the rating (shrunk by the number of ratings, which we do not have) and the discount as ranking signals. Interpret the query (gender, colour, price) to map words to filters.</td></tr>
+<tr><td><b>5. Near-duplicate results</b></td>
+<td>Many listings are the same product with another colour or size: the top 10 of T1 has 1 distinct title (4 brands), T4 has 2. A user sees the same result repeated.</td>
+<td>Group or collapse near-duplicates (same title, brand and attributes) and diversify the top of the ranking (MMR).</td></tr>
+<tr><td><b>6. Query formulation</b></td>
+<td>Spelling errors and unknown terms give an empty AND result; no phrase or field syntax; the conjunction is applied to words that are really attributes (gender, colour).</td>
+<td>Spelling correction (“did you mean”), query suggestions from the vocabulary, field queries (<code>brand:puma</code>) and a fallback to partial matches (problem 1).</td></tr>
+<tr><td><b>7. Evaluation limits</b></td>
+<td>The validation set has 20 judged documents per query, with inconsistent labels (Part 1); only two queries. Our guidelines look at the same fields that the system indexes, so our metrics are probably optimistic; five queries are few (T2 alone moves MAP from 0.877 to 0.723).</td>
+<td>More queries, pooling the top results of several systems, two independent judges with an agreement measure (Cohen's kappa), graded relevance (so NDCG is fully used) and confidence intervals over queries.</td></tr>
+</table>
+
+<h2>9. Conclusions</h2>
+<p>The index and the TF-IDF ranking work as intended: within the documents that match, the top results are almost always relevant
+(P@10 = 1.000 for four of our five queries). The remaining problems are not in the weighting function but in <b>what is indexed and in how the query is matched</b>:
+the AND semantics discards relevant documents that use another word, two decisions of the pre-processing (removing the single letters, indexing only the values of the details)
+remove information that users ask for, and the merged field makes any word of a description count as much as the title. The two cheapest and most
+effective changes we measured are (1) ranking by the number of matched terms before the TF-IDF score, and (2) keeping short tokens and the keys of Yes/No attributes in the index.
+The validation labels also limit what any text-based system can score, which is why we report the protocol and not only the numbers.</p>
+
+<h2>AI usage statement</h2>
+<p>We used Claude (Anthropic) as an assistant during this part: to write and test the code of the index, the ranking and the metrics, to run the
+experiments, to apply our relevance guidelines to the collection, and to draft this report. Every number of the report is produced by the notebook, the
+metrics were recomputed with an independent implementation, and the code is covered by tests (metrics against scikit-learn, index and TF-IDF against brute-force implementations).
+The guidelines, the decisions and their justification are our own responsibility.</p>
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+,MAP,MRR,P@10,R@20,NDCG@10
+A strict (unjudged = non-relevant),0.08,0.503,0.05,0.05,0.11
+B condensed list (reported),0.76,1.0,0.8,0.8,0.858
+"C re-rank of the judged pool, no AND",0.877,1.0,0.85,1.0,0.886
