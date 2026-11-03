@@ -50,9 +50,9 @@ class InvertedIndex:
         return 0 if term_id is None else len(self.postings[term_id])
 
     def idf(self, term: str) -> float:
-        """idf(t) = log10(N / df(t)); 0 for a term that is not in the vocabulary."""
+        """idf(t) = log2(N / df(t)); 0 for a term that is not in the vocabulary."""
         df = self.document_frequency(term)
-        return math.log10(self.num_docs / df) if df else 0.0
+        return math.log2(self.num_docs / df) if df else 0.0
 
     def get_postings(self, term: str) -> List[Tuple[int, int]]:
         term_id = self.term_to_id.get(term)
@@ -114,8 +114,8 @@ class TfidfRanker:
     """
     TF-IDF ranking with cosine similarity (vector space model).
 
-        weight(t, d) = (1 + log10 tf(t, d)) * idf(t),     idf(t) = log10(N / df(t))
-        weight(t, q) = (1 + log10 tf(t, q)) * idf(t)
+        weight(t, d) = (1 + log2 tf(t, d)) * idf(t),     idf(t) = log2(N / df(t))
+        weight(t, q) = (1 + log2 tf(t, q)) * idf(t)
         score(q, d)  = sum_t weight(t, q) * weight(t, d) / (||q|| * ||d||)
 
     The norm ||d|| is computed over ALL the terms of the document (not only the query terms), so a long document that
@@ -127,7 +127,7 @@ class TfidfRanker:
         self.doc_norm = self._compute_doc_norms()
 
     def _doc_weight(self, tf: int, idf: float) -> float:
-        return (1.0 + math.log10(tf)) * idf
+        return (1.0 + math.log2(tf)) * idf
 
     def _compute_doc_norms(self) -> List[float]:
         sq = [0.0] * self.index.num_docs
@@ -184,7 +184,7 @@ class Bm25Ranker:
             df = self.index.document_frequency(t)
             if df == 0:
                 continue
-            idf = math.log(1.0 + (self.index.num_docs - df + 0.5) / (df + 0.5))
+            idf = math.log2(1.0 + (self.index.num_docs - df + 0.5) / (df + 0.5))
             for doc_id, tf in self.index.get_postings(t):
                 if doc_id in wanted:
                     norm = self.k1 * (1.0 - self.b + self.b * self.index.doc_length[doc_id] / self.avg_len)

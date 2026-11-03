@@ -7,7 +7,7 @@
   "longest postings list": 20987,
   "terms in only one document": 1332,
   "average document length (terms)": 44.7,
-  "build time (s)": 0.93
+  "build time (s)": 1.61
  },
  "val_unreturned": {
   "Q2": [

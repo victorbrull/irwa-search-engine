@@ -113,13 +113,13 @@ def _dense_tfidf(term_lists, query_terms):
         for t in terms:
             tf[d, pos[t]] += 1
     df = (tf > 0).sum(axis=0)
-    idf = np.log10(n / df)
-    w = np.where(tf > 0, 1 + np.log10(np.where(tf > 0, tf, 1)), 0) * idf
+    idf = np.log2(n / df)
+    w = np.where(tf > 0, 1 + np.log2(np.where(tf > 0, tf, 1)), 0) * idf
     q = np.zeros(len(vocab))
     for t in query_terms:
         if t in pos:
             q[pos[t]] += 1
-    qw = np.where(q > 0, 1 + np.log10(np.where(q > 0, q, 1)), 0) * idf
+    qw = np.where(q > 0, 1 + np.log2(np.where(q > 0, q, 1)), 0) * idf
     norms = np.linalg.norm(w, axis=1)
     scores = np.zeros(n)
     for d in range(n):
@@ -136,7 +136,7 @@ def test_toy_corpus():
     assert [p for p, _ in results] == ["d1", "d2"]                    # AND: only d1 and d2 contain both terms
     assert engine.search("blue shirt") == []                          # nothing contains both
     assert engine.search("blue unknownterm") == []                    # out-of-vocabulary term -> empty with AND
-    assert math.isclose(index.idf("slim"), math.log10(4 / 1))
+    assert math.isclose(index.idf("slim"), math.log2(4 / 1))
     dense = _dense_tfidf([t.split() for t in docs.values()], ["blue", "jean"])
     for pid, score in results:
         assert math.isclose(score, dense[list(docs).index(pid)])
@@ -173,7 +173,7 @@ def test_bm25_matches_brute_force():
                 df = sum(1 for terms in term_lists if t in terms)
                 tf = term_lists[doc_id].count(t)
                 if df and tf:
-                    idf = math.log(1 + (n - df + 0.5) / (df + 0.5))
+                    idf = math.log2(1 + (n - df + 0.5) / (df + 0.5))
                     expected += idf * tf * 2.2 / (tf + 1.2 * (1 - 0.75 + 0.75 * len(term_lists[doc_id]) / avgdl))
             assert math.isclose(score, expected, abs_tol=1e-12)
 

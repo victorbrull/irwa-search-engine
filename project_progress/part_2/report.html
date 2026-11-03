@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>IRWA 2026 – Part 2 report</title>
+<title>IRWA 2026 - Part 2 report</title>
 <style>
   @page { size: A4; margin: 18mm 17mm 18mm 17mm; }
   body { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10.3pt; line-height: 1.42; color: #1a1a1a; }
@@ -40,7 +40,7 @@
 </head>
 <body>
 
-<h1>IRWA Final Project – Part 2: Indexing and Evaluation</h1>
+<h1>IRWA Final Project - Part 2: Indexing and Evaluation</h1>
 <table class="meta">
   <tr><td><b>Students</b></td><td>u233738, u233436, u232597</td></tr>
   <tr><td><b>GitHub</b></td><td>https://github.com/victorbrull/irwa-search-engine</td></tr>
@@ -72,7 +72,7 @@ frequencies 13,826 (<i>women</i>), 7,177 (<i>full</i>), 18,034 (<i>sleev</i>), 1
 
 <h2>3. Test queries</h2>
 <p>The statement suggests choosing popular terms. We ranked all the terms by the TF-IDF weight they carry in the whole collection
-(sum over the documents of (1 + log tf)·idf, so a term scores high when it is frequent <i>and</i> discriminative). The top terms are
+(sum over the documents of (1 + log<sub>2</sub> tf)·log<sub>2</sub>(N / df), so a term scores high when it is frequent <i>and</i> discriminative). The top terms are
 attributes (<i>round, neck, print, solid, regular, fit, blue, black, slim, full</i>), product types (<i>tshirt, shirt, polo</i>) and gender (<i>women, men</i>). Each of our five
 queries combines popular terms of different kinds and was designed to show a different behaviour of the system. We also needed
 queries whose relevant documents can be defined from the visible attributes of a product (section 7).</p>
@@ -80,7 +80,7 @@ queries whose relevant documents can be defined from the visible attributes of a
 
 <h2>4. TF-IDF ranking</h2>
 <p>The documents returned by the AND are ranked by cosine similarity in the vector space model:</p>
-<div class="box">w<sub>t,d</sub> = (1 + log<sub>10</sub> tf<sub>t,d</sub>) · log<sub>10</sub>(N / df<sub>t</sub>)
+<div class="box">w<sub>t,d</sub> = (1 + log<sub>2</sub> tf<sub>t,d</sub>) · log<sub>2</sub>(N / df<sub>t</sub>)
 &nbsp;&nbsp;&nbsp; score(q, d) = Σ<sub>t</sub> w<sub>t,q</sub> · w<sub>t,d</sub> / (‖q‖ · ‖d‖)</div>
 <p>The query weights <i>w<sub>t,q</sub></i> use the same formula with the query term frequency. The norm ‖d‖ is computed over <b>all</b>
 the terms of the document and precomputed, so a long document that contains the query terms among many other terms scores lower than a short one
@@ -165,14 +165,14 @@ T2 is the exception: the AND returns 1,584 documents of which only 43 are releva
 <tr><td><b>1. The AND loses relevant documents when the query and the document use different words</b></td>
 <td>Validation query 2: 4 of the 10 relevant documents are not returned (11 judged documents lack <i>men</i>, 1 lacks <i>slim</i>). T1: 11 of 79 relevant lost because <i>polycotton</i> (2,803 documents) and <i>polyester</i> (3,033) are different terms; T3: 9 of 48.
 Other variants: <i>hoodie</i> → <code>hoodi</code> (634 docs) vs <i>hooded</i> → <code>hood</code> (920); <i>gray</i> (57) vs <i>grey</i> (3,046); <i>leggings</i> → <code>leg</code> (over-stemming).
-Relaxing the AND to “≥ n−1 terms” gives recall 1.000 but returns 2,731 documents per query and drops test MAP to 0.256, because cosine does not reward matching <i>all</i> the terms. Putting the AND results first and then the documents that miss one term keeps the top unchanged and raises val. MAP from 0.760 to 0.890 and test recall from 0.935 to 1.000.</td>
-<td>Rank by <b>number of matched terms first</b> (a coordination factor) and use the AND only as the first level, or fall back to “n−1 terms” when the AND returns few results. Query expansion with synonyms and spelling variants (<i>gray/grey</i>, <i>hoodie/hooded</i>, <i>polycotton/polyester</i>, <i>trousers/pants</i>), a lemmatiser instead of Porter, or a character n-gram index for fuzzy matching.</td></tr>
+Relaxing the AND to “≥ n-1 terms” gives recall 1.000 but returns 2,731 documents per query and drops test MAP to 0.256, because cosine does not reward matching <i>all</i> the terms. Putting the AND results first and then the documents that miss one term keeps the top unchanged and raises val. MAP from 0.760 to 0.890 and test recall from 0.935 to 1.000.</td>
+<td>Rank by <b>number of matched terms first</b> (a coordination factor) and use the AND only as the first level, or fall back to “n-1 terms” when the AND returns few results. Query expansion with synonyms and spelling variants (<i>gray/grey</i>, <i>hoodie/hooded</i>, <i>polycotton/polyester</i>, <i>trousers/pants</i>), a lemmatiser instead of Porter, or a character n-gram index for fuzzy matching.</td></tr>
 <tr><td><b>2. Indexing decisions of Part 1 hide information</b></td>
 <td>(a) 1-character tokens are removed: <i>V neck</i> becomes <i>neck</i>, so T2 returns 1,584 documents and only 43 are relevant. (b) Only the <i>values</i> of product_details are indexed: <i>Hooded: Yes</i> becomes the term <i>yes</i>, so T3 loses 9 relevant sweatshirts.
 With a modified pre-processing (term <code>vneck</code>; key kept when the value is “Yes”; the Part 1 files are untouched): T2 returns 69 documents and AP goes from 0.106 to 0.918; T3 recall goes from 39/48 to 48/48. Test MAP rises from 0.723 to 0.923 and NDCG@10 to 1.000; the validation queries do not change (0.760 → 0.754).</td>
 <td>Keep the meaningful short tokens (<i>V neck</i> → <i>vneck</i>, in the same way as <i>t-shirt</i> → <i>tshirt</i>), index bigrams or support phrase queries. Index <b>key=value</b> pairs (<code>hooded:yes</code>, <code>sleeve:full sleeve</code>) and keep a separate field for each categorical attribute (colour, fabric, fit, pattern, sleeve), so that each query term can be matched against the right field and used as a filter.</td></tr>
 <tr><td><b>3. Ranking: one merged field, same weight for everything, and length normalisation</b></td>
-<td>Validation query 1: the judged documents are long and are ranked 159–492 of 496. Words that appear in the description of other products reduce the precision of the AND set: T4 0.649, T5 0.521. However, other ranking functions change little: BM25 gives val. MAP 0.772 and test MAP 0.736 (baseline 0.760 / 0.723), the field-weighted TF-IDF 0.766 / 0.727, and BM25 even lowers test NDCG@10 (0.817 vs 0.885). The top 20 of T3, T4 and T5 are already perfect; the problems are what is indexed (problems 1 and 2), not the weighting.</td>
+<td>Validation query 1: the judged documents are long and are ranked 159-492 of 496. Words that appear in the description of other products reduce the precision of the AND set: T4 0.649, T5 0.521. However, other ranking functions change little: BM25 gives val. MAP 0.772 and test MAP 0.736 (baseline 0.760 / 0.723), the field-weighted TF-IDF 0.766 / 0.727, and BM25 even lowers test NDCG@10 (0.817 vs 0.885). The top 20 of T3, T4 and T5 are already perfect; the problems are what is indexed (problems 1 and 2), not the weighting.</td>
 <td>A field-aware model (BM25F or TF-IDF per field) with weights tuned on judgments, matching in the title and in the product type (<i>Generic Name</i>, sub_category) before the description, phrase matching (<i>track pants</i>, <i>denim jacket</i>), and pivoted length normalisation so that a long description is not a penalty. With more judged queries these weights could be learned (learning to rank).</td></tr>
 <tr><td><b>4. Structured and numeric fields are ignored</b></td>
 <td>The ranking does not use stock, price, discount or rating: 13 of the 100 documents in the top 20 of the five test queries are out of stock (5.9% in the whole collection). Queries such as “jeans under 500” or “best rated” cannot be expressed.</td>

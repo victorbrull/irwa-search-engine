@@ -75,7 +75,7 @@ def _first_failure(checks):
     return None
 
 
-# ----------------------------------------------------------------------------------------------- one rule per query
+# One rule per query
 
 def _judge_1(rec):
     title, color, fabric = _title(rec), _color(rec), _detail(rec, "Fabric")
