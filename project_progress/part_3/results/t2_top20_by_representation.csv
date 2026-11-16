@@ -1,0 +1,10 @@
+,mean length top 20 (all_terms),mean title length top 20,relevant in top 20
+TF-IDF + cosine,25.5,5.75,5.0
+BM25,31.7,6.15,2.0
+"word2vec average, CBOW (section 5)",28.0,6.5,8.0
+"word2vec average, skip-gram",26.95,7.1,0.0
+IDF-weighted average,28.55,7.6,3.0
+SIF: weighted average - 1st component,113.1,7.1,0.0
+average of the title only,34.9,5.4,19.0
+doc2vec PV-DBOW,23.2,6.0,0.0
+doc2vec PV-DM,28.75,5.85,3.0

@@ -1,0 +1,10 @@
+,,documents,mean rating (rated products),without rating (%),mean discount (%),out of stock (%),median price
+top 10,TF-IDF + cosine,70.0,3.35,12.86,47.93,17.14,909.0
+top 10,BM25,70.0,3.63,8.57,54.17,12.86,739.5
+top 10,Our score,70.0,4.03,1.43,57.14,0.0,786.5
+top 10,word2vec + cosine,70.0,3.33,1.43,52.61,10.0,798.5
+top 20,TF-IDF + cosine,140.0,3.43,13.57,51.06,14.29,899.0
+top 20,BM25,140.0,3.48,8.57,51.21,11.43,834.0
+top 20,Our score,140.0,3.97,1.43,56.54,0.0,849.0
+top 20,word2vec + cosine,140.0,3.37,10.0,50.24,10.0,799.0
+all matches,(any order),2610.0,3.67,11.49,52.33,7.47,599.0

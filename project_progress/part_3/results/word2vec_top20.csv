@@ -1,0 +1,101 @@
+query_id,query,rank,score,pid,title,brand,selling_price,average_rating,rel
+T1,men black track pants polyester,1,0.8764,TKPFZDVZVQHWEUVF,Solid Men Black Track Pants,Onei,599.0,3.7,1
+T1,men black track pants polyester,2,0.8739,TKPFZMZSWZN5HKEZ,Solid Men Black Track Pants,,349.0,2.1,1
+T1,men black track pants polyester,3,0.838,TKPFZAZ4QCAZFAGA,"Solid Men Black, Dark Blue Track Pants",Onei,699.0,5.0,1
+T1,men black track pants polyester,4,0.8191,TKPF3FPQGCHXHGRM,"Solid Men Black, Grey Track Pants",Fairdea,538.0,2.6,1
+T1,men black track pants polyester,5,0.8191,TKPF3FPNZ5XCHZ6R,"Solid Men Black, Grey Track Pants",Fairdea,538.0,2.6,1
+T1,men black track pants polyester,6,0.8191,TKPF3FPKTYM55SAV,"Solid Men Black, Grey Track Pants",Fairdea,538.0,2.6,1
+T1,men black track pants polyester,7,0.8172,TKPFZDKXX7MQAYYK,Solid Men Black Track Pants,Ravil,474.0,3.4,1
+T1,men black track pants polyester,8,0.8157,TKPF3FPJNVVBKPRG,"Solid Men Blue, Black Track Pants",Fairdea,631.0,2.6,1
+T1,men black track pants polyester,9,0.8157,TKPF3FPZRRJUWTAZ,"Solid Men Blue, Black Track Pants",Fairdea,538.0,2.6,1
+T1,men black track pants polyester,10,0.8157,TKPF3FPKHNWZ3UMG,"Solid Men Blue, Black Track Pants",Fairdea,538.0,2.6,1
+T1,men black track pants polyester,11,0.8116,TKPFYWGFE5WWQUED,Solid Men Black Track Pants,Blue Sha,474.0,3.5,1
+T1,men black track pants polyester,12,0.7991,TKPFWCVUMWW96BEY,Solid Men Black Track Pants,Breakboun,849.0,2.8,1
+T1,men black track pants polyester,13,0.7951,TKPFZYS9FBE5S8VZ,Solid Men Black Track Pants,REAZ,390.0,4.3,1
+T1,men black track pants polyester,14,0.7926,TKPEYQ6YNHW8FV5R,"Solid Men Black, Orange Track Pants",Fairdea,375.0,3.5,1
+T1,men black track pants polyester,15,0.7813,TKPFGP48RBBKAGSZ,Striped Men Black Track Pants,adidas Origina,3311.0,4.0,1
+T1,men black track pants polyester,16,0.7594,TKPFZHV4MZB4TF7G,"Striped Men Grey, Black Track Pants",Glitc,499.0,,0
+T1,men black track pants polyester,17,0.7577,TKPFYWCFRN572UFY,Solid Men Black Track Pants,Blue Sha,474.0,3.5,1
+T1,men black track pants polyester,18,0.7468,TKPFTZ7WG62BFDKC,Solid Men Black Track Pants,JACK AND HAR,398.0,3.8,1
+T1,men black track pants polyester,19,0.7467,TKPFZ3JRDVRHWSFY,Solid Men Black Track Pants,REEB,1261.0,3.5,1
+T1,men black track pants polyester,20,0.7462,TKPFZ3JRWHEETCJP,Color Block Men Black Track Pants,REEB,2487.0,2.8,1
+T2,women black v neck tshirt,1,0.9426,TSHFYUQYXW4BY9GR,"Striped Women Round Neck Black, White T-Shirt",Steenb,399.0,3.7,0
+T2,women black v neck tshirt,2,0.9425,TSHEYRU4NH2ERTGV,"Abstract Women V-Neck Black, Yellow T-Shirt",Fairdea,284.0,2.6,1
+T2,women black v neck tshirt,3,0.9424,TSHEYQ73G7VKU9WN,"Chevron/Zig Zag Women V-Neck Red, Black T-Shirt",Fairdea,284.0,2.6,1
+T2,women black v neck tshirt,4,0.942,TSHF3MHQKA4NWX2Y,"Printed Women V-neck Black, Yellow T-Shirt",Fairdea,284.0,2.6,1
+T2,women black v neck tshirt,5,0.9416,TSHF3MHNGFFAKPB4,"Solid Women V-neck Black, Yellow T-Shirt",Fairdea,284.0,2.6,1
+T2,women black v neck tshirt,6,0.9416,TSHF3MHZGSEHCBQ4,"Solid Women V-neck Black, Yellow T-Shirt",Fairdea,284.0,2.6,1
+T2,women black v neck tshirt,7,0.941,TSHEYRU3TH46Z4Z3,"Abstract Women V-Neck Blue, Black T-Shirt",Fairdea,284.0,2.6,1
+T2,women black v neck tshirt,8,0.9394,TSHFDHGJQNM39YYN,Color Block Women Round Neck Black T-Shirt,Amp,349.0,3.4,0
+T2,women black v neck tshirt,9,0.9393,TSHFWF57CTFWRGFZ,Solid Women Round Neck Black T-Shirt,MASH UNLIMIT,329.0,3.2,0
+T2,women black v neck tshirt,10,0.9381,TSHEYQ73JNWYHJCZ,"Printed Women V-Neck White, Black T-Shirt",Fairdea,284.0,3.8,1
+T2,women black v neck tshirt,11,0.9381,TSHFW38TBJSD3ST8,"Printed Women Round Neck Grey, Black T-Shirt",Xi,399.0,,0
+T2,women black v neck tshirt,12,0.9379,TSHFW3947QNACHHQ,"Printed Women Round Neck Grey, Black T-Shirt",Xi,399.0,,0
+T2,women black v neck tshirt,13,0.9379,TSHFW38SBN7QX5KM,"Printed Women Round Neck Grey, Black T-Shirt",Xi,399.0,,0
+T2,women black v neck tshirt,14,0.9374,TSHFYUTFYNDTXRFM,Solid Women Polo Neck Black T-Shirt,Steenb,699.0,3.7,0
+T2,women black v neck tshirt,15,0.9374,TSHFPCZ8KFHZYR3Y,Printed Women V Neck Black T-Shirt,ATTIITU,844.0,4.2,1
+T2,women black v neck tshirt,16,0.9368,TSHFDHGSHKWYERQG,Color Block Women Round Neck Black T-Shirt,Amp,349.0,3.0,0
+T2,women black v neck tshirt,17,0.9356,TSHFW38TG8HXAT5Z,"Printed Women Round Neck White, Black T-Shirt",Xi,399.0,,0
+T2,women black v neck tshirt,18,0.9354,TSHFW394E2XRZ76G,"Printed Women Round Neck White, Black T-Shirt",Xi,399.0,,0
+T2,women black v neck tshirt,19,0.9354,TSHFW38TKZQNHU5F,"Printed Women Round Neck White, Black T-Shirt",Xi,399.0,,0
+T2,women black v neck tshirt,20,0.935,TSHFZX2G3HMGH4YQ,Printed Women Polo Neck Black T-Shirt,TEE BUD,449.0,2.7,0
+T3,men grey hooded sweatshirt,1,0.8398,SWSFXMKRJYMSYTTA,Full Sleeve Solid Men Sweatshirt,Breakboun,749.0,,1
+T3,men grey hooded sweatshirt,2,0.8382,SWSFZ7GXWNGANCUA,Sleeveless Solid Men Sweatshirt,LIVST,799.0,3.3,1
+T3,men grey hooded sweatshirt,3,0.8376,SWSFXMKPWFS9HRGS,Full Sleeve Printed Men Sweatshirt,Breakboun,849.0,2.8,1
+T3,men grey hooded sweatshirt,4,0.8249,SWSFZUEBEBWJUQWG,Full Sleeve Printed Men Sweatshirt,RELIEF ZO,849.0,4.3,1
+T3,men grey hooded sweatshirt,5,0.8198,SWSFYNY4CWHCDWM5,Full Sleeve Printed Men Sweatshirt,MASH UNLIMIT,649.0,3.2,1
+T3,men grey hooded sweatshirt,6,0.8178,SWSFHABMCWFP8GJR,Sleeveless Solid Men Sweatshirt,TeeMoo,799.0,3.0,1
+T3,men grey hooded sweatshirt,7,0.8174,SWSFZKX9T2SGSKRA,Full Sleeve Color Block Men Sweatshirt,REEB,1749.0,2.4,1
+T3,men grey hooded sweatshirt,8,0.8127,SWSFVEMQPH2V96BF,Full Sleeve Printed Men Sweatshirt,Steenb,899.0,3.7,1
+T3,men grey hooded sweatshirt,9,0.8092,SWSFYQFQZTYY3YVM,Full Sleeve Printed Men Sweatshirt,Rose We,273.0,3.2,1
+T3,men grey hooded sweatshirt,10,0.809,SWSFJY5ZTQ35VBV7,Full Sleeve Color Block Men Sweatshirt,REEB,1799.0,3.9,1
+T3,men grey hooded sweatshirt,11,0.798,SWSFNMS5V7TVXY8Z,Full Sleeve Solid Men Sweatshirt,FLEXIM,699.0,3.9,1
+T3,men grey hooded sweatshirt,12,0.798,SWSFNMS5BKHGHJXF,Full Sleeve Solid Men Sweatshirt,FLEXIM,699.0,3.9,1
+T3,men grey hooded sweatshirt,13,0.7976,SWSFZ2H4PW2GHY9H,Full Sleeve Solid Men Sweatshirt,ECKO Unl,719.0,,1
+T3,men grey hooded sweatshirt,14,0.7976,SWSFZ2HJXN9HNG7E,Full Sleeve Solid Men Sweatshirt,ECKO Unl,730.0,,1
+T3,men grey hooded sweatshirt,15,0.7904,SWSE8FYZMDFNNTHH,Full Sleeve Solid Men Sweatshirt,Scott Internation,549.0,3.8,1
+T3,men grey hooded sweatshirt,16,0.7904,SWSE8FYZQXR52M45,Full Sleeve Solid Men Sweatshirt,Scott Internation,549.0,3.8,1
+T3,men grey hooded sweatshirt,17,0.782,SWSFVNB8HRBSY6E3,Full Sleeve Printed Men Sweatshirt,Marca Disa,949.0,4.4,0
+T3,men grey hooded sweatshirt,18,0.7685,SWSFJY5ZTHZUNVNV,Full Sleeve Solid Men Sweatshirt,REEB,1719.0,4.0,1
+T3,men grey hooded sweatshirt,19,0.7574,SWSFJY5ZQDHHSJGY,Full Sleeve Solid Men Sweatshirt,REEB,2569.0,4.4,1
+T3,men grey hooded sweatshirt,20,0.7551,SWSF9W59YQWQCVWN,Full Sleeve Self Design Men Sweatshirt,AXMA,798.0,4.3,1
+T4,women striped shirt,1,0.8777,SHTFAHDZ7H9ZFYNZ,Women Slim Fit Striped Spread Collar Casual Shirt,Purple Sta,629.0,3.8,1
+T4,women striped shirt,2,0.8738,SHTFAHDYU7QAHTEZ,Women Regular Fit Striped Casual Shirt,Purple Sta,629.0,2.9,1
+T4,women striped shirt,3,0.8682,SHTFCA3J7UZ2TGHN,Women Regular Fit Striped Formal Shirt,Mo,775.0,4.8,1
+T4,women striped shirt,4,0.8639,SHTFHPZ7HYGXGJK6,Women Slim Fit Striped Casual Shirt,SUR,699.0,4.0,1
+T4,women striped shirt,5,0.8637,SHTFHPZ7WFH8NKRT,Women Slim Fit Striped Casual Shirt,SUR,699.0,4.0,1
+T4,women striped shirt,6,0.8632,SHTFHPZ7YTVWZWHW,Women Slim Fit Striped Casual Shirt,SUR,699.0,4.0,1
+T4,women striped shirt,7,0.8632,SHTFYW8Z4EHRRT8Y,Women Slim Fit Striped Casual Shirt,Purple Sta,629.0,2.9,1
+T4,women striped shirt,8,0.8616,SHTFWHDQJ34GDCHQ,Women Slim Fit Striped Casual Shirt,AS Tre,399.0,3.7,1
+T4,women striped shirt,9,0.8616,SHTFWHDQRKZJB4VT,Women Slim Fit Striped Casual Shirt,AS Tre,399.0,3.7,1
+T4,women striped shirt,10,0.8574,SHTFWHE2ZAZNTYAY,Women Slim Fit Striped Spread Collar Casual Shirt,AS Tre,399.0,3.7,1
+T4,women striped shirt,11,0.8559,SHTFEKRWKFHHH9ZT,Women Slim Fit Striped Spread Collar Casual Shirt,True Bl,1039.0,3.7,1
+T4,women striped shirt,12,0.853,SHTFWHE2XGBR3NRV,Women Slim Fit Striped Casual Shirt,AS Tre,399.0,3.7,1
+T4,women striped shirt,13,0.853,SHTFWHE22SVV5TTM,Women Slim Fit Striped Casual Shirt,AS Tre,399.0,3.7,1
+T4,women striped shirt,14,0.8514,SHTFRR7FDFMZYXJU,Women Slim Fit Striped Casual Shirt,ECKO Unl,844.0,2.5,1
+T4,women striped shirt,15,0.8485,SHTFVGSFKGFVHZGW,"Women Slim Fit Printed, Striped, Checkered Casual Shirt",Marca Disa,769.0,4.2,1
+T4,women striped shirt,16,0.8478,SHTFRR7YFGBZG3BW,Women Slim Fit Striped Cut Away Collar Casual Shirt,ECKO Unl,811.0,2.5,1
+T4,women striped shirt,17,0.8464,SHTFWP8CDRGUQTBP,Women Regular Fit Striped Casual Shirt,Mett,909.0,2.1,1
+T4,women striped shirt,18,0.8464,SHTFWP8C4QRRU2GA,Women Regular Fit Striped Casual Shirt,Mett,909.0,2.2,1
+T4,women striped shirt,19,0.8448,SHTFMRH8CZPAUZ3G,Women Slim Fit Striped Spread Collar Casual Shirt,Solid Styl,768.0,3.7,1
+T4,women striped shirt,20,0.8435,SHTEX9HYBYKEQX6H,Women Slim Fit Striped Spread Collar Casual Shirt,G,3946.0,2.8,1
+T5,men denim jacket,1,0.8362,JCKFMHKMYEWHQFNU,Full Sleeve Printed Men Denim Casual Jacket,Solid Styl,1424.0,3.3,1
+T5,men denim jacket,2,0.8136,JCKFKKFZ7QB2KUQV,Full Sleeve Washed Men Denim Jacket,Solid Styl,1443.0,3.8,1
+T5,men denim jacket,3,0.8106,JCKFKKFZMDEHEZQS,Full Sleeve Washed Men Denim Jacket,Solid Styl,1424.0,2.4,1
+T5,men denim jacket,4,0.803,JCKFWC5ZHSAEVYMS,Full Sleeve Solid Men Denim Jacket,VOXA,1199.0,3.7,1
+T5,men denim jacket,5,0.8013,JCKFZJWZNCGGZGSE,Full Sleeve Washed Men Denim Jacket,saltla,1200.0,2.9,1
+T5,men denim jacket,6,0.8013,JCKFZJWZBZCCTYXM,Full Sleeve Washed Men Denim Jacket,saltla,1200.0,2.9,1
+T5,men denim jacket,7,0.8011,JCKFYY97BC7KWPM4,Full Sleeve Solid Men Denim Jacket,VOXA,1199.0,3.7,1
+T5,men denim jacket,8,0.8002,JCKFURYWGYKVKFH3,Full Sleeve Solid Men Denim Jacket,VOXA,1199.0,3.7,1
+T5,men denim jacket,9,0.8,JCKFVDPW4WNPBGS2,Full Sleeve Solid Men Denim Jacket,VOXA,1199.0,3.7,1
+T5,men denim jacket,10,0.7993,JCKFWC5YPXZG6S7F,Full Sleeve Solid Men Denim Jacket,VOXA,1199.0,4.0,1
+T5,men denim jacket,11,0.7975,JCKFWC5YZKFWXGEB,Full Sleeve Solid Men Denim Jacket,VOXA,1199.0,4.0,1
+T5,men denim jacket,12,0.7938,JCKFWC5ZAF3BRTPA,Full Sleeve Solid Men Denim Jacket,VOXA,1199.0,3.7,1
+T5,men denim jacket,13,0.7885,JCKFZZN6AWQZ8FC2,Full Sleeve Solid Men Denim Jacket,,1249.0,,1
+T5,men denim jacket,14,0.7855,JCKFVJ54N4NZGPTP,Full Sleeve Washed Men Denim Riding Jacket,Solid Styl,1709.0,3.3,1
+T5,men denim jacket,15,0.7694,JCKFXNVMP5XZZNHA,Full Sleeve Solid Men Denim Jacket,VOXA,1199.0,3.6,1
+T5,men denim jacket,16,0.7691,JCKFXNVMC435YMSU,Full Sleeve Solid Men Denim Jacket,VOXA,1199.0,3.6,1
+T5,men denim jacket,17,0.7658,JCKFXNVMZZ4UP9CE,Full Sleeve Solid Men Denim Jacket,VOXA,1199.0,3.6,1
+T5,men denim jacket,18,0.7616,JCKFUG3T7BQYB6KQ,Sleeveless Solid Men Denim Jacket,MagMatri,948.0,4.1,1
+T5,men denim jacket,19,0.7595,JCKFUG3THFXJUY4G,Sleeveless Solid Men Denim Jacket,MagMatri,999.0,4.1,1
+T5,men denim jacket,20,0.7544,JCKFPEVFF5DWZB4H,Full Sleeve Washed Men Denim Jacket,Solid Styl,1709.0,3.3,1

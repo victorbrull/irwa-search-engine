@@ -1,0 +1,561 @@
+method,query_id,rank,score,pid,title,doc_length,rel
+tfidf,Q1,1,0.8005,SWSFZVTTQCB4SJ7F,Full Sleeve Solid Women Sweatshirt,21,
+tfidf,Q1,2,0.7838,SWSFZVTNGM4HG8BC,Full Sleeve Printed Women Sweatshirt,21,
+tfidf,Q1,3,0.7355,SWSFQGS456JAZCQB,Full Sleeve Printed Women Sweatshirt,20,
+tfidf,Q1,4,0.7287,SWSFV5JNFW5HZQWY,Full Sleeve Printed Women Sweatshirt,21,
+tfidf,Q1,5,0.7113,SWSFYRKYAHH4HHSM,Full Sleeve Printed Women Sweatshirt,20,
+tfidf,Q1,6,0.707,SWSFYTYMNTBNARUN,Full Sleeve Solid Women Sweatshirt,19,
+tfidf,Q1,7,0.7049,SWSFZ2H4KMYXZXX7,Full Sleeve Solid Women Sweatshirt,21,
+tfidf,Q1,8,0.7049,SWSFY37UKWPG4AZ2,Full Sleeve Solid Women Sweatshirt,21,
+tfidf,Q1,9,0.7,SWSFYRH2F7NHW63A,Full Sleeve Solid Women Sweatshirt,20,
+tfidf,Q1,10,0.698,SWSFY38ADYPVZHYZ,Full Sleeve Printed Women Sweatshirt,21,
+tfidf,Q1,11,0.6828,SWSFM4YXZHUSUVCA,Full Sleeve Solid Women Sweatshirt,22,
+tfidf,Q1,12,0.6583,SWSFZ2H3CXFAWYPH,Full Sleeve Solid Women Sweatshirt,22,
+tfidf,Q1,13,0.6555,SWSFY37MCKGY6GHQ,Full Sleeve Solid Women Sweatshirt,22,
+tfidf,Q1,14,0.6555,SWSFY37VGGQGSZ86,Full Sleeve Solid Women Sweatshirt,22,
+tfidf,Q1,15,0.6544,SWSFXV6FKYFF35EW,Full Sleeve Printed Women Sweatshirt,22,
+tfidf,Q1,16,0.6522,SWSFZAUYZFAGEPKK,Full Sleeve Printed Women Sweatshirt,21,
+tfidf,Q1,17,0.6497,SWSFZ2H48ZYATYZR,Full Sleeve Solid Women Sweatshirt,22,
+tfidf,Q1,18,0.6441,SWSFZ2H98GUS2URG,Full Sleeve Solid Women Sweatshirt,22,
+tfidf,Q1,19,0.6387,SWSFY382UZHFBCNB,Full Sleeve Printed Women Sweatshirt,22,
+tfidf,Q1,20,0.6126,SWSFVEMQF7HP9NZG,Full Sleeve Solid Women Sweatshirt,21,
+tfidf,Q2,1,0.5646,JEAFEKQZ4C2Z6GCX,Slim Men Blue Jeans,22,
+tfidf,Q2,2,0.5646,JEAFEKQZQPYHHVGS,Slim Men Blue Jeans,22,
+tfidf,Q2,3,0.5472,JEAFM3Y9ZNMVG6ZM,Slim Men Blue Jeans,22,
+tfidf,Q2,4,0.515,JEAFEKQZNAWHW8PT,Slim Men Dark Blue Jeans,24,
+tfidf,Q2,5,0.513,JEAFEKQZWYPVGYCJ,Slim Men Blue Jeans,22,
+tfidf,Q2,6,0.5067,JEAFRAQXEKGUPNUN,Slim Men Blue Jeans,25,
+tfidf,Q2,7,0.5067,JEAFS57EYDGY4EJM,Slim Men Blue Jeans,21,
+tfidf,Q2,8,0.5063,JEAFTGSGTYKZGAEZ,Slim Men Blue Jeans,20,1.0
+tfidf,Q2,9,0.5059,JEAFESND4QWQUBZD,Slim Men Blue Jeans,20,
+tfidf,Q2,10,0.5056,JEAFSKYHSYMTKEJD,Slim Men Blue Jeans,22,
+tfidf,Q2,11,0.502,JEAFSKYHZHSZZC9S,Slim Men Blue Jeans,22,
+tfidf,Q2,12,0.4923,JEAFKWR3FX9NH2V6,Slim Men Blue Jeans,20,
+tfidf,Q2,13,0.4812,JEAFQF6JBUSEXHVF,Slim Men Blue Jeans,23,
+tfidf,Q2,14,0.4794,JEAFSGSYEAFCYHEE,Slim Men Blue Jeans,20,
+tfidf,Q2,15,0.4578,JEAFSFTWF3FHGNB3,Slim Men Blue Jeans,22,
+tfidf,Q2,16,0.4559,JEAFSKYHUXWYKBZK,Slim Men Blue Jeans,22,
+tfidf,Q2,17,0.4551,JEAFJV3HMBB9YA7G,Slim Men Dark Blue Jeans,22,
+tfidf,Q2,18,0.4514,JEAFESNDTQCXGKAJ,Slim Men Blue Jeans,25,
+tfidf,Q2,19,0.4501,JEAFESNEYZGZDTYY,Slim Men Black Jeans,22,
+tfidf,Q2,20,0.4488,JEAFSKYHDYZK5SHZ,Slim Men Blue Jeans,31,
+tfidf,T1,1,0.9274,TKPFZMZSWZN5HKEZ,Solid Men Black Track Pants,11,1.0
+tfidf,T1,2,0.7605,TKPFZDVZVQHWEUVF,Solid Men Black Track Pants,12,1.0
+tfidf,T1,3,0.6835,TKPFWCVUMWW96BEY,Solid Men Black Track Pants,10,1.0
+tfidf,T1,4,0.6748,TKPFYWGFE5WWQUED,Solid Men Black Track Pants,16,1.0
+tfidf,T1,5,0.6689,TKPFZDKXX7MQAYYK,Solid Men Black Track Pants,15,1.0
+tfidf,T1,6,0.6604,TKPFZAZ4QCAZFAGA,"Solid Men Black, Dark Blue Track Pants",17,1.0
+tfidf,T1,7,0.6564,TKPFPT6HZFHXZ4TN,Solid Men Black Track Pants,12,1.0
+tfidf,T1,8,0.6384,TKPFZ3JRTTXYMHFN,Solid Men Black Track Pants,13,1.0
+tfidf,T1,9,0.6384,TKPFZ3JR5AHMQSXT,Solid Men Black Track Pants,13,1.0
+tfidf,T1,10,0.6384,TKPFZ3JRXCCAKDGD,Solid Men Black Track Pants,13,1.0
+tfidf,T1,11,0.6384,TKPFZ3JRVFG4JUWW,Solid Men Black Track Pants,13,1.0
+tfidf,T1,12,0.6384,TKPFZ3JRTMEHYPF9,Solid Men Black Track Pants,13,1.0
+tfidf,T1,13,0.6384,TKPFZ3JRST9YCECV,Solid Men Black Track Pants,13,1.0
+tfidf,T1,14,0.6293,TKPFPT6HFV5ENSCD,Solid Men Black Track Pants,12,1.0
+tfidf,T1,15,0.6229,TKPFZYS9FBE5S8VZ,Solid Men Black Track Pants,19,1.0
+tfidf,T1,16,0.6103,TKPFZ3JRDVRHWSFY,Solid Men Black Track Pants,13,1.0
+tfidf,T1,17,0.5737,TKPFP5YUZFDRWCGV,Solid Men Black Track Pants,14,1.0
+tfidf,T1,18,0.5591,TKPFVEV38QCHVWTN,Solid Men Black Track Pants,16,1.0
+tfidf,T1,19,0.5591,TKPFVEV3TGXWXAH3,Solid Men Black Track Pants,16,1.0
+tfidf,T1,20,0.5581,TKPF3FPJNVVBKPRG,"Solid Men Blue, Black Track Pants",43,1.0
+tfidf,T2,1,0.6323,TSHFNXNJTZDWYMZK,Solid Women V Neck Black T-Shirt,22,1.0
+tfidf,T2,2,0.5968,TSHFNYTT4WNPPPVQ,Solid Women Round Neck Black T-Shirt,24,0.0
+tfidf,T2,3,0.5851,TSHEM8ZKVPWUT7BE,Solid Women V-neck Black T-Shirt,28,1.0
+tfidf,T2,4,0.5835,TSHEQFS4RQMHBKDJ,Solid Women V-neck Black T-Shirt,21,1.0
+tfidf,T2,5,0.566,TSHFKJET3YVMZCAS,Solid Women Round Neck Black T-Shirt,25,0.0
+tfidf,T2,6,0.5619,TSHFWF57CTFWRGFZ,Solid Women Round Neck Black T-Shirt,38,0.0
+tfidf,T2,7,0.5514,TSHFZWJMK4HG7R4X,Printed Women Round Neck Black T-Shirt,24,0.0
+tfidf,T2,8,0.5507,TSHFZ8ZJKJVF5UJH,Printed Women Round Neck Black T-Shirt,27,0.0
+tfidf,T2,9,0.5486,TSHFHX4BSHTX5ZMT,Printed Women Round Neck Black T-Shirt,25,0.0
+tfidf,T2,10,0.5437,TSHFUF2YM9KZWHR8,Solid Women Round Neck Black T-Shirt,24,0.0
+tfidf,T2,11,0.5358,TSHFVW7FYSGSBRQE,Printed Women Round Neck Black T-Shirt,23,0.0
+tfidf,T2,12,0.532,TSHFZZ4YSYAUJ3Q9,Solid Women Round Neck Black T-Shirt,27,0.0
+tfidf,T2,13,0.5314,TSHFZYSEUFQ2DUYJ,Printed Women Round Neck Black T-Shirt,27,0.0
+tfidf,T2,14,0.5312,TSHFQ2HJJNZNDHFN,Printed Women Round Neck Black T-Shirt,32,0.0
+tfidf,T2,15,0.5244,TSHFYRNY5NS8EYWW,Printed Women Round Neck Black T-Shirt,28,0.0
+tfidf,T2,16,0.5241,TSHFWAJEA5XG3NUP,Solid Women V Neck Black T-Shirt,22,1.0
+tfidf,T2,17,0.5231,TSHFWDYSG75JG587,Printed Women Round Neck Black T-Shirt,24,0.0
+tfidf,T2,18,0.521,TSHFQFG76NMZT8TY,Printed Women Round Neck Black T-Shirt,26,0.0
+tfidf,T2,19,0.5208,TSHFXMHFFP9U3Z5S,Printed Women V Neck Black T-Shirt,19,1.0
+tfidf,T2,20,0.5195,TSHFVSS3GR3KV6YT,Printed Women Round Neck Black T-Shirt,24,0.0
+tfidf,T3,1,0.6714,SWSFZ2H4PW2GHY9H,Full Sleeve Solid Men Sweatshirt,22,1.0
+tfidf,T3,2,0.6714,SWSFZ2HJXN9HNG7E,Full Sleeve Solid Men Sweatshirt,22,1.0
+tfidf,T3,3,0.6575,SWSFVEMQPH2V96BF,Full Sleeve Printed Men Sweatshirt,21,1.0
+tfidf,T3,4,0.6519,SWSFYQFQZTYY3YVM,Full Sleeve Printed Men Sweatshirt,22,1.0
+tfidf,T3,5,0.6002,SWSFYNY4CWHCDWM5,Full Sleeve Printed Men Sweatshirt,22,1.0
+tfidf,T3,6,0.564,SWSFZKX9T2SGSKRA,Full Sleeve Color Block Men Sweatshirt,23,1.0
+tfidf,T3,7,0.5531,SWSFXMKPWFS9HRGS,Full Sleeve Printed Men Sweatshirt,42,1.0
+tfidf,T3,8,0.5361,JCKFUFGMPV6PXHZ6,Full Sleeve Solid Men Sweatshirt,21,1.0
+tfidf,T3,9,0.5351,JCKFUFGQSGTVHWZA,Full Sleeve Solid Men Sweatshirt,21,1.0
+tfidf,T3,10,0.5314,SWSE8FYZMDFNNTHH,Full Sleeve Solid Men Sweatshirt,28,1.0
+tfidf,T3,11,0.5314,SWSE8FYZQXR52M45,Full Sleeve Solid Men Sweatshirt,28,1.0
+tfidf,T3,12,0.5097,SWSFZUEBEBWJUQWG,Full Sleeve Printed Men Sweatshirt,25,1.0
+tfidf,T3,13,0.5041,SWSFZ7GXWNGANCUA,Sleeveless Solid Men Sweatshirt,19,1.0
+tfidf,T3,14,0.4703,SWSFXMKRJYMSYTTA,Full Sleeve Solid Men Sweatshirt,42,1.0
+tfidf,T3,15,0.4098,SWSFHABMCWFP8GJR,Sleeveless Solid Men Sweatshirt,18,1.0
+tfidf,T3,16,0.3984,SWSFM2XSGJ3Y9MVK,Full Sleeve Solid Men Sweatshirt,26,1.0
+tfidf,T3,17,0.3587,SWSFJY5ZTQ35VBV7,Full Sleeve Color Block Men Sweatshirt,47,1.0
+tfidf,T3,18,0.3508,SWSF9W59YQWQCVWN,Full Sleeve Self Design Men Sweatshirt,37,1.0
+tfidf,T3,19,0.3371,SWSFWJCUWZD42RVV,Full Sleeve Solid Men Sweatshirt,76,1.0
+tfidf,T3,20,0.3331,SWSFYGVGPBZGAFMC,Full Sleeve Graphic Print Men Sweatshirt,48,1.0
+tfidf,T4,1,0.7644,SHTFWP8CDRGUQTBP,Women Regular Fit Striped Casual Shirt,18,1.0
+tfidf,T4,2,0.7644,SHTFWP8C4QRRU2GA,Women Regular Fit Striped Casual Shirt,18,1.0
+tfidf,T4,3,0.7479,SHTFWP8CK8GAUWFA,Women Regular Fit Striped Casual Shirt,19,1.0
+tfidf,T4,4,0.7479,SHTFWP8CYSMGNH5T,Women Regular Fit Striped Casual Shirt,19,1.0
+tfidf,T4,5,0.7479,SHTFWP8CBMF6TXXV,Women Regular Fit Striped Casual Shirt,19,1.0
+tfidf,T4,6,0.7422,SHTFWPYKB3GYHZZG,Women Regular Fit Striped Casual Shirt,19,1.0
+tfidf,T4,7,0.7422,SHTFWPYKEMZMUEGK,Women Regular Fit Striped Casual Shirt,19,1.0
+tfidf,T4,8,0.7315,SHTFWPYKNZGUFEEF,Women Regular Fit Striped Casual Shirt,20,1.0
+tfidf,T4,9,0.7315,SHTFWPYKGHQGAHUZ,Women Regular Fit Striped Casual Shirt,20,1.0
+tfidf,T4,10,0.7279,SHTFRR7FDFMZYXJU,Women Slim Fit Striped Casual Shirt,19,1.0
+tfidf,T4,11,0.7168,SHTFAHDYU7QAHTEZ,Women Regular Fit Striped Casual Shirt,26,1.0
+tfidf,T4,12,0.7118,SHTFSYCUNEAUZFTG,Women Slim Fit Striped Casual Shirt,18,1.0
+tfidf,T4,13,0.6876,SHTFS6WCTGZRHDNA,Women Slim Fit Striped Casual Shirt,18,1.0
+tfidf,T4,14,0.687,SHTFHPZ7WFH8NKRT,Women Slim Fit Striped Casual Shirt,18,1.0
+tfidf,T4,15,0.6851,SHTFHPZ7YTVWZWHW,Women Slim Fit Striped Casual Shirt,18,1.0
+tfidf,T4,16,0.6797,SHTFHPZ7HYGXGJK6,Women Slim Fit Striped Casual Shirt,18,1.0
+tfidf,T4,17,0.6735,SHTFM32ZEDYJXVGD,Women Slim Fit Striped Party Shirt,21,1.0
+tfidf,T4,18,0.6644,SHTFWHDQJ34GDCHQ,Women Slim Fit Striped Casual Shirt,18,1.0
+tfidf,T4,19,0.6644,SHTFWHDQRKZJB4VT,Women Slim Fit Striped Casual Shirt,18,1.0
+tfidf,T4,20,0.6617,SHTFWHE2XGBR3NRV,Women Slim Fit Striped Casual Shirt,18,1.0
+tfidf,T5,1,0.9149,JCKFZZN6AWQZ8FC2,Full Sleeve Solid Men Denim Jacket,20,1.0
+tfidf,T5,2,0.8263,JCKFWC5ZAF3BRTPA,Full Sleeve Solid Men Denim Jacket,22,1.0
+tfidf,T5,3,0.7927,JCKFVDPW4WNPBGS2,Full Sleeve Solid Men Denim Jacket,28,1.0
+tfidf,T5,4,0.7917,JCKFWC5YZKFWXGEB,Full Sleeve Solid Men Denim Jacket,28,1.0
+tfidf,T5,5,0.7862,JCKFURYWGYKVKFH3,Full Sleeve Solid Men Denim Jacket,27,1.0
+tfidf,T5,6,0.7835,JCKFZJWZNCGGZGSE,Full Sleeve Washed Men Denim Jacket,21,1.0
+tfidf,T5,7,0.7835,JCKFZJWZBZCCTYXM,Full Sleeve Washed Men Denim Jacket,21,1.0
+tfidf,T5,8,0.7779,JCKFWC5ZHSAEVYMS,Full Sleeve Solid Men Denim Jacket,21,1.0
+tfidf,T5,9,0.7759,JCKFWC5YPXZG6S7F,Full Sleeve Solid Men Denim Jacket,28,1.0
+tfidf,T5,10,0.7734,JCKFYY97BC7KWPM4,Full Sleeve Solid Men Denim Jacket,28,1.0
+tfidf,T5,11,0.7665,JCKFSHEZUYMTUDH7,Full Sleeve Solid Men Denim Jacket,23,1.0
+tfidf,T5,12,0.7342,JCKFXNVMZZ4UP9CE,Full Sleeve Solid Men Denim Jacket,28,1.0
+tfidf,T5,13,0.7279,JCKFXNVMP5XZZNHA,Full Sleeve Solid Men Denim Jacket,27,1.0
+tfidf,T5,14,0.7269,JCKFQGPMJZMBE9BY,Full Sleeve Solid Men Jacket,28,1.0
+tfidf,T5,15,0.7228,JCKFXAKSEGEGGGEY,Full Sleeve Solid Men Jacket,27,1.0
+tfidf,T5,16,0.7224,JCKFXNVMC435YMSU,Full Sleeve Solid Men Denim Jacket,27,1.0
+tfidf,T5,17,0.6877,JCKFY6HR34AW28PV,Sleeveless Solid Men Jacket,22,1.0
+tfidf,T5,18,0.6871,JCKFZQ56YG2RYY8B,Full Sleeve Self Design Men Jacket,30,1.0
+tfidf,T5,19,0.6852,JCKFS9GBFFANGH6E,Full Sleeve Solid Men Jacket,27,1.0
+tfidf,T5,20,0.6736,JCKFUHGYK6QY958M,Full Sleeve Washed Men Denim Jacket,26,1.0
+bm25,Q1,1,14.141,SWSFVZRFS7GHGKSF,Full Sleeve Solid Women Sweatshirt,28,
+bm25,Q1,2,13.8096,SWSFV4E6G62HGJVG,Full Sleeve Printed Women Sweatshirt,30,
+bm25,Q1,3,13.8096,SWSFV4E6NVZCHA5R,Full Sleeve Printed Women Sweatshirt,30,
+bm25,Q1,4,13.8096,SWSFV4E6HJSPQGVM,Full Sleeve Printed Women Sweatshirt,30,
+bm25,Q1,5,13.786,SWSFZVTNGM4HG8BC,Full Sleeve Printed Women Sweatshirt,21,
+bm25,Q1,6,13.786,SWSFZVTTQCB4SJ7F,Full Sleeve Solid Women Sweatshirt,21,
+bm25,Q1,7,13.6877,SWSFXMFPDVRHYYPH,Full Sleeve Striped Women Sweatshirt,26,
+bm25,Q1,8,13.6877,SWSFXMFPPZGDQGMW,Full Sleeve Striped Women Sweatshirt,26,
+bm25,Q1,9,13.619,SWSFYFFFFYZ896TJ,Full Sleeve Printed Women Sweatshirt,35,
+bm25,Q1,10,13.6016,SWSFVZRFCWPPZVGT,Full Sleeve Solid Men Sweatshirt,28,
+bm25,Q1,11,13.6016,SWSFVZRFTM4P9XGF,Full Sleeve Solid Men Sweatshirt,28,
+bm25,Q1,12,13.6016,SWSFVZRFVZ2SZ3HZ,Full Sleeve Solid Men Sweatshirt,28,
+bm25,Q1,13,13.6016,SWSFVZRFNFMYYRCK,Full Sleeve Solid Men Sweatshirt,28,
+bm25,Q1,14,13.6016,SWSFVZRFDEQAKUH2,Full Sleeve Solid Men Sweatshirt,28,
+bm25,Q1,15,13.5494,SWSFYFFYQ7Z3ZKN6,Full Sleeve Printed Women Sweatshirt,36,
+bm25,Q1,16,13.5494,SWSFYFFYFXCMPBDZ,Full Sleeve Printed Women Sweatshirt,36,
+bm25,Q1,17,13.5179,SWSFXMFP2RUM86QD,Full Sleeve Printed Women Sweatshirt,28,
+bm25,Q1,18,13.5072,SWSFNV7N26KC54MB,Full Sleeve Solid Women Sweatshirt,24,
+bm25,Q1,19,13.4806,SWSFYFFYNUHYEQGD,Full Sleeve Printed Women Sweatshirt,37,
+bm25,Q1,20,13.4806,SWSFYFFYQA4B8WXP,Full Sleeve Printed Women Sweatshirt,37,
+bm25,Q2,1,13.9211,JEAF2QF6HNZHDXVX,Slim Men Dark Blue Jeans,47,
+bm25,Q2,2,13.7278,JEAEVJGUSXRNSHRY,Slim Men Dark Blue Jeans,37,
+bm25,Q2,3,13.6815,JEAFSKYHDYZK5SHZ,Slim Men Blue Jeans,31,
+bm25,Q2,4,13.6815,JEAFSKYHRVZSABPR,Slim Men Blue Jeans,31,1.0
+bm25,Q2,5,13.6815,JEAFSKYHTE76YWH7,Slim Men Blue Jeans,31,
+bm25,Q2,6,13.6743,JEAFJM2P2FQQJF3C,Slim Men Dark Blue Jeans,49,
+bm25,Q2,7,13.6395,JEAFESND4QWQUBZD,Slim Men Blue Jeans,20,
+bm25,Q2,8,13.5326,JEAFS57EYDGY4EJM,Slim Men Blue Jeans,21,
+bm25,Q2,9,13.4274,JEAFEKQZ4C2Z6GCX,Slim Men Blue Jeans,22,
+bm25,Q2,10,13.4274,JEAFEKQZWYPVGYCJ,Slim Men Blue Jeans,22,
+bm25,Q2,11,13.4274,JEAFM3Y9ZNMVG6ZM,Slim Men Blue Jeans,22,
+bm25,Q2,12,13.4274,JEAFEKQZQPYHHVGS,Slim Men Blue Jeans,22,
+bm25,Q2,13,13.3975,JEAFRAQXEKGUPNUN,Slim Men Blue Jeans,25,
+bm25,Q2,14,13.3903,JEAFS2JZF6ZS6X3G,Slim Men Blue Jeans,33,
+bm25,Q2,15,13.3903,JEAFS2JZQBHZSHAV,Slim Men Blue Jeans,33,
+bm25,Q2,16,13.3903,JEAFS2JZ3RY889ZS,Slim Men Blue Jeans,33,
+bm25,Q2,17,13.3515,JEAFKWR3FX9NH2V6,Slim Men Blue Jeans,20,
+bm25,Q2,18,13.3515,JEAFSGSYEAFCYHEE,Slim Men Blue Jeans,20,
+bm25,Q2,19,13.3515,JEAFTGSGTYKZGAEZ,Slim Men Blue Jeans,20,1.0
+bm25,Q2,20,13.3515,JEAFVPFUA97ZETDB,Slim Men Blue Jeans,20,
+bm25,T1,1,23.3269,TKPFZMZSWZN5HKEZ,Solid Men Black Track Pants,11,1.0
+bm25,T1,2,23.1111,TKPFZDVZVQHWEUVF,Solid Men Black Track Pants,12,1.0
+bm25,T1,3,22.4885,TKPFZDKXX7MQAYYK,Solid Men Black Track Pants,15,1.0
+bm25,T1,4,22.2887,TKPFYWGFE5WWQUED,Solid Men Black Track Pants,16,1.0
+bm25,T1,5,22.0927,TKPFZAZ4QCAZFAGA,"Solid Men Black, Dark Blue Track Pants",17,1.0
+bm25,T1,6,21.7112,TKPFZYS9FBE5S8VZ,Solid Men Black Track Pants,19,1.0
+bm25,T1,7,21.5524,TKPEYQ6YNHW8FV5R,"Solid Men Black, Orange Track Pants",46,1.0
+bm25,T1,8,21.4505,TKPFGP48RBBKAGSZ,Striped Men Black Track Pants,27,1.0
+bm25,T1,9,21.4303,TKPF3FPQGCHXHGRM,"Solid Men Black, Grey Track Pants",43,1.0
+bm25,T1,10,21.4303,TKPF3FPJNVVBKPRG,"Solid Men Blue, Black Track Pants",43,1.0
+bm25,T1,11,21.4303,TKPF3FPZRRJUWTAZ,"Solid Men Blue, Black Track Pants",43,1.0
+bm25,T1,12,21.4303,TKPF3FPKHNWZ3UMG,"Solid Men Blue, Black Track Pants",43,1.0
+bm25,T1,13,21.4303,TKPF3FPNZ5XCHZ6R,"Solid Men Black, Grey Track Pants",43,1.0
+bm25,T1,14,21.4303,TKPF3FPKTYM55SAV,"Solid Men Black, Grey Track Pants",43,1.0
+bm25,T1,15,21.2734,TKPFWCVUMWW96BEY,Solid Men Black Track Pants,10,1.0
+bm25,T1,16,20.7999,TKPFZ3JRTTXYMHFN,Solid Men Black Track Pants,13,1.0
+bm25,T1,17,20.7999,TKPFZ3JR5AHMQSXT,Solid Men Black Track Pants,13,1.0
+bm25,T1,18,20.7999,TKPFZ3JRXCCAKDGD,Solid Men Black Track Pants,13,1.0
+bm25,T1,19,20.7999,TKPFZ3JRVFG4JUWW,Solid Men Black Track Pants,13,1.0
+bm25,T1,20,20.7999,TKPFZ3JRTMEHYPF9,Solid Men Black Track Pants,13,1.0
+bm25,T2,1,9.15,TSHFWF57CTFWRGFZ,Solid Women Round Neck Black T-Shirt,38,0.0
+bm25,T2,2,8.8875,TSHFYUQYXW4BY9GR,"Striped Women Round Neck Black, White T-Shirt",31,0.0
+bm25,T2,3,8.8334,TSHFYUTFYNDTXRFM,Solid Women Polo Neck Black T-Shirt,30,0.0
+bm25,T2,4,8.8334,TSHFYUQZEX4XJCJH,Solid Women Polo Neck Black T-Shirt,30,0.0
+bm25,T2,5,8.8313,TSHEM8ZKVPWUT7BE,Solid Women V-neck Black T-Shirt,28,1.0
+bm25,T2,6,8.7674,TSHFZWJMK4HG7R4X,Printed Women Round Neck Black T-Shirt,24,0.0
+bm25,T2,7,8.7358,TSHFYRNY5NS8EYWW,Printed Women Round Neck Black T-Shirt,28,0.0
+bm25,T2,8,8.7242,TSHFGRPG5PJZZZMS,Printed Women Round Neck Black T-Shirt,35,0.0
+bm25,T2,9,8.7146,TSHFZF63AEPWRFGZ,Solid Women Hooded Neck Black T-Shirt,25,0.0
+bm25,T2,10,8.6919,TSHF98JNHZWFCXFF,Solid Women Polo Neck Black T-Shirt,31,0.0
+bm25,T2,11,8.6875,TSHFZBKJHYF3YSF9,Graphic Print Women Round Neck Black T-Shirt,29,0.0
+bm25,T2,12,8.6875,TSHFYRMZTFSHAVHT,Typography Women Round Neck Black T-Shirt,29,0.0
+bm25,T2,13,8.6823,TSHFGQKMZWCMZHHA,Printed Women Round Neck Black T-Shirt,36,0.0
+bm25,T2,14,8.6737,TSHFDHGJQNM39YYN,Color Block Women Round Neck Black T-Shirt,36,0.0
+bm25,T2,15,8.6514,TSHFPCZ8KFHZYR3Y,Printed Women V Neck Black T-Shirt,23,1.0
+bm25,T2,16,8.6397,TSHEM8ZK5BNQMX6V,Solid Women Polo Neck Black T-Shirt,30,0.0
+bm25,T2,17,8.6397,TSHEM8ZEBTXNJB7U,Solid Women Polo Neck Black T-Shirt,30,0.0
+bm25,T2,18,8.6322,TSHFDHGSHKWYERQG,Color Block Women Round Neck Black T-Shirt,37,0.0
+bm25,T2,19,8.6286,TSHFXFDTCD7GWGBQ,Solid Women Round Neck Black T-Shirt,40,0.0
+bm25,T2,20,8.6112,TSHFYN37DWMWHPKQ,Color Block Women Polo Neck Multicolor T-Shirt,44,0.0
+bm25,T3,1,20.5593,SWSFXMKRJYMSYTTA,Full Sleeve Solid Men Sweatshirt,42,1.0
+bm25,T3,2,19.9452,SWSFXMKPWFS9HRGS,Full Sleeve Printed Men Sweatshirt,42,1.0
+bm25,T3,3,18.9996,SWSFZUEBEBWJUQWG,Full Sleeve Printed Men Sweatshirt,25,1.0
+bm25,T3,4,18.9816,SWSFZ7GXWNGANCUA,Sleeveless Solid Men Sweatshirt,19,1.0
+bm25,T3,5,18.5988,SWSFVEMQPH2V96BF,Full Sleeve Printed Men Sweatshirt,21,1.0
+bm25,T3,6,18.4134,SWSFYNY4CWHCDWM5,Full Sleeve Printed Men Sweatshirt,22,1.0
+bm25,T3,7,18.4134,SWSFZ2H4PW2GHY9H,Full Sleeve Solid Men Sweatshirt,22,1.0
+bm25,T3,8,18.4134,SWSFZ2HJXN9HNG7E,Full Sleeve Solid Men Sweatshirt,22,1.0
+bm25,T3,9,18.4134,SWSFYQFQZTYY3YVM,Full Sleeve Printed Men Sweatshirt,22,1.0
+bm25,T3,10,18.2318,SWSFZKX9T2SGSKRA,Full Sleeve Color Block Men Sweatshirt,23,1.0
+bm25,T3,11,17.7619,SWSFHABMCWFP8GJR,Sleeveless Solid Men Sweatshirt,18,1.0
+bm25,T3,12,17.5997,SWSE8FYZMDFNNTHH,Full Sleeve Solid Men Sweatshirt,28,1.0
+bm25,T3,13,17.5997,SWSE8FYZQXR52M45,Full Sleeve Solid Men Sweatshirt,28,1.0
+bm25,T3,14,17.1396,JCKFUFGMPV6PXHZ6,Full Sleeve Solid Men Sweatshirt,21,1.0
+bm25,T3,15,17.1396,JCKFUFGQSGTVHWZA,Full Sleeve Solid Men Sweatshirt,21,1.0
+bm25,T3,16,16.5741,SWSFJY5ZTQ35VBV7,Full Sleeve Color Block Men Sweatshirt,47,1.0
+bm25,T3,17,16.5383,SWSFM2XSGJ3Y9MVK,Full Sleeve Solid Men Sweatshirt,26,1.0
+bm25,T3,18,16.3917,SWSF9W59YQWQCVWN,Full Sleeve Self Design Men Sweatshirt,37,1.0
+bm25,T3,19,16.2471,SWSFJY5ZQDHHSJGY,Full Sleeve Solid Men Sweatshirt,60,1.0
+bm25,T3,20,15.8796,SWSFYGVGPBZGAFMC,Full Sleeve Graphic Print Men Sweatshirt,48,1.0
+bm25,T4,1,13.3422,SHTFAHDYU7QAHTEZ,Women Regular Fit Striped Casual Shirt,26,1.0
+bm25,T4,2,13.2132,SHTFCA3J7UZ2TGHN,Women Regular Fit Striped Formal Shirt,23,1.0
+bm25,T4,3,13.0559,SHTFAHDZ7H9ZFYNZ,Women Slim Fit Striped Spread Collar Casual Shirt,30,1.0
+bm25,T4,4,12.6015,SHTFHPZ7YTVWZWHW,Women Slim Fit Striped Casual Shirt,18,1.0
+bm25,T4,5,12.6015,SHTFHPZ7WFH8NKRT,Women Slim Fit Striped Casual Shirt,18,1.0
+bm25,T4,6,12.6015,SHTFHPZ7HYGXGJK6,Women Slim Fit Striped Casual Shirt,18,1.0
+bm25,T4,7,12.6015,SHTFWHE2XGBR3NRV,Women Slim Fit Striped Casual Shirt,18,1.0
+bm25,T4,8,12.6015,SHTFWHDQJ34GDCHQ,Women Slim Fit Striped Casual Shirt,18,1.0
+bm25,T4,9,12.6015,SHTFWHE22SVV5TTM,Women Slim Fit Striped Casual Shirt,18,1.0
+bm25,T4,10,12.6015,SHTFWHDQRKZJB4VT,Women Slim Fit Striped Casual Shirt,18,1.0
+bm25,T4,11,12.6015,SHTFWP8CDRGUQTBP,Women Regular Fit Striped Casual Shirt,18,1.0
+bm25,T4,12,12.6015,SHTFWP8C4QRRU2GA,Women Regular Fit Striped Casual Shirt,18,1.0
+bm25,T4,13,12.5009,SHTFRR7FDFMZYXJU,Women Slim Fit Striped Casual Shirt,19,1.0
+bm25,T4,14,12.5009,SHTFWPYKB3GYHZZG,Women Regular Fit Striped Casual Shirt,19,1.0
+bm25,T4,15,12.5009,SHTFWP8CK8GAUWFA,Women Regular Fit Striped Casual Shirt,19,1.0
+bm25,T4,16,12.5009,SHTFWP8CYSMGNH5T,Women Regular Fit Striped Casual Shirt,19,1.0
+bm25,T4,17,12.5009,SHTFWP8CBMF6TXXV,Women Regular Fit Striped Casual Shirt,19,1.0
+bm25,T4,18,12.5009,SHTFWPYKEMZMUEGK,Women Regular Fit Striped Casual Shirt,19,1.0
+bm25,T4,19,12.402,SHTFWPYKNZGUFEEF,Women Regular Fit Striped Casual Shirt,20,1.0
+bm25,T4,20,12.402,SHTFWPYKGHQGAHUZ,Women Regular Fit Striped Casual Shirt,20,1.0
+bm25,T5,1,17.0278,JCKFZZN6AWQZ8FC2,Full Sleeve Solid Men Denim Jacket,20,1.0
+bm25,T5,2,16.9462,JCKFURYWGYKVKFH3,Full Sleeve Solid Men Denim Jacket,27,1.0
+bm25,T5,3,16.9327,JCKFWC5ZHSAEVYMS,Full Sleeve Solid Men Denim Jacket,21,1.0
+bm25,T5,4,16.9327,JCKFZJWZNCGGZGSE,Full Sleeve Washed Men Denim Jacket,21,1.0
+bm25,T5,5,16.9327,JCKFZJWZBZCCTYXM,Full Sleeve Washed Men Denim Jacket,21,1.0
+bm25,T5,6,16.8385,JCKFWC5ZAF3BRTPA,Full Sleeve Solid Men Denim Jacket,22,1.0
+bm25,T5,7,16.6977,JCKFWC5YPXZG6S7F,Full Sleeve Solid Men Denim Jacket,28,1.0
+bm25,T5,8,16.6977,JCKFVDPW4WNPBGS2,Full Sleeve Solid Men Denim Jacket,28,1.0
+bm25,T5,9,16.6977,JCKFYY97BC7KWPM4,Full Sleeve Solid Men Denim Jacket,28,1.0
+bm25,T5,10,16.6977,JCKFWC5YZKFWXGEB,Full Sleeve Solid Men Denim Jacket,28,1.0
+bm25,T5,11,16.4421,JCKFMHKMYEWHQFNU,Full Sleeve Printed Men Denim Casual Jacket,54,1.0
+bm25,T5,12,16.2101,JCKFZKQGXJYHY9V7,Full Sleeve Solid Men Jacket,31,1.0
+bm25,T5,13,16.1391,JCKFKKFZ7QB2KUQV,Full Sleeve Washed Men Denim Jacket,52,1.0
+bm25,T5,14,16.1341,JCKFVJ54N4NZGPTP,Full Sleeve Washed Men Denim Riding Jacket,54,1.0
+bm25,T5,15,16.1221,JCKFZQ56YG2RYY8B,Full Sleeve Self Design Men Jacket,30,1.0
+bm25,T5,16,16.083,JCKFKKFZMDEHEZQS,Full Sleeve Washed Men Denim Jacket,53,1.0
+bm25,T5,17,15.9905,JCKFSHEZUYMTUDH7,Full Sleeve Solid Men Denim Jacket,23,1.0
+bm25,T5,18,15.9861,JCKFXNVMP5XZZNHA,Full Sleeve Solid Men Denim Jacket,27,1.0
+bm25,T5,19,15.9861,JCKFXNVMC435YMSU,Full Sleeve Solid Men Denim Jacket,27,1.0
+bm25,T5,20,15.8947,JCKFXNVMZZ4UP9CE,Full Sleeve Solid Men Denim Jacket,28,1.0
+custom,Q1,1,38.4009,SWSFZVTNGM4HG8BC,Full Sleeve Printed Women Sweatshirt,21,
+custom,Q1,2,37.926,SWSFVZRFS7GHGKSF,Full Sleeve Solid Women Sweatshirt,28,
+custom,Q1,3,37.8123,SWSFUNF6V4ASAUTP,Full Sleeve Printed Women Sweatshirt,34,
+custom,Q1,4,37.4242,SWSFVN99TACJS4Z3,Full Sleeve Striped Women Sweatshirt,30,
+custom,Q1,5,37.3481,SWSFV4E6G62HGJVG,Full Sleeve Printed Women Sweatshirt,30,
+custom,Q1,6,37.3481,SWSFV4E6NVZCHA5R,Full Sleeve Printed Women Sweatshirt,30,
+custom,Q1,7,37.2942,SWSFWTND3EPMFCQD,Full Sleeve Solid Women Sweatshirt,59,
+custom,Q1,8,37.1616,SWSFV4E6HJSPQGVM,Full Sleeve Printed Women Sweatshirt,30,
+custom,Q1,9,37.1494,SWSFWTNDJFCF72WU,Full Sleeve Solid Women Sweatshirt,60,
+custom,Q1,10,37.0773,SWSFNV7N26KC54MB,Full Sleeve Solid Women Sweatshirt,24,
+custom,Q1,11,36.8164,SWSFYTYMNTBNARUN,Full Sleeve Solid Women Sweatshirt,19,
+custom,Q1,12,36.7542,SWSFMTNHEM5SNHVZ,Full Sleeve Solid Women Sweatshirt,40,
+custom,Q1,13,36.2252,SWSFVEMQF7HP9NZG,Full Sleeve Solid Women Sweatshirt,21,
+custom,Q1,14,36.1711,SWSFY382UZHFBCNB,Full Sleeve Printed Women Sweatshirt,22,
+custom,Q1,15,36.1078,SWSFVN9JGHHCGDDS,Full Sleeve Printed Women Sweatshirt,28,
+custom,Q1,16,36.091,SWSFY5ZHUEZPZZYV,Full Sleeve Printed Women Sweatshirt,63,
+custom,Q1,17,36.0329,SWSFXMFPDVRHYYPH,Full Sleeve Striped Women Sweatshirt,26,
+custom,Q1,18,35.9003,SWSFZUEBKJTG5RHG,Full Sleeve Printed Women Sweatshirt,25,
+custom,Q1,19,35.9003,SWSFZUEBYCAADZCU,Full Sleeve Printed Women Sweatshirt,25,
+custom,Q1,20,35.6634,SWSFEDGGFNNRRAXH,Full Sleeve Solid Women Sweatshirt,34,
+custom,Q2,1,45.0104,JEAFESND4QWQUBZD,Slim Men Blue Jeans,20,
+custom,Q2,2,42.117,JEAFJM2P2FQQJF3C,Slim Men Dark Blue Jeans,49,
+custom,Q2,3,41.9606,JEAFEKQZWYPVGYCJ,Slim Men Blue Jeans,22,
+custom,Q2,4,41.5544,JEAF2QF6HNZHDXVX,Slim Men Dark Blue Jeans,47,
+custom,Q2,5,40.7028,JEAEVJGUSXRNSHRY,Slim Men Dark Blue Jeans,37,
+custom,Q2,6,40.2407,JEAFESNEYAHAGPNH,Slim Men Blue Jeans,19,
+custom,Q2,7,39.6108,JEAFEKQZ4C2Z6GCX,Slim Men Blue Jeans,22,
+custom,Q2,8,39.6108,JEAFM3Y9ZNMVG6ZM,Slim Men Blue Jeans,22,
+custom,Q2,9,39.6108,JEAFEKQZQPYHHVGS,Slim Men Blue Jeans,22,
+custom,Q2,10,39.5478,JEAF8HYN5B9ZU6FP,Slim Men Blue Jeans,46,
+custom,Q2,11,38.9658,JEAFVWFKEGHNT3HD,Slim Men Dark Blue Jeans,55,
+custom,Q2,12,38.7352,JEAFSKYHUXWYKBZK,Slim Men Blue Jeans,22,
+custom,Q2,13,38.7103,JEAFESNDTQCXGKAJ,Slim Men Blue Jeans,25,
+custom,Q2,14,38.4972,JEAFS2JZQBHZSHAV,Slim Men Blue Jeans,33,
+custom,Q2,15,38.4338,JEAF8HYNUMGZMQU5,Slim Men Blue Jeans,46,
+custom,Q2,16,38.2295,JEAFS57EYDGY4EJM,Slim Men Blue Jeans,21,
+custom,Q2,17,38.134,JEAFESNCTVVZZEHM,Slim Men Blue Jeans,27,
+custom,Q2,18,38.0139,JEAFEKQZNAWHW8PT,Slim Men Dark Blue Jeans,24,
+custom,Q2,19,37.8277,JEAFS2JZF6ZS6X3G,Slim Men Blue Jeans,33,
+custom,Q2,20,37.624,JEAFSKYHRVZSABPR,Slim Men Blue Jeans,31,1.0
+custom,T1,1,66.1123,TKPFZAZ4QCAZFAGA,"Solid Men Black, Dark Blue Track Pants",17,1.0
+custom,T1,2,62.92,TKPFZDVZVQHWEUVF,Solid Men Black Track Pants,12,1.0
+custom,T1,3,61.9421,TKPFZYS9FBE5S8VZ,Solid Men Black Track Pants,19,1.0
+custom,T1,4,58.7806,TKPFZ3JRXCCAKDGD,Solid Men Black Track Pants,13,1.0
+custom,T1,5,57.8853,TKPFZDKXX7MQAYYK,Solid Men Black Track Pants,15,1.0
+custom,T1,6,57.8726,TKPFYWGFE5WWQUED,Solid Men Black Track Pants,16,1.0
+custom,T1,7,56.7913,TKPFPT6HFV5ENSCD,Solid Men Black Track Pants,12,1.0
+custom,T1,8,56.0856,TKPFP5YUZFDRWCGV,Solid Men Black Track Pants,14,1.0
+custom,T1,9,55.7928,TKPFGP48RBBKAGSZ,Striped Men Black Track Pants,27,1.0
+custom,T1,10,55.6919,TKPFZ3JR5AHMQSXT,Solid Men Black Track Pants,13,1.0
+custom,T1,11,55.6919,TKPFZ3JRTMEHYPF9,Solid Men Black Track Pants,13,1.0
+custom,T1,12,55.6813,TKPFHB3HHQSGG9TP,Solid Men Black Track Pants,16,1.0
+custom,T1,13,55.3789,TKPEYQ6YNHW8FV5R,"Solid Men Black, Orange Track Pants",46,1.0
+custom,T1,14,54.9796,TKPFHX4UZBRSERDG,Solid Men Black Track Pants,15,1.0
+custom,T1,15,54.7176,TKPFTZ7WG62BFDKC,Solid Men Black Track Pants,14,1.0
+custom,T1,16,54.5687,TKPFZ3JRTTXYMHFN,Solid Men Black Track Pants,13,1.0
+custom,T1,17,54.3627,TKPFPT6HZFHXZ4TN,Solid Men Black Track Pants,12,1.0
+custom,T1,18,54.3242,TKPFVEV48Y7XRDAQ,Solid Men Black Track Pants,17,1.0
+custom,T1,19,54.2879,TKPFZ3JRST9YCECV,Solid Men Black Track Pants,13,1.0
+custom,T1,20,54.2366,TKPFZMQ8YMWNGXEU,Solid Men Black Track Pants,65,1.0
+custom,T2,1,28.2362,TSHFZYSPWDXQMGEP,Printed Women Round Neck Black T-Shirt,30,0.0
+custom,T2,2,28.0974,TSHFHFTVBWCGWZFF,Printed Women Hooded Neck Black T-Shirt,33,0.0
+custom,T2,3,27.5215,TSHFNSFPGGZZVKTP,Graphic Print Women Round Neck Black T-Shirt,33,0.0
+custom,T2,4,27.1461,TSHFZF63AEPWRFGZ,Solid Women Hooded Neck Black T-Shirt,25,0.0
+custom,T2,5,27.0507,TSHFYQJEGXWBMTYC,Printed Women Round Neck Black T-Shirt,31,0.0
+custom,T2,6,27.0007,TSHFK4UZBKMNYVQZ,Color Block Women Round Neck Black T-Shirt,31,0.0
+custom,T2,7,26.8203,TSHFHFTVGUQUXYX8,Lace Women Hooded Neck Black T-Shirt,33,0.0
+custom,T2,8,26.6902,TSHFMAHEHQYSRYZQ,Printed Women Round Neck Black T-Shirt,26,0.0
+custom,T2,9,26.5436,TSHFWGWGANGFDEGK,Solid Women Round Neck Black T-Shirt,22,0.0
+custom,T2,10,26.5076,TSHFW34TRTUXVKHD,Printed Women Round Neck Black T-Shirt,24,0.0
+custom,T2,11,26.4402,TSHFYUQYXW4BY9GR,"Striped Women Round Neck Black, White T-Shirt",31,0.0
+custom,T2,12,26.4183,TSHFYF6F2QZYSTKM,Solid Women V Neck Black T-Shirt,20,1.0
+custom,T2,13,26.3581,TSHFZ3JDTHSG3NFU,Printed Women Round Neck Black T-Shirt,29,0.0
+custom,T2,14,26.3567,TSHFYTMUATKBFBDF,"Striped Women Polo Neck Grey, Black T-Shirt",26,0.0
+custom,T2,15,26.2669,TSHFYYXDDGGGGKKZ,Printed Women Round Neck Black T-Shirt,23,0.0
+custom,T2,16,26.264,TSHFGQKMZWCMZHHA,Printed Women Round Neck Black T-Shirt,36,0.0
+custom,T2,17,26.2533,TSHFHFTQGP6Z3CHH,Printed Women Hooded Neck Black T-Shirt,34,0.0
+custom,T2,18,26.1822,TSHEYQ73JNWYHJCZ,"Printed Women V-Neck White, Black T-Shirt",23,1.0
+custom,T2,19,26.1725,TSHFGRPG5PJZZZMS,Printed Women Round Neck Black T-Shirt,35,0.0
+custom,T2,20,26.108,TSHFVN6CF5SPFHBX,Printed Women Round Neck Black T-Shirt,34,0.0
+custom,T3,1,44.7441,SWSFZUEBEBWJUQWG,Full Sleeve Printed Men Sweatshirt,25,1.0
+custom,T3,2,42.1391,SWSFZ7GXWNGANCUA,Sleeveless Solid Men Sweatshirt,19,1.0
+custom,T3,3,41.2893,SWSFVEMQPH2V96BF,Full Sleeve Printed Men Sweatshirt,21,1.0
+custom,T3,4,40.3913,SWSE8FYZMDFNNTHH,Full Sleeve Solid Men Sweatshirt,28,1.0
+custom,T3,5,40.3913,SWSE8FYZQXR52M45,Full Sleeve Solid Men Sweatshirt,28,1.0
+custom,T3,6,40.389,SWSFXMKPWFS9HRGS,Full Sleeve Printed Men Sweatshirt,42,1.0
+custom,T3,7,39.5658,SWSFYNY4CWHCDWM5,Full Sleeve Printed Men Sweatshirt,22,1.0
+custom,T3,8,39.3586,SWSFYQFQZTYY3YVM,Full Sleeve Printed Men Sweatshirt,22,1.0
+custom,T3,9,39.3355,JCKFUFGQSGTVHWZA,Full Sleeve Solid Men Sweatshirt,21,1.0
+custom,T3,10,39.0141,JCKFUFGMPV6PXHZ6,Full Sleeve Solid Men Sweatshirt,21,1.0
+custom,T3,11,38.7616,SWSFM2XSGJ3Y9MVK,Full Sleeve Solid Men Sweatshirt,26,1.0
+custom,T3,12,37.7418,SWSF9W59YQWQCVWN,Full Sleeve Self Design Men Sweatshirt,37,1.0
+custom,T3,13,36.9213,SWSFWJCUWZD42RVV,Full Sleeve Solid Men Sweatshirt,76,1.0
+custom,T3,14,36.8606,SWSFJY5ZQDHHSJGY,Full Sleeve Solid Men Sweatshirt,60,1.0
+custom,T3,15,36.7672,SWSFHABMCWFP8GJR,Sleeveless Solid Men Sweatshirt,18,1.0
+custom,T3,16,36.71,SWSFWGQFVYQGAFYG,Full Sleeve Solid Men Sweatshirt,79,1.0
+custom,T3,17,36.544,SWSFWGQFGY8GP7HZ,Full Sleeve Solid Men Sweatshirt,80,1.0
+custom,T3,18,36.304,SWSFZKX9T2SGSKRA,Full Sleeve Color Block Men Sweatshirt,23,1.0
+custom,T3,19,36.0852,SWSFY4GFZERYQHYY,Full Sleeve Solid Men Sweatshirt,103,1.0
+custom,T3,20,36.0488,SWSFJY5ZTQ35VBV7,Full Sleeve Color Block Men Sweatshirt,47,1.0
+custom,T4,1,40.0815,SHTFAHDZ7H9ZFYNZ,Women Slim Fit Striped Spread Collar Casual Shirt,30,1.0
+custom,T4,2,40.0361,SHTFCA3J7UZ2TGHN,Women Regular Fit Striped Formal Shirt,23,1.0
+custom,T4,3,38.4345,SHTFWHE2XGBR3NRV,Women Slim Fit Striped Casual Shirt,18,1.0
+custom,T4,4,38.4345,SHTFWHDQJ34GDCHQ,Women Slim Fit Striped Casual Shirt,18,1.0
+custom,T4,5,38.4345,SHTFWHE22SVV5TTM,Women Slim Fit Striped Casual Shirt,18,1.0
+custom,T4,6,38.4345,SHTFWHDQRKZJB4VT,Women Slim Fit Striped Casual Shirt,18,1.0
+custom,T4,7,37.9585,SHTFAHDYU7QAHTEZ,Women Regular Fit Striped Casual Shirt,26,1.0
+custom,T4,8,37.5524,SHTFHPZ7YTVWZWHW,Women Slim Fit Striped Casual Shirt,18,1.0
+custom,T4,9,37.5524,SHTFHPZ7WFH8NKRT,Women Slim Fit Striped Casual Shirt,18,1.0
+custom,T4,10,37.5524,SHTFHPZ7HYGXGJK6,Women Slim Fit Striped Casual Shirt,18,1.0
+custom,T4,11,37.2374,SHTFWHE2ZAZNTYAY,Women Slim Fit Striped Spread Collar Casual Shirt,22,1.0
+custom,T4,12,36.638,SHTFXS9FUVZYNFFY,Women Regular Fit Striped Button Down Collar Casual Shirt,31,1.0
+custom,T4,13,36.6084,SHTFZSP9VGBZGADP,Women Regular Fit Striped Button Down Collar Casual Shirt,27,1.0
+custom,T4,14,36.2989,SHTFM32ZEDYJXVGD,Women Slim Fit Striped Party Shirt,21,1.0
+custom,T4,15,36.2257,SHTFHF5HFRCBHBJN,Women Slim Fit Striped Button Down Collar Formal Shirt,31,1.0
+custom,T4,16,36.0657,SHTF45DYKHBCRAEX,Women Regular Fit Striped Button Down Collar Casual Shirt,52,1.0
+custom,T4,17,35.9312,SHTFHF5HDN4HW69Z,Women Regular Fit Striped Button Down Collar Formal Shirt,31,1.0
+custom,T4,18,35.7655,SHTFEKRWKFHHH9ZT,Women Slim Fit Striped Spread Collar Casual Shirt,24,1.0
+custom,T4,19,35.7385,SHTFZZFEDGYQQYGH,Women Regular Fit Striped Button Down Collar Casual Shirt,23,1.0
+custom,T4,20,35.7385,SHTFWY9FRAGK8HZV,Women Slim Fit Striped Button Down Collar Casual Shirt,23,1.0
+custom,T5,1,50.3437,JCKFWC5YZKFWXGEB,Full Sleeve Solid Men Denim Jacket,28,1.0
+custom,T5,2,49.7542,JCKFZZN6AWQZ8FC2,Full Sleeve Solid Men Denim Jacket,20,1.0
+custom,T5,3,49.0914,JCKFVDPW4WNPBGS2,Full Sleeve Solid Men Denim Jacket,28,1.0
+custom,T5,4,49.0914,JCKFYY97BC7KWPM4,Full Sleeve Solid Men Denim Jacket,28,1.0
+custom,T5,5,48.6594,JCKFKKFZ7QB2KUQV,Full Sleeve Washed Men Denim Jacket,52,1.0
+custom,T5,6,46.789,JCKFVJ54N4NZGPTP,Full Sleeve Washed Men Denim Riding Jacket,54,1.0
+custom,T5,7,46.5995,JCKFXNVMP5XZZNHA,Full Sleeve Solid Men Denim Jacket,27,1.0
+custom,T5,8,46.5995,JCKFXNVMC435YMSU,Full Sleeve Solid Men Denim Jacket,27,1.0
+custom,T5,9,46.3331,JCKFXNVMZZ4UP9CE,Full Sleeve Solid Men Denim Jacket,28,1.0
+custom,T5,10,46.1415,JCKFZJWZBZCCTYXM,Full Sleeve Washed Men Denim Jacket,21,1.0
+custom,T5,11,42.3881,JCKFPEVFJJBQPGVY,Full Sleeve Washed Men Denim Jacket,21,1.0
+custom,T5,12,42.0331,JCKFPEVFF5DWZB4H,Full Sleeve Washed Men Denim Jacket,45,1.0
+custom,T5,13,41.5326,JCKFT9TE2DB6TJNQ,Full Sleeve Washed Men Denim Jacket,47,1.0
+custom,T5,14,39.2975,JCKFZQ56YG2RYY8B,Full Sleeve Self Design Men Jacket,30,1.0
+custom,T5,15,38.909,JCKFY6HR34AW28PV,Sleeveless Solid Men Jacket,22,1.0
+custom,T5,16,38.9043,JCKFZKQGXJYHY9V7,Full Sleeve Solid Men Jacket,31,1.0
+custom,T5,17,38.2491,JCKFQGPMJZMBE9BY,Full Sleeve Solid Men Jacket,28,1.0
+custom,T5,18,37.8692,JCKFXAKSEGEGGGEY,Full Sleeve Solid Men Jacket,27,1.0
+custom,T5,19,37.748,JCKFEED3BHMKFAYJ,Full Sleeve Washed Men Denim Jacket,97,1.0
+custom,T5,20,37.0355,JCKFS9GBFFANGH6E,Full Sleeve Solid Men Jacket,27,1.0
+word2vec,Q1,1,0.934,SWSFVZRFS7GHGKSF,Full Sleeve Solid Women Sweatshirt,28,
+word2vec,Q1,2,0.9334,SWSFVZRFCWPPZVGT,Full Sleeve Solid Men Sweatshirt,28,
+word2vec,Q1,3,0.9334,SWSFVZRFTM4P9XGF,Full Sleeve Solid Men Sweatshirt,28,
+word2vec,Q1,4,0.9334,SWSFVZRFVZ2SZ3HZ,Full Sleeve Solid Men Sweatshirt,28,
+word2vec,Q1,5,0.9334,SWSFVZRFNFMYYRCK,Full Sleeve Solid Men Sweatshirt,28,
+word2vec,Q1,6,0.9334,SWSFVZRFDEQAKUH2,Full Sleeve Solid Men Sweatshirt,28,
+word2vec,Q1,7,0.9251,SWSFV4E6G62HGJVG,Full Sleeve Printed Women Sweatshirt,30,
+word2vec,Q1,8,0.9251,SWSFV4E6NVZCHA5R,Full Sleeve Printed Women Sweatshirt,30,
+word2vec,Q1,9,0.9251,SWSFV4E6HJSPQGVM,Full Sleeve Printed Women Sweatshirt,30,
+word2vec,Q1,10,0.9241,SWSFZVTNGM4HG8BC,Full Sleeve Printed Women Sweatshirt,21,
+word2vec,Q1,11,0.9227,SWSFVEMQF7HP9NZG,Full Sleeve Solid Women Sweatshirt,21,
+word2vec,Q1,12,0.9206,SWSFYNY47PX7ZBCZ,Full Sleeve Printed Women Sweatshirt,22,
+word2vec,Q1,13,0.9204,SWSFYRH2F7NHW63A,Full Sleeve Solid Women Sweatshirt,20,
+word2vec,Q1,14,0.9201,SWSFYRKYAHH4HHSM,Full Sleeve Printed Women Sweatshirt,20,
+word2vec,Q1,15,0.9199,SWSFYFFFJZN6P6ZW,Full Sleeve Printed Women Sweatshirt,22,
+word2vec,Q1,16,0.9196,SWSFZVTTQCB4SJ7F,Full Sleeve Solid Women Sweatshirt,21,
+word2vec,Q1,17,0.9188,SWSFZAUYZFAGEPKK,Full Sleeve Printed Women Sweatshirt,21,
+word2vec,Q1,18,0.9186,SWSFXMFPNZQGZZNE,Full Sleeve Printed Women Sweatshirt,29,
+word2vec,Q1,19,0.9186,SWSFXMFP2RUM86QD,Full Sleeve Printed Women Sweatshirt,28,
+word2vec,Q1,20,0.9184,SWSFTEMFYMFGZUHP,Full Sleeve Solid Women Sweatshirt,22,
+word2vec,Q2,1,0.8468,JEAFSKYH539HTZB8,Tapered Fit Men Blue Jeans,32,
+word2vec,Q2,2,0.8455,JEAFSKYHT8BHNDF3,Slim Men White Jeans,32,
+word2vec,Q2,3,0.8442,JEAFSKYHDYZK5SHZ,Slim Men Blue Jeans,31,
+word2vec,Q2,4,0.8442,JEAFSKYHRVZSABPR,Slim Men Blue Jeans,31,1.0
+word2vec,Q2,5,0.8442,JEAFSKYHTE76YWH7,Slim Men Blue Jeans,31,
+word2vec,Q2,6,0.8429,JEAFUZXPUWKSKGVD,Tapered Fit Men Blue Jeans,31,
+word2vec,Q2,7,0.8429,JEAFUZXRDZWSYWGG,Tapered Fit Men Blue Jeans,31,1.0
+word2vec,Q2,8,0.8429,JEAFUZXT6BYHVNF2,Tapered Fit Men Blue Jeans,31,
+word2vec,Q2,9,0.8342,JEAFUZXUGWXHUF5F,Jogger Fit Men Blue Jeans,32,
+word2vec,Q2,10,0.8313,JEAFUZXTXAP7HF4X,Tapered Fit Men Blue Jeans,31,
+word2vec,Q2,11,0.8307,JEAFXUHCWV9C5WNX,Super Skinny Men Blue Jeans,32,
+word2vec,Q2,12,0.8304,JEAFUZXTN7W8ZSEN,Tapered Fit Men Blue Jeans,31,0.0
+word2vec,Q2,13,0.8304,JEAFUZXSSFYGHYDP,Tapered Fit Men Blue Jeans,31,
+word2vec,Q2,14,0.8304,JEAFUZXSEAMNNGNG,Tapered Fit Men Blue Jeans,31,
+word2vec,Q2,15,0.8304,JEAFUZXTKHGUUGTB,Tapered Fit Men Blue Jeans,31,
+word2vec,Q2,16,0.8304,JEAFUZXUSW8UHHPG,Tapered Fit Men Blue Jeans,31,
+word2vec,Q2,17,0.8304,JEAFUZXTZBKRT6EB,Tapered Fit Men Blue Jeans,31,
+word2vec,Q2,18,0.8304,JEAFUZXTBPEXBZN4,Tapered Fit Men Blue Jeans,31,
+word2vec,Q2,19,0.8285,JEAFEKQZ4C2Z6GCX,Slim Men Blue Jeans,22,
+word2vec,Q2,20,0.8285,JEAFEKQZQPYHHVGS,Slim Men Blue Jeans,22,
+word2vec,T1,1,0.8764,TKPFZDVZVQHWEUVF,Solid Men Black Track Pants,12,1.0
+word2vec,T1,2,0.8739,TKPFZMZSWZN5HKEZ,Solid Men Black Track Pants,11,1.0
+word2vec,T1,3,0.838,TKPFZAZ4QCAZFAGA,"Solid Men Black, Dark Blue Track Pants",17,1.0
+word2vec,T1,4,0.8191,TKPF3FPQGCHXHGRM,"Solid Men Black, Grey Track Pants",43,1.0
+word2vec,T1,5,0.8191,TKPF3FPNZ5XCHZ6R,"Solid Men Black, Grey Track Pants",43,1.0
+word2vec,T1,6,0.8191,TKPF3FPKTYM55SAV,"Solid Men Black, Grey Track Pants",43,1.0
+word2vec,T1,7,0.8172,TKPFZDKXX7MQAYYK,Solid Men Black Track Pants,15,1.0
+word2vec,T1,8,0.8157,TKPF3FPJNVVBKPRG,"Solid Men Blue, Black Track Pants",43,1.0
+word2vec,T1,9,0.8157,TKPF3FPZRRJUWTAZ,"Solid Men Blue, Black Track Pants",43,1.0
+word2vec,T1,10,0.8157,TKPF3FPKHNWZ3UMG,"Solid Men Blue, Black Track Pants",43,1.0
+word2vec,T1,11,0.8116,TKPFYWGFE5WWQUED,Solid Men Black Track Pants,16,1.0
+word2vec,T1,12,0.7991,TKPFWCVUMWW96BEY,Solid Men Black Track Pants,10,1.0
+word2vec,T1,13,0.7951,TKPFZYS9FBE5S8VZ,Solid Men Black Track Pants,19,1.0
+word2vec,T1,14,0.7926,TKPEYQ6YNHW8FV5R,"Solid Men Black, Orange Track Pants",46,1.0
+word2vec,T1,15,0.7813,TKPFGP48RBBKAGSZ,Striped Men Black Track Pants,27,1.0
+word2vec,T1,16,0.7594,TKPFZHV4MZB4TF7G,"Striped Men Grey, Black Track Pants",56,0.0
+word2vec,T1,17,0.7577,TKPFYWCFRN572UFY,Solid Men Black Track Pants,14,1.0
+word2vec,T1,18,0.7468,TKPFTZ7WG62BFDKC,Solid Men Black Track Pants,14,1.0
+word2vec,T1,19,0.7467,TKPFZ3JRDVRHWSFY,Solid Men Black Track Pants,13,1.0
+word2vec,T1,20,0.7462,TKPFZ3JRWHEETCJP,Color Block Men Black Track Pants,18,1.0
+word2vec,T2,1,0.9426,TSHFYUQYXW4BY9GR,"Striped Women Round Neck Black, White T-Shirt",31,0.0
+word2vec,T2,2,0.9425,TSHEYRU4NH2ERTGV,"Abstract Women V-Neck Black, Yellow T-Shirt",23,1.0
+word2vec,T2,3,0.9424,TSHEYQ73G7VKU9WN,"Chevron/Zig Zag Women V-Neck Red, Black T-Shirt",27,1.0
+word2vec,T2,4,0.942,TSHF3MHQKA4NWX2Y,"Printed Women V-neck Black, Yellow T-Shirt",21,1.0
+word2vec,T2,5,0.9416,TSHF3MHNGFFAKPB4,"Solid Women V-neck Black, Yellow T-Shirt",22,1.0
+word2vec,T2,6,0.9416,TSHF3MHZGSEHCBQ4,"Solid Women V-neck Black, Yellow T-Shirt",22,1.0
+word2vec,T2,7,0.941,TSHEYRU3TH46Z4Z3,"Abstract Women V-Neck Blue, Black T-Shirt",23,1.0
+word2vec,T2,8,0.9394,TSHFDHGJQNM39YYN,Color Block Women Round Neck Black T-Shirt,36,0.0
+word2vec,T2,9,0.9393,TSHFWF57CTFWRGFZ,Solid Women Round Neck Black T-Shirt,38,0.0
+word2vec,T2,10,0.9381,TSHEYQ73JNWYHJCZ,"Printed Women V-Neck White, Black T-Shirt",23,1.0
+word2vec,T2,11,0.9381,TSHFW38TBJSD3ST8,"Printed Women Round Neck Grey, Black T-Shirt",28,0.0
+word2vec,T2,12,0.9379,TSHFW3947QNACHHQ,"Printed Women Round Neck Grey, Black T-Shirt",29,0.0
+word2vec,T2,13,0.9379,TSHFW38SBN7QX5KM,"Printed Women Round Neck Grey, Black T-Shirt",29,0.0
+word2vec,T2,14,0.9374,TSHFYUTFYNDTXRFM,Solid Women Polo Neck Black T-Shirt,30,0.0
+word2vec,T2,15,0.9374,TSHFPCZ8KFHZYR3Y,Printed Women V Neck Black T-Shirt,23,1.0
+word2vec,T2,16,0.9368,TSHFDHGSHKWYERQG,Color Block Women Round Neck Black T-Shirt,37,0.0
+word2vec,T2,17,0.9356,TSHFW38TG8HXAT5Z,"Printed Women Round Neck White, Black T-Shirt",28,0.0
+word2vec,T2,18,0.9354,TSHFW394E2XRZ76G,"Printed Women Round Neck White, Black T-Shirt",29,0.0
+word2vec,T2,19,0.9354,TSHFW38TKZQNHU5F,"Printed Women Round Neck White, Black T-Shirt",29,0.0
+word2vec,T2,20,0.935,TSHFZX2G3HMGH4YQ,Printed Women Polo Neck Black T-Shirt,32,0.0
+word2vec,T3,1,0.8398,SWSFXMKRJYMSYTTA,Full Sleeve Solid Men Sweatshirt,42,1.0
+word2vec,T3,2,0.8382,SWSFZ7GXWNGANCUA,Sleeveless Solid Men Sweatshirt,19,1.0
+word2vec,T3,3,0.8376,SWSFXMKPWFS9HRGS,Full Sleeve Printed Men Sweatshirt,42,1.0
+word2vec,T3,4,0.8249,SWSFZUEBEBWJUQWG,Full Sleeve Printed Men Sweatshirt,25,1.0
+word2vec,T3,5,0.8198,SWSFYNY4CWHCDWM5,Full Sleeve Printed Men Sweatshirt,22,1.0
+word2vec,T3,6,0.8178,SWSFHABMCWFP8GJR,Sleeveless Solid Men Sweatshirt,18,1.0
+word2vec,T3,7,0.8174,SWSFZKX9T2SGSKRA,Full Sleeve Color Block Men Sweatshirt,23,1.0
+word2vec,T3,8,0.8127,SWSFVEMQPH2V96BF,Full Sleeve Printed Men Sweatshirt,21,1.0
+word2vec,T3,9,0.8092,SWSFYQFQZTYY3YVM,Full Sleeve Printed Men Sweatshirt,22,1.0
+word2vec,T3,10,0.809,SWSFJY5ZTQ35VBV7,Full Sleeve Color Block Men Sweatshirt,47,1.0
+word2vec,T3,11,0.798,SWSFNMS5V7TVXY8Z,Full Sleeve Solid Men Sweatshirt,45,1.0
+word2vec,T3,12,0.798,SWSFNMS5BKHGHJXF,Full Sleeve Solid Men Sweatshirt,45,1.0
+word2vec,T3,13,0.7976,SWSFZ2H4PW2GHY9H,Full Sleeve Solid Men Sweatshirt,22,1.0
+word2vec,T3,14,0.7976,SWSFZ2HJXN9HNG7E,Full Sleeve Solid Men Sweatshirt,22,1.0
+word2vec,T3,15,0.7904,SWSE8FYZMDFNNTHH,Full Sleeve Solid Men Sweatshirt,28,1.0
+word2vec,T3,16,0.7904,SWSE8FYZQXR52M45,Full Sleeve Solid Men Sweatshirt,28,1.0
+word2vec,T3,17,0.782,SWSFVNB8HRBSY6E3,Full Sleeve Printed Men Sweatshirt,33,0.0
+word2vec,T3,18,0.7685,SWSFJY5ZTHZUNVNV,Full Sleeve Solid Men Sweatshirt,43,1.0
+word2vec,T3,19,0.7574,SWSFJY5ZQDHHSJGY,Full Sleeve Solid Men Sweatshirt,60,1.0
+word2vec,T3,20,0.7551,SWSF9W59YQWQCVWN,Full Sleeve Self Design Men Sweatshirt,37,1.0
+word2vec,T4,1,0.8777,SHTFAHDZ7H9ZFYNZ,Women Slim Fit Striped Spread Collar Casual Shirt,30,1.0
+word2vec,T4,2,0.8738,SHTFAHDYU7QAHTEZ,Women Regular Fit Striped Casual Shirt,26,1.0
+word2vec,T4,3,0.8682,SHTFCA3J7UZ2TGHN,Women Regular Fit Striped Formal Shirt,23,1.0
+word2vec,T4,4,0.8639,SHTFHPZ7HYGXGJK6,Women Slim Fit Striped Casual Shirt,18,1.0
+word2vec,T4,5,0.8637,SHTFHPZ7WFH8NKRT,Women Slim Fit Striped Casual Shirt,18,1.0
+word2vec,T4,6,0.8632,SHTFHPZ7YTVWZWHW,Women Slim Fit Striped Casual Shirt,18,1.0
+word2vec,T4,7,0.8632,SHTFYW8Z4EHRRT8Y,Women Slim Fit Striped Casual Shirt,20,1.0
+word2vec,T4,8,0.8616,SHTFWHDQJ34GDCHQ,Women Slim Fit Striped Casual Shirt,18,1.0
+word2vec,T4,9,0.8616,SHTFWHDQRKZJB4VT,Women Slim Fit Striped Casual Shirt,18,1.0
+word2vec,T4,10,0.8574,SHTFWHE2ZAZNTYAY,Women Slim Fit Striped Spread Collar Casual Shirt,22,1.0
+word2vec,T4,11,0.8559,SHTFEKRWKFHHH9ZT,Women Slim Fit Striped Spread Collar Casual Shirt,24,1.0
+word2vec,T4,12,0.853,SHTFWHE2XGBR3NRV,Women Slim Fit Striped Casual Shirt,18,1.0
+word2vec,T4,13,0.853,SHTFWHE22SVV5TTM,Women Slim Fit Striped Casual Shirt,18,1.0
+word2vec,T4,14,0.8514,SHTFRR7FDFMZYXJU,Women Slim Fit Striped Casual Shirt,19,1.0
+word2vec,T4,15,0.8485,SHTFVGSFKGFVHZGW,"Women Slim Fit Printed, Striped, Checkered Casual Shirt",32,1.0
+word2vec,T4,16,0.8478,SHTFRR7YFGBZG3BW,Women Slim Fit Striped Cut Away Collar Casual Shirt,24,1.0
+word2vec,T4,17,0.8464,SHTFWP8CDRGUQTBP,Women Regular Fit Striped Casual Shirt,18,1.0
+word2vec,T4,18,0.8464,SHTFWP8C4QRRU2GA,Women Regular Fit Striped Casual Shirt,18,1.0
+word2vec,T4,19,0.8448,SHTFMRH8CZPAUZ3G,Women Slim Fit Striped Spread Collar Casual Shirt,24,1.0
+word2vec,T4,20,0.8435,SHTEX9HYBYKEQX6H,Women Slim Fit Striped Spread Collar Casual Shirt,22,1.0
+word2vec,T5,1,0.8362,JCKFMHKMYEWHQFNU,Full Sleeve Printed Men Denim Casual Jacket,54,1.0
+word2vec,T5,2,0.8136,JCKFKKFZ7QB2KUQV,Full Sleeve Washed Men Denim Jacket,52,1.0
+word2vec,T5,3,0.8106,JCKFKKFZMDEHEZQS,Full Sleeve Washed Men Denim Jacket,53,1.0
+word2vec,T5,4,0.803,JCKFWC5ZHSAEVYMS,Full Sleeve Solid Men Denim Jacket,21,1.0
+word2vec,T5,5,0.8013,JCKFZJWZNCGGZGSE,Full Sleeve Washed Men Denim Jacket,21,1.0
+word2vec,T5,6,0.8013,JCKFZJWZBZCCTYXM,Full Sleeve Washed Men Denim Jacket,21,1.0
+word2vec,T5,7,0.8011,JCKFYY97BC7KWPM4,Full Sleeve Solid Men Denim Jacket,28,1.0
+word2vec,T5,8,0.8002,JCKFURYWGYKVKFH3,Full Sleeve Solid Men Denim Jacket,27,1.0
+word2vec,T5,9,0.8,JCKFVDPW4WNPBGS2,Full Sleeve Solid Men Denim Jacket,28,1.0
+word2vec,T5,10,0.7993,JCKFWC5YPXZG6S7F,Full Sleeve Solid Men Denim Jacket,28,1.0
+word2vec,T5,11,0.7975,JCKFWC5YZKFWXGEB,Full Sleeve Solid Men Denim Jacket,28,1.0
+word2vec,T5,12,0.7938,JCKFWC5ZAF3BRTPA,Full Sleeve Solid Men Denim Jacket,22,1.0
+word2vec,T5,13,0.7885,JCKFZZN6AWQZ8FC2,Full Sleeve Solid Men Denim Jacket,20,1.0
+word2vec,T5,14,0.7855,JCKFVJ54N4NZGPTP,Full Sleeve Washed Men Denim Riding Jacket,54,1.0
+word2vec,T5,15,0.7694,JCKFXNVMP5XZZNHA,Full Sleeve Solid Men Denim Jacket,27,1.0
+word2vec,T5,16,0.7691,JCKFXNVMC435YMSU,Full Sleeve Solid Men Denim Jacket,27,1.0
+word2vec,T5,17,0.7658,JCKFXNVMZZ4UP9CE,Full Sleeve Solid Men Denim Jacket,28,1.0
+word2vec,T5,18,0.7616,JCKFUG3T7BQYB6KQ,Sleeveless Solid Men Denim Jacket,49,1.0
+word2vec,T5,19,0.7595,JCKFUG3THFXJUY4G,Sleeveless Solid Men Denim Jacket,48,1.0
+word2vec,T5,20,0.7544,JCKFPEVFF5DWZB4H,Full Sleeve Washed Men Denim Jacket,45,1.0

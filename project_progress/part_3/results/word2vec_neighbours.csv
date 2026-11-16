@@ -1,0 +1,10 @@
+term,nearest terms (cosine)
+jean,"denim 0.47, chino 0.39, tan 0.37, trouser 0.36, etch 0.34, loafer 0.34"
+tshirt,"neck 0.49, polo 0.46, round 0.43, regimen 0.42, xxl 0.41, men 0.39"
+jacket,"none 0.54, colorblock 0.51, sweater 0.45, sweatshirt 0.44, brn 0.40, faux 0.39"
+sweatshirt,"pullov 0.57, sweater 0.45, jacket 0.44, hoodi 0.43, fleec 0.42, eminem 0.40"
+polyest,"polycotton 0.62, nylon 0.49, cotton 0.47, pure 0.45, linen 0.44, blend 0.42"
+grey,"black 0.89, red 0.84, white 0.81, blue 0.81, maroon 0.79, green 0.79"
+stripe,"solid 0.85, print 0.74, typographi 0.70, checker 0.69, block 0.59, neck 0.51"
+slim,"regular 0.82, western 0.49, white 0.43, women 0.43, sleev 0.42, red 0.42"
+puma,"reebok 0.48, livster 0.47, athliv 0.40, breakbounc 0.38, left 0.37, dori 0.36"

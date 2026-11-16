@@ -1,0 +1,6 @@
+,missing (%),min,median,mean,max
+average_rating (1-5),8.052,1.0,3.8,3.6277,5.0
+discount (%),2.7671,0.0,52.0,50.1146,87.0
+selling_price,0.0071,99.0,545.0,705.6351,7999.0
+actual_price,2.7671,150.0,1199.0,1455.5281,12999.0
+out_of_stock (share),0.0,,,0.0585,

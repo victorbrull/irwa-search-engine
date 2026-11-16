@@ -1,0 +1,8 @@
+id,query,terms after pre-processing,AND matches,judged,relevant (R)
+Q1,women full sleeve sweatshirt cotton,women full sleev sweatshirt cotton,496,20,13
+Q2,men slim jeans blue,men slim jean blue,224,20,10
+T1,men black track pants polyester,men black track pant polyest,79,28080,79
+T2,women black v neck tshirt,women black neck tshirt,1584,28080,43
+T3,men grey hooded sweatshirt,men grey hood sweatshirt,40,28080,48
+T4,women striped shirt,women stripe shirt,114,28080,74
+T5,men denim jacket,men denim jacket,73,28080,38

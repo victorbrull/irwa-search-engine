@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>IRWA 2026 - Part 3 report</title>
+<style>
+  @page { size: A4; margin: 18mm 17mm 18mm 17mm; }
+  body { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10.3pt; line-height: 1.42; color: #1a1a1a; }
+  h1 { font-size: 18pt; margin: 0 0 4px 0; color: #1f3b6e; }
+  h2 { font-size: 13pt; margin: 18px 0 6px 0; color: #1f3b6e; border-bottom: 1px solid #c9d3e6; padding-bottom: 2px; }
+  h3 { font-size: 11pt; margin: 12px 0 4px 0; }
+  h2, h3 { page-break-after: avoid; break-after: avoid; }
+  p { margin: 5px 0; text-align: justify; }
+  ul, ol { margin: 4px 0 6px 0; padding-left: 20px; }
+  li { margin: 2px 0; }
+  table { border-collapse: collapse; margin: 6px 0 8px 0; font-size: 9.2pt; width: 100%; }
+  th, td { border: 1px solid #c9ccd3; padding: 3px 6px; vertical-align: top; text-align: left; }
+  th { background: #eef2f8; }
+  tr { page-break-inside: avoid; break-inside: avoid; }
+  td.num, th.num { text-align: right; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 8.8pt; background: #f3f4f6; padding: 0 2px; }
+  figure { margin: 8px 0; text-align: center; page-break-inside: avoid; }
+  figure img { max-width: 100%; }
+  figcaption { font-size: 8.8pt; color: #555; margin-top: 2px; }
+  .meta { font-size: 9.8pt; color: #333; margin-bottom: 10px; }
+  .meta td { border: none; padding: 1px 8px 1px 0; }
+  .box { background: #f6f8fb; border-left: 3px solid #1f3b6e; padding: 5px 9px; margin: 6px 0; }
+  .avoid { page-break-inside: avoid; break-inside: avoid; }
+  table.res td, table.res th { text-align: right; padding: 3px 7px; }
+  table.res td:first-child, table.res th:first-child { text-align: left; }
+  .cap { font-size: 8.8pt; color: #555; margin: -4px 0 8px 0; }
+  .small { font-size: 8.6pt; }
+  table.top { font-size: 8.2pt; }
+  table.top td, table.top th { padding: 1.5px 5px; }
+  table.top code { font-size: 7.8pt; background: none; }
+  .light { font-weight: normal; color: #555; font-size: 9pt; }
+  table.pc td { width: 50%; }
+  table.pc ul { margin: 0; padding-left: 16px; }
+</style>
+</head>
+<body>
+
+<h1>IRWA Final Project - Part 3: Ranking and Filtering</h1>
+<table class="meta">
+  <tr><td><b>Students</b></td><td>u233738, u233436, u232597</td></tr>
+  <tr><td><b>GitHub</b></td><td>https://github.com/victorbrull/irwa-search-engine</td></tr>
+  <tr><td><b>Tag</b></td><td><code>IRWA-2026-part-3</code></td></tr>
+</table>
+
+<h2>1. Introduction</h2>
+<p>In this part the documents returned by a conjunctive query are sorted with four scores: TF-IDF + cosine, BM25, a score of our own that
+uses the numeric fields of the products, and word2vec + cosine. We compare the rankings, we give the top-20 lists of word2vec for our five
+queries of Part 2, and we discuss which representations could be better than an average of word vectors. The code of Parts 1 and 2 is used
+<b>without any change</b>: the pre-processing (<code>preprocess_text</code>), the inverted index and the conjunctive retrieval, the TF-IDF and BM25
+rankers, the evaluation metrics and our relevance judgments. The new code is in <code>project_progress/part_3</code>: <code>ranking.py</code>
+(our score, word2vec, doc2vec), <code>search.py</code> (command line), <code>test_part3.py</code> (tests) and the notebook
+<code>ranking_filtering.ipynb</code>, which writes every number of this report in <code>results/</code>.</p>
+<p><b>Evaluation data.</b> We evaluate with the same seven queries, judgments and protocol as in Part 2: the two validation queries of
+<code>validation_labels.csv</code> (Q1, Q2; 20 judged documents each, the ranking is reduced to the judged documents) and our five test queries
+(T1-T5; every document of the collection has a label, the whole ranking is evaluated). "Val." and "Test" refer to these two sets.</p>
+<table class='avoid'><tr><th>Id</th><th>Query</th><th>Terms after pre-processing</th><th class=num>AND matches</th><th class=num>Relevant (R)</th></tr><tr><td>Q1</td><td>women full sleeve sweatshirt cotton</td><td><code>women full sleev sweatshirt cotton</code></td><td class=num>496</td><td class=num>13</td></tr><tr><td>Q2</td><td>men slim jeans blue</td><td><code>men slim jean blue</code></td><td class=num>224</td><td class=num>10</td></tr><tr><td>T1</td><td>men black track pants polyester</td><td><code>men black track pant polyest</code></td><td class=num>79</td><td class=num>79</td></tr><tr><td>T2</td><td>women black v neck tshirt</td><td><code>women black neck tshirt</code></td><td class=num>1,584</td><td class=num>43</td></tr><tr><td>T3</td><td>men grey hooded sweatshirt</td><td><code>men grey hood sweatshirt</code></td><td class=num>40</td><td class=num>48</td></tr><tr><td>T4</td><td>women striped shirt</td><td><code>women stripe shirt</code></td><td class=num>114</td><td class=num>74</td></tr><tr><td>T5</td><td>men denim jacket</td><td><code>men denim jacket</code></td><td class=num>73</td><td class=num>38</td></tr></table>
+<p>Seven queries are few. A difference of one or two hundredths in MAP between two rankings is not evidence that one is better, so we use
+the metrics to find the large effects and we explain each of them by looking at the documents.</p>
+<p class="small"><b>Note on the TF-IDF figures.</b> The Part 2 report gives MAP 0.760 (val.) and 0.723 (test) for TF-IDF. Those values were computed with
+base-10 logarithms in the weights; <code>part_2/indexing.py</code> now uses base 2 (the formula written in that report), which gives
+0.764 and 0.737. The base changes the weight of a repeated term (1 + log tf is 2.0 for tf = 2 with base 2 and 1.3 with base 10), so the
+order of a few documents changes. The BM25 figures are identical to the ones of Part 2.</p>
+
+<h2>2. Retrieval pipeline</h2>
+<p>Every search has three steps: (1) the query is pre-processed with the function of Part 1, like the documents; (2) the inverted index of
+Part 2 returns the documents that contain <b>all</b> the query terms (the postings lists are intersected from the rarest term to the most
+frequent one); (3) the matching documents are sorted by the selected score. Only step 3 changes between methods: we checked that the four
+methods return exactly the same documents for the seven queries. The method is selected by name, from Python
+(<code>ranking.build_engines(...)["bm25"].search(query, top_k=20)</code>) or from the command line
+(<code>python search.py "men denim jacket" --method tfidf|bm25|custom|word2vec|all</code>); the README lists the options of each method.</p>
+
+<h2>3. TF-IDF + cosine and BM25</h2>
+<div class="box">
+<b>TF-IDF + cosine:</b> &nbsp; w<sub>t,d</sub> = (1 + log<sub>2</sub> tf<sub>t,d</sub>) · log<sub>2</sub>(N / df<sub>t</sub>)
+&nbsp;&nbsp;&nbsp; score(q, d) = Σ<sub>t∈q</sub> w<sub>t,q</sub> · w<sub>t,d</sub> / (‖q‖ · ‖d‖)<br>
+<b>BM25:</b> &nbsp; score(q, d) = Σ<sub>t∈q</sub> log<sub>2</sub>(1 + (N − df<sub>t</sub> + 0.5) / (df<sub>t</sub> + 0.5)) ·
+tf<sub>t,d</sub> · (k<sub>1</sub> + 1) / (tf<sub>t,d</sub> + k<sub>1</sub> · (1 − b + b · |d| / avgdl)) &nbsp;&nbsp; k<sub>1</sub> = 1.2, b = 0.75
+</div>
+<p>In the cosine, ‖d‖ is the norm of the whole document vector, so it depends on <b>every</b> term of the document. In BM25 the document
+only enters through the frequency of the query terms and through its length |d| (number of terms) relative to the average length
+(avgdl = 44.7 terms).</p>
+
+<h3>3.1 How the rankings differ</h3>
+<table class='avoid'><tr><th>Query</th><th class=num>AND matches</th><th class=num>Common in top 10</th><th class=num>Common in top 20</th><th class=num>Kendall τ</th><th class=num>Mean length top 10, TF-IDF</th><th class=num>Mean length top 10, BM25</th><th class=num>Mean length, all matches</th></tr><tr><td>Q1</td><td class=num>496</td><td class=num>2</td><td class=num>2</td><td class=num>0.75</td><td class=num>20.5</td><td class=num>27.5</td><td class=num>50.0</td></tr><tr><td>Q2</td><td class=num>224</td><td class=num>4</td><td class=num>11</td><td class=num>0.80</td><td class=num>22.0</td><td class=num>31.1</td><td class=num>50.4</td></tr><tr><td>T1</td><td class=num>79</td><td class=num>5</td><td class=num>13</td><td class=num>0.76</td><td class=num>13.2</td><td class=num>24.9</td><td class=num>34.7</td></tr><tr><td>T2</td><td class=num>1,584</td><td class=num>3</td><td class=num>4</td><td class=num>0.72</td><td class=num>25.8</td><td class=num>30.0</td><td class=num>54.8</td></tr><tr><td>T3</td><td class=num>40</td><td class=num>7</td><td class=num>19</td><td class=num>0.79</td><td class=num>24.4</td><td class=num>26.0</td><td class=num>51.4</td></tr><tr><td>T4</td><td class=num>114</td><td class=num>0</td><td class=num>17</td><td class=num>0.82</td><td class=num>19.0</td><td class=num>20.5</td><td class=num>60.4</td></tr><tr><td>T5</td><td class=num>73</td><td class=num>10</td><td class=num>15</td><td class=num>0.84</td><td class=num>24.4</td><td class=num>24.4</td><td class=num>71.5</td></tr><tr><td>Mean</td><td class=num></td><td class=num>4.4</td><td class=num>11.6</td><td class=num>0.78</td><td class=num>21.3</td><td class=num>26.3</td><td class=num>53.3</td></tr></table>
+<p class="cap">Agreement between the two rankings of each query. Kendall's τ compares the complete rankings (1 = same order). Length = number of terms of the document.</p>
+<ul>
+  <li><b>Same general order, different first positions.</b> Kendall's τ is between 0.72 and 0.84, but the two top 10 share only
+      4.4 documents on average (none in T4, all ten in T5). Many products are near-duplicates (same title, another colour or seller) with
+      almost the same score, so a small change in the formula reorders them.</li>
+  <li><b>Both prefer short documents, the cosine more.</b> The correlation between the score and the logarithm of the length is −0.81 for the cosine and
+      −0.77 for BM25 (mean of the seven queries). The top-10 documents have 21.3 terms on average with the cosine and
+      26.3 with BM25, while the matching documents have 53.3. The reason is the normalisation: the cosine divides by a
+      norm that grows with every additional term of the document (and more if the term is rare); BM25 only compares the length with the
+      average, and with b = 0.75 the correction is partial (Figure 1b). The 20 documents judged in Q1 are long (72.5 terms on average) and both scores
+      leave them in the lower part of the ranking: positions 126-493 of 496 with the cosine and 99-484 with BM25.</li>
+  <li><b>BM25 gives more room to the repetition of the query terms.</b> In Q1 the first ten results of the cosine are documents of 19-21 terms with term
+      frequencies (1, 2, 2, 3, 1) or (1, 2, 2, 2, 1) for the five query terms; the first four results of BM25 have 28-30 terms and frequencies
+      (3, 3, 3, 3, 1) or (2, 3, 3, 3, 1).
+      For the cosine the extra terms of the longer document cost more than its repetitions add; BM25 accepts it. The term-frequency part of
+      TF-IDF alone grows without limit (Figure 1a), but in the cosine the norm grows with it; in BM25 it is bounded by k<sub>1</sub> + 1 = 2.2,
+      so repeating a word many times cannot dominate the score.</li>
+  <li><b>Scale of the scores.</b> The cosine is always between 0 and 1 (best score of each query: 0.56 to 0.93). The BM25 score depends on the number of query terms and on their
+      idf: the best score is 9.2 in T2 and 23.3 in T1, so BM25 scores of different queries cannot be compared and a fixed threshold makes no sense.</li>
+  <li><b>Ties.</b> BM25 only sees the frequencies of the query terms and the length, so more documents get exactly the same score: in T2 the
+      1,584 matching documents have 694 different BM25 values and 1,371 different cosine values. Tied documents are ordered by document id.</li>
+</ul>
+<figure class="avoid"><img src="figures/tfidf_vs_bm25.png" style="max-width:100%">
+<figcaption>Figure 1. (a) Weight given to a term as a function of its frequency in the document, before any normalisation by the document norm.
+(b) Score of the 496 documents that match Q1 against their length, each score divided by the best score of the query.</figcaption></figure>
+
+<h3>3.2 Results</h3>
+<table class='res avoid'><tr><th>Ranking</th><th class=num>Val. MAP</th><th class=num>Val. NDCG@10</th><th class=num>Test MAP</th><th class=num>Test P@10</th><th class=num>Test NDCG@10</th><th class=num>Test MRR</th></tr><tr><td>TF-IDF + cosine</td><td class=num>0.764</td><td class=num>0.859</td><td class=num>0.737</td><td class=num>0.860</td><td class=num>0.885</td><td class=num>1.000</td></tr><tr><td>BM25</td><td class=num>0.772</td><td class=num>0.859</td><td class=num>0.736</td><td class=num>0.820</td><td class=num>0.817</td><td class=num>0.840</td></tr></table><table class='res avoid'><tr><th>Average precision</th><th class=num>Q1</th><th class=num>Q2</th><th class=num>T1</th><th class=num>T2</th><th class=num>T3</th><th class=num>T4</th><th class=num>T5</th></tr><tr><td>TF-IDF + cosine</td><td class=num>0.954</td><td class=num>0.575</td><td class=num>0.836</td><td class=num>0.115</td><td class=num>0.810</td><td class=num>0.940</td><td class=num>0.981</td></tr><tr><td>BM25</td><td class=num>0.970</td><td class=num>0.575</td><td class=num>0.839</td><td class=num>0.083</td><td class=num>0.804</td><td class=num>0.956</td><td class=num>0.996</td></tr></table>
+<p>The MAP of the two rankings is the same within one hundredth on both sets. BM25 has a higher average precision in four queries (Q1, T1, T4, T5),
+the cosine in two (T2, T3). The differences in P@10, NDCG@10 and MRR come from <b>one query</b>, T2: in the other six, P@10 and NDCG@10 are
+identical. In T2 (<i>women black v neck tshirt</i>, where the pre-processing removes the letter <i>v</i>) only 43 of the 1,584 matching documents are
+relevant, and they are shorter than the rest (39.8 terms against 54.8), so the ranking that prefers short documents finds more of them
+(P@10 0.3 against 0.1; first relevant document at rank 1 against rank 5). It is an effect of the length, not of a better understanding of the query.</p>
+<table class='res avoid'><tr><th class=num>k1</th><th class=num>b</th><th class=num>Val. MAP</th><th class=num>Test MAP</th><th class=num>Test P@10</th><th class=num>AP T2</th><th class=num>AP T4</th></tr><tr><td class=num>1.2</td><td class=num>0</td><td class=num>0.764</td><td class=num>0.687</td><td class=num>0.78</td><td class=num>0.040</td><td class=num>0.807</td></tr><tr><td class=num>1.2</td><td class=num>0.5</td><td class=num>0.769</td><td class=num>0.731</td><td class=num>0.82</td><td class=num>0.060</td><td class=num>0.961</td></tr><tr><td class=num>1.2</td><td class=num>0.75</td><td class=num>0.772</td><td class=num>0.736</td><td class=num>0.82</td><td class=num>0.083</td><td class=num>0.956</td></tr><tr><td class=num>1.2</td><td class=num>1</td><td class=num>0.778</td><td class=num>0.745</td><td class=num>0.86</td><td class=num>0.147</td><td class=num>0.951</td></tr><tr><td class=num>0.5</td><td class=num>0.75</td><td class=num>0.778</td><td class=num>0.736</td><td class=num>0.82</td><td class=num>0.083</td><td class=num>0.958</td></tr><tr><td class=num>2</td><td class=num>0.75</td><td class=num>0.772</td><td class=num>0.735</td><td class=num>0.82</td><td class=num>0.087</td><td class=num>0.954</td></tr></table>
+<p class="cap">BM25 parameters (first four rows: k1 = 1.2 and different b; last two rows: b = 0.75 and different k1).</p>
+<p><b>Parameters of BM25.</b> k<sub>1</sub> has almost no effect (test MAP 0.736, 0.736 and 0.735 for k<sub>1</sub> = 0.5, 1.2 and 2.0), because the term
+frequencies of this collection are small. b matters: without length normalisation (b = 0) the test MAP falls from 0.736 to 0.687, mainly in T4
+(AP 0.956 → 0.807), where long descriptions that only mention a shirt go up; with full normalisation (b = 1) it is 0.745. In this collection
+the short documents are the plain product listings, so penalising length helps. We keep the standard values (1.2, 0.75): choosing b = 1
+with seven queries would be fitting the parameters to the evaluation set.</p>
+
+<h3>3.3 Pros and cons</h3>
+<table class="pc">
+<tr><th>TF-IDF + cosine</th><th>BM25</th></tr>
+<tr><td><b>Pros</b><ul>
+<li>No parameters to tune.</li>
+<li>The score is bounded (0 to 1) and comparable between queries, so it is easy to combine with other signals or to cut with a threshold.</li>
+<li>The query is a weighted vector too: a term repeated in the query counts more.</li>
+<li>It prefers the documents that are only about the query, which here are the plain listings (P@10 = 1.000 in five of the seven queries, and the higher P@10 and MRR of the two in T2).</li>
+</ul></td>
+<td><b>Pros</b><ul>
+<li>The term frequency saturates: a repeated word has a decreasing effect and cannot dominate the score.</li>
+<li>The length normalisation is explicit and adjustable (b), and it depends only on the length, not on which other words the document contains.</li>
+<li>It has a probabilistic justification and is the standard baseline of lexical search.</li>
+<li>It needs only the length of each document (no norm to recompute when the collection changes) and extends to fields (BM25F).</li>
+<li>Slightly better average precision in four of our seven queries.</li>
+</ul></td></tr>
+<tr><td><b>Cons</b><ul>
+<li>The norm includes every term of the document: a long description is penalised even if the extra text is useful, and one rare word (a typo, an unusual brand name) lowers the score of the document for every query.</li>
+<li>The score of a document for a query depends on words that have nothing to do with the query, which makes a position hard to explain.</li>
+<li>No control over the strength of the length normalisation.</li>
+<li>The norms must be precomputed and they change when documents are added (the idf changes).</li>
+</ul></td>
+<td><b>Cons</b><ul>
+<li>Two parameters; the defaults are not optimal for every collection (here b = 1 scores higher) and tuning them needs judgments.</li>
+<li>The score has no fixed scale and is not comparable between queries.</li>
+<li>More ties between documents (it ignores everything except the query terms and the length).</li>
+<li>As implemented, the frequency of a term in the query is ignored.</li>
+<li>On our queries it is not better than TF-IDF + cosine in MAP, and it is worse in the first positions of T2.</li>
+</ul></td></tr>
+</table>
+
+<h2>4. Our score</h2>
+<h3>4.1 Definition</h3>
+<p>TF-IDF and BM25 only use the text. Two products with the same text score can be very different offers: one has rating 4.5 and is in stock,
+the other has rating 2.1 or cannot be bought. Our score keeps the text relevance as the basis and corrects it with three other pieces of
+information: <b>where</b> the query terms appear, the <b>quality of the offer</b> (numeric fields) and its <b>availability</b>.
+The numeric fields of a record are the rating, the discount, the two prices and the stock flag; Part 1 parsed them as numbers and did not index them as text.</p>
+<table class='avoid'><tr><th>Field</th><th class=num>Missing</th><th class=num>Min</th><th class=num>Median</th><th class=num>Mean</th><th class=num>Max</th></tr><tr><td>average_rating (1-5)</td><td class=num>8.1%</td><td class=num>1</td><td class=num>3.8</td><td class=num>3.63</td><td class=num>5</td></tr><tr><td>discount (%)</td><td class=num>2.8%</td><td class=num>0</td><td class=num>52</td><td class=num>50.11</td><td class=num>87</td></tr><tr><td>selling_price</td><td class=num>0.0%</td><td class=num>99</td><td class=num>545</td><td class=num>705.64</td><td class=num>7,999</td></tr><tr><td>actual_price</td><td class=num>2.8%</td><td class=num>150</td><td class=num>1199</td><td class=num>1455.53</td><td class=num>12,999</td></tr><tr><td>out_of_stock (share)</td><td class=num>0.0%</td><td class=num>—</td><td class=num>—</td><td class=num>0.059</td><td class=num>—</td></tr></table>
+<div class="box">score(q, d) = BM25(q, d) · (1 + λ · title(q, d)) · (1 + α · rating(d) + β · discount(d)) · stock(d)
+&nbsp;&nbsp;&nbsp; λ = 1, α = 0.5, β = 0.25, γ = 0.5</div>
+<table class="avoid">
+<tr><th style="width:15%">Factor</th><th style="width:37%">Definition</th><th>Why</th></tr>
+<tr><td>BM25(q, d)</td><td>BM25 on the merged field, as in section 3</td><td>Basis of the text relevance. We chose BM25 and not the cosine because its score is not divided by the norm of the whole document.</td></tr>
+<tr><td>title(q, d)</td><td>Share of the distinct query terms that appear in the <b>title</b> of the product (0 to 1)</td><td>Part 2 showed that many non-relevant results contain a query term only in the description (a T-shirt that "goes well with a denim jacket"). A product whose title has the query words <i>is</i> that product.</td></tr>
+<tr><td>rating(d)</td><td>(average_rating − 1) / 4, between 0 and 1. Missing (8.1% of the products) → mean of the collection (3.63)</td><td>Between two products that match equally, the better rated one is the better answer. The mean is a neutral value: an unrated product is not rewarded and not punished.</td></tr>
+<tr><td>discount(d)</td><td>discount / 100, between 0 and 1. Missing (2.8%) → 0: these products have no list price, so there is no discount to reward</td><td>A discounted product is a more attractive offer. It is a weaker signal than the rating (see the cons), so it has half the weight.</td></tr>
+<tr><td>stock(d)</td><td>1 if the product is in stock, γ if it is out of stock (5.9% of the products)</td><td>A product that cannot be bought is a worse result. It is moved down, not removed: the user can still see that it exists.</td></tr>
+</table>
+<p><b>How the factors combine.</b> The text part decides which products are about the query. The numeric part multiplies it by a factor that
+is bounded: (1 + α·rating + β·discount) goes from 1 to 1.75, and over the collection the whole offer factor (with the stock) is between 0.55
+and 1.71 (median 1.46). So the numeric fields reorder products with a similar text score and cannot bring a poor match to the first positions.
+We set the weights by the size of the effect that we consider reasonable, not by optimisation: a product with all the query terms in the
+title doubles its score; five stars against one star is +50% (with no discount); a discount of 80% adds 0.20 to the factor; being out of stock halves the score.
+In the collection the rating is almost uncorrelated with the discount (−0.05) and with the price (−0.01), so the rating and the discount are not
+the same signal counted twice.</p>
+<p><b>Price is not used.</b> A cheaper product is not a more relevant one unless the user asks for it, and rewarding a low price would push the
+cheapest items of every query to the top. Price belongs in a filter or a sort option (Part 4), not in the relevance score.</p>
+
+<h3>4.2 Results</h3>
+<p>Our relevance judgments say whether a product <i>is</i> what the query asks for; they do not say that a well rated product is a better answer
+than the same product with a bad rating. For this reason we report two things: the relevance metrics, which only measure the text part of
+our score, and the offers that appear in the first positions of the seven queries.</p>
+<table class='avoid'><tr><th>Positions</th><th>Ranking</th><th class=num>Mean rating (rated products)</th><th class=num>Without rating</th><th class=num>Mean discount</th><th class=num>Out of stock</th></tr><tr><td>Top 10 of the 7 queries</td><td>TF-IDF + cosine</td><td class=num>3.35</td><td class=num>12.9%</td><td class=num>47.9%</td><td class=num>17.1%</td></tr><tr><td>Top 10 of the 7 queries</td><td>BM25</td><td class=num>3.63</td><td class=num>8.6%</td><td class=num>54.2%</td><td class=num>12.9%</td></tr><tr><td>Top 10 of the 7 queries</td><td>Our score</td><td class=num>4.03</td><td class=num>1.4%</td><td class=num>57.1%</td><td class=num>0.0%</td></tr><tr><td>Top 10 of the 7 queries</td><td>word2vec + cosine</td><td class=num>3.33</td><td class=num>1.4%</td><td class=num>52.6%</td><td class=num>10.0%</td></tr><tr><td>All the matching documents</td><td>(any order)</td><td class=num>3.67</td><td class=num>11.5%</td><td class=num>52.3%</td><td class=num>7.5%</td></tr></table>
+<p class="cap">Offers shown in the first ten positions of the seven queries (70 documents per ranking).</p>
+<p>With our score the products in the top 10 have a mean rating of 4.03 (BM25: 3.63; TF-IDF: 3.35), a mean discount of 57.1%
+(BM25: 54.2%), and none of them is out of stock (BM25: 12.9%; TF-IDF: 17.1%, more than the 7.5% of the matching documents). Relevance stays at the level of BM25: test MAP
+0.731 against 0.736, validation MAP 0.766 against 0.772, test P@10 0.80 against 0.82 (the values of every query are in the table of
+section 5.4). The table below shows what each factor does.</p>
+<table class='avoid'><tr><th>Variant</th><th class=num>Val. MAP</th><th class=num>Test MAP</th><th class=num>Test P@10</th><th class=num>Rating top 10</th><th class=num>Discount top 10</th><th class=num>Out of stock top 10</th><th class=num>AP T2</th><th class=num>AP T4</th><th class=num>AP T5</th></tr><tr><td>BM25 only</td><td class=num>0.772</td><td class=num>0.736</td><td class=num>0.82</td><td class=num>3.63</td><td class=num>54.2%</td><td class=num>12.9%</td><td class=num>0.083</td><td class=num>0.956</td><td class=num>0.996</td></tr><tr><td>+ title match (λ = 1)</td><td class=num>0.777</td><td class=num>0.747</td><td class=num>0.82</td><td class=num>3.62</td><td class=num>54.5%</td><td class=num>12.9%</td><td class=num>0.087</td><td class=num>0.998</td><td class=num>0.998</td></tr><tr><td>+ rating (α = 0.5)</td><td class=num>0.766</td><td class=num>0.733</td><td class=num>0.80</td><td class=num>4.17</td><td class=num>52.5%</td><td class=num>12.9%</td><td class=num>0.039</td><td class=num>0.992</td><td class=num>0.992</td></tr><tr><td>+ discount (β = 0.25)</td><td class=num>0.764</td><td class=num>0.737</td><td class=num>0.80</td><td class=num>4.07</td><td class=num>57.8%</td><td class=num>12.9%</td><td class=num>0.047</td><td class=num>0.993</td><td class=num>0.997</td></tr><tr><td>+ stock (γ = 0.5) = <b>our score</b></td><td class=num>0.766</td><td class=num>0.731</td><td class=num>0.80</td><td class=num>4.03</td><td class=num>57.1%</td><td class=num>0.0%</td><td class=num>0.049</td><td class=num>0.987</td><td class=num>0.977</td></tr><tr><td>Our score without title match</td><td class=num>0.741</td><td class=num>0.709</td><td class=num>0.80</td><td class=num>4.05</td><td class=num>57.8%</td><td class=num>0.0%</td><td class=num>0.046</td><td class=num>0.924</td><td class=num>0.941</td></tr><tr><td>Our score without rating</td><td class=num>0.758</td><td class=num>0.750</td><td class=num>0.88</td><td class=num>3.48</td><td class=num>62.8%</td><td class=num>0.0%</td><td class=num>0.136</td><td class=num>0.990</td><td class=num>0.980</td></tr><tr><td>Our score without discount</td><td class=num>0.769</td><td class=num>0.726</td><td class=num>0.80</td><td class=num>4.10</td><td class=num>53.1%</td><td class=num>0.0%</td><td class=num>0.039</td><td class=num>0.984</td><td class=num>0.971</td></tr></table>
+<p class="cap">Each of the first five rows adds one factor to the previous row; the last three remove one factor from the complete score. Rating, discount and stock: top 10 of the seven queries.</p>
+<ul>
+  <li><b>Title match</b> is the factor that improves relevance: test MAP 0.736 → 0.747, with T4 going from 0.956 to 0.998
+      (the garments that only mention a shirt in their description go down). Without it the complete score falls to 0.709.</li>
+  <li><b>Rating</b> raises the mean rating of the top 10 from 3.62 to 4.17 and costs about one hundredth of test MAP (0.747 → 0.733).
+      The largest loss is in T2 (AP 0.087 → 0.039): its relevant V-neck T-shirts are rated below the other matches (mean 3.19 against 3.68;
+      15 of the 43 have rating 2.6). A relevant but badly rated product is moved down; this is the intended behaviour, and it is also the main risk of the score.</li>
+  <li><b>Discount</b> raises the mean discount of the top 10 (from 52.5% to 57.8%) with no visible effect on relevance.</li>
+  <li><b>Stock</b> removes the out-of-stock products from the top 10 (12.9% → 0%). It lowers AP when relevant products are out of stock (T5: 0.997 → 0.977), because for
+      our judgments an unavailable denim jacket is still a denim jacket.</li>
+</ul>
+<figure class="avoid"><img src="figures/custom_score_rating_weight.png" style="max-width:100%">
+<figcaption>Figure 2. Effect of the weight of the rating (α), with the other weights fixed. (a) MAP. (b) Mean rating of the top-10 products of the seven queries.</figcaption></figure>
+<p><b>Sensitivity.</b> Figure 2 shows the trade-off for α: from α = 0 to α = 8 the test MAP goes down slowly (0.750 → 0.699) and the mean
+rating of the top 10 goes up (3.48 → 4.35). With α = 0.5 we get most of the gain in rating (4.03) for a small part of the loss (0.731).
+For the stock, any γ ≤ 0.75 removes the out-of-stock products from the top 10; with γ = 0 (out-of-stock products always last) the
+test MAP falls to 0.704.</p>
+
+<h3>4.3 Pros and cons</h3>
+<table class="pc">
+<tr><th>Pros</th><th>Cons</th></tr>
+<tr><td><ul>
+<li>It uses information that the text scores ignore: the user sees products that are better rated, more discounted and available, at the same level of relevance.</li>
+<li>The title factor corrects a problem measured in Part 2 (query words that appear only in the description of another garment).</li>
+<li>The numeric factor is bounded, so the text relevance always decides first.</li>
+<li>It is interpretable: <code>CustomRanker.components</code> returns every factor of the score of a document, so a position can be explained.</li>
+<li>Cheap: the offer factor does not depend on the query and is computed once; no training data is needed.</li>
+</ul></td>
+<td><ul>
+<li>The weights are set by hand. With seven queries we cannot learn them, and we looked at the same queries to check them.</li>
+<li>The rating has no number of reviews: a 5.0 from one review counts like a 5.0 from a thousand. 8.1% of the products have no rating and get the mean.</li>
+<li>Popularity bias: well rated products get more visibility, new or unrated ones less. A relevant product with a bad rating goes down (T2).</li>
+<li>The discount can be inflated by the seller with a high list price (the median discount of the collection is 52%).</li>
+<li>The offer factor is the same for every query (it is a static rank), and its benefit cannot be shown with relevance judgments: it needs clicks or purchases (the analytics of Part 4).</li>
+<li>It inherits the two parameters of BM25, and relevant out-of-stock products are moved down.</li>
+</ul></td></tr>
+</table>
+
+<h2>5. word2vec + cosine</h2>
+<h3>5.1 Word vectors</h3>
+<p><b>We train word2vec on our own collection</b> (gensim), on the pre-processed terms of the indexed field (<code>all_terms</code>, one document
+= one sentence, 1.26M tokens). We do not use pre-trained vectors because the terms of the index are stems (<i>sleev</i>, <i>polyest</i>, <i>tshirt</i>)
+and brand names that are not in a pre-trained vocabulary; with our own vectors the query and the documents go through the same pre-processing
+and every term that can pass the AND has a vector. Settings: CBOW, 100 dimensions, window 5, <code>min_count</code> = 1, 10 negative samples,
+30 epochs. 100 dimensions and 30 passes because the corpus is small; <code>min_count</code> = 1 so that the 5,865 terms of the index have a vector
+(the vectors of the rarest terms are noisy, but each of them has little weight in the average of a document). CBOW is about four times faster per epoch
+than skip-gram here and it was not worse in our tests (section 6). The training uses one thread, a fixed seed and a hash function that does not change between
+sessions, so it is reproducible; the vectors are also stored in <code>models/word2vec_fashion.bin</code>.</p>
+<p>The vectors capture which words are used in the same contexts: the nearest terms of <i>polyest</i> are polycotton 0.62, nylon 0.49, cotton 0.47;
+of <i>sweatshirt</i>, pullov 0.57, sweater 0.45, jacket 0.44, hoodi 0.43; of <i>jean</i>, denim 0.47, chino 0.39, tan 0.37, trouser 0.36.</p>
+
+<h3>5.2 Representation and score</h3>
+<p>As the statement asks, a text is represented by <b>one vector, the average of the vectors of all its words</b> (a word that appears twice
+counts twice). The document vector uses the terms of <code>all_terms</code>, the query vector the pre-processed query terms, and the score is the
+cosine between the two. The document vectors are computed once and stored normalised, so ranking the candidates is one matrix-vector product.
+The search is the same conjunctive search as before: only the documents with all the query terms are ranked.</p>
+
+<h3>5.3 Top-20 lists</h3>
+<p>The top-20 lists of the five queries are in <b>Appendix A</b> and in <code>results/word2vec_top20.csv</code>. The table summarises them.</p>
+<table class='avoid'><tr><th>Query</th><th class=num>AND matches</th><th class=num>Relevant in top 20</th><th class=num>Cosine, rank 1</th><th class=num>Cosine, rank 20</th><th class=num>Cosine, median of the matches</th><th class=num>Top 20 shared with TF-IDF</th><th class=num>Top 20 shared with BM25</th></tr><tr><td>T1: men black track pants polyester</td><td class=num>79</td><td class=num>19</td><td class=num>0.876</td><td class=num>0.746</td><td class=num>0.719</td><td class=num>9</td><td class=num>15</td></tr><tr><td>T2: women black v neck tshirt</td><td class=num>1,584</td><td class=num>8</td><td class=num>0.943</td><td class=num>0.935</td><td class=num>0.883</td><td class=num>1</td><td class=num>6</td></tr><tr><td>T3: men grey hooded sweatshirt</td><td class=num>40</td><td class=num>19</td><td class=num>0.840</td><td class=num>0.755</td><td class=num>0.750</td><td class=num>15</td><td class=num>16</td></tr><tr><td>T4: women striped shirt</td><td class=num>114</td><td class=num>20</td><td class=num>0.878</td><td class=num>0.843</td><td class=num>0.780</td><td class=num>10</td><td class=num>13</td></tr><tr><td>T5: men denim jacket</td><td class=num>73</td><td class=num>20</td><td class=num>0.836</td><td class=num>0.754</td><td class=num>0.673</td><td class=num>13</td><td class=num>17</td></tr></table>
+<p>In T1, T3, T4 and T5 the top 20 is almost entirely relevant (19, 19, 20, 20 of 20), as with the lexical scores. In T2 there are 8 relevant documents in
+the top 20 (TF-IDF: 5; BM25: 2).</p>
+
+<h3>5.4 Analysis</h3>
+<table class='res avoid'><tr><th>Ranking</th><th class=num>Val. MAP</th><th class=num>Val. NDCG@10</th><th class=num>Test MAP</th><th class=num>Test P@10</th><th class=num>Test NDCG@10</th><th class=num>Test MRR</th></tr><tr><td>TF-IDF + cosine</td><td class=num>0.764</td><td class=num>0.859</td><td class=num>0.737</td><td class=num>0.860</td><td class=num>0.885</td><td class=num>1.000</td></tr><tr><td>BM25</td><td class=num>0.772</td><td class=num>0.859</td><td class=num>0.736</td><td class=num>0.820</td><td class=num>0.817</td><td class=num>0.840</td></tr><tr><td>Our score</td><td class=num>0.766</td><td class=num>0.829</td><td class=num>0.731</td><td class=num>0.800</td><td class=num>0.800</td><td class=num>0.817</td></tr><tr><td>word2vec + cosine</td><td class=num>0.745</td><td class=num>0.843</td><td class=num>0.745</td><td class=num>0.940</td><td class=num>0.929</td><td class=num>0.900</td></tr></table><table class='res avoid'><tr><th>Average precision</th><th class=num>Q1</th><th class=num>Q2</th><th class=num>T1</th><th class=num>T2</th><th class=num>T3</th><th class=num>T4</th><th class=num>T5</th></tr><tr><td>TF-IDF + cosine</td><td class=num>0.954</td><td class=num>0.575</td><td class=num>0.836</td><td class=num>0.115</td><td class=num>0.810</td><td class=num>0.940</td><td class=num>0.981</td></tr><tr><td>BM25</td><td class=num>0.970</td><td class=num>0.575</td><td class=num>0.839</td><td class=num>0.083</td><td class=num>0.804</td><td class=num>0.956</td><td class=num>0.996</td></tr><tr><td>Our score</td><td class=num>0.947</td><td class=num>0.586</td><td class=num>0.843</td><td class=num>0.049</td><td class=num>0.800</td><td class=num>0.987</td><td class=num>0.977</td></tr><tr><td>word2vec + cosine</td><td class=num>0.976</td><td class=num>0.513</td><td class=num>0.807</td><td class=num>0.220</td><td class=num>0.795</td><td class=num>0.919</td><td class=num>0.984</td></tr></table>
+<ul>
+  <li><b>As a re-ranker of the AND results, word2vec is comparable to the lexical scores.</b> It has the highest test MAP (0.745) and P@10 (0.94)
+      and the lowest validation MAP (0.745). Its advantage comes from T2 (AP 0.220); in T1, T3, T4 and T5 it is slightly below BM25, and in Q2 clearly
+      below (0.513 against 0.575).</li>
+  <li><b>The scores are packed in a narrow band.</b> All the documents are fashion products described with the same words, so their average vectors are
+      close to each other: in T2 the median cosine of the 1,584 matches is 0.88 and the first 20 results are between 0.935 and 0.943.
+      The order of the first positions depends on differences in the third decimal.</li>
+  <li><b>It also prefers short documents.</b> A long description adds many generic words to the average and moves the vector away from the query: the top-20
+      documents have between 21.4 and 34.0 terms on average, the matching documents between 34.7 and 71.5.</li>
+  <li><b>What the vectors encode.</b> Words that appear in the same contexts get similar vectors, and the attributes of a product are exactly that kind of word
+      (table below): <i>men</i> and <i>women</i> have cosine 0.99, <i>grey</i> and <i>black</i> 0.89. For the vectors, a grey sweatshirt for men and a black sweatshirt for women
+      are almost the same text. On the other side, the pairs that we would like to be close because they mean the same are not:
+      <i>grey</i>/<i>gray</i> 0.28, <i>hood</i>/<i>hoodi</i> 0.30, <i>pant</i>/<i>trouser</i> 0.25. Our corpus is too small to learn them; only <i>polyest</i>/<i>polycotton</i> (0.62) is clearly learned.</li>
+</ul>
+<table class='res avoid small'><tr><th>Pair of terms</th><th class=num>men / women</th><th class=num>grey / black</th><th class=num>blue / black</th><th class=num>round / neck</th><th class=num>polyest / polycotton</th><th class=num>jean / denim</th><th class=num>hood / hoodi</th><th class=num>grey / gray</th><th class=num>pant / trouser</th><th class=num>shirt / tshirt</th></tr><tr><td>Cosine</td><td class=num>0.99</td><td class=num>0.89</td><td class=num>0.71</td><td class=num>0.74</td><td class=num>0.62</td><td class=num>0.47</td><td class=num>0.30</td><td class=num>0.28</td><td class=num>0.25</td><td class=num>0.34</td></tr></table>
+<p><b>The same ranking without the AND.</b> In this pipeline word2vec only re-orders documents that already contain all the query terms, so its
+expected advantage (finding documents that use related words) cannot appear. As an analysis, we ranked the <b>whole collection</b> by cosine,
+without the AND filter:</p>
+<table class='avoid'><tr><th>Query</th><th class=num>R</th><th class=num>Relevant lost by the AND</th><th class=num>P@20 with AND</th><th class=num>P@20 without AND</th><th class=num>AP with AND</th><th class=num>AP without AND</th><th class=num>AP: AND first, then the rest</th></tr><tr><td>Q1</td><td class=num>13</td><td class=num>0</td><td class=num>—</td><td class=num>—</td><td class=num>0.976</td><td class=num>0.976</td><td class=num>0.976</td></tr><tr><td>Q2</td><td class=num>10</td><td class=num>4</td><td class=num>—</td><td class=num>—</td><td class=num>0.513</td><td class=num>0.696</td><td class=num>0.782</td></tr><tr><td>T1</td><td class=num>79</td><td class=num>11</td><td class=num>0.95</td><td class=num>0.15</td><td class=num>0.807</td><td class=num>0.099</td><td class=num>0.825</td></tr><tr><td>T2</td><td class=num>43</td><td class=num>0</td><td class=num>0.40</td><td class=num>0.35</td><td class=num>0.220</td><td class=num>0.106</td><td class=num>0.220</td></tr><tr><td>T3</td><td class=num>48</td><td class=num>9</td><td class=num>0.95</td><td class=num>0.00</td><td class=num>0.795</td><td class=num>0.037</td><td class=num>0.801</td></tr><tr><td>T4</td><td class=num>74</td><td class=num>0</td><td class=num>1.00</td><td class=num>0.05</td><td class=num>0.919</td><td class=num>0.042</td><td class=num>0.919</td></tr><tr><td>T5</td><td class=num>38</td><td class=num>0</td><td class=num>1.00</td><td class=num>0.65</td><td class=num>0.984</td><td class=num>0.540</td><td class=num>0.984</td></tr></table>
+<p class="cap">P@20 is not given for Q1 and Q2 because only 20 documents of each are judged. "AND first, then the rest": the AND results ranked by cosine, followed by all the other documents ranked by cosine.</p>
+<p>Without the AND the average vector cannot keep the attributes of the query: P@20 falls from 0.95 to 0.15 in T1, from 0.95 to 0.00 in T3
+and from 1.00 to 0.05 in T4, because products with another gender, colour or fabric are almost as close to the query as the right ones. The useful part is
+the opposite one: the relevant documents that the AND loses get a position, and if they are placed <b>after</b> the AND results the average
+precision improves in the three queries where the AND loses documents (Q2: 0.513 → 0.782; T1: 0.807 → 0.825; T3: 0.795 → 0.801) and does not change in the other four.
+So the vectors are useful to complete a lexical result, not to replace it.</p>
+<table class="pc">
+<tr><th>Pros of word2vec + cosine</th><th>Cons</th></tr>
+<tr><td><ul>
+<li>Similarity does not need the same words: it can give credit to a document that uses a related word instead of the query term (<i>polycotton</i> for <i>polyester</i>), which the lexical scores cannot do.</li>
+<li>Dense vectors of fixed size: scoring is one matrix product, and the same vectors can be reused (similar products, clustering, recommendation).</li>
+<li>Trained on our own collection without labels, in less than a minute.</li>
+</ul></td>
+<td><ul>
+<li>The average loses which words matched and the word order; every word weighs the same, and long documents are diluted.</li>
+<li>Attributes that users ask for (gender, colour) have almost identical vectors, so without a lexical filter the precision collapses.</li>
+<li>Scores are packed in a narrow band and are not interpretable (no term explains the score).</li>
+<li>The result depends on training choices: with skip-gram instead of CBOW the AP of T2 goes from 0.220 to 0.046 (section 6).</li>
+<li>A small corpus gives poor vectors for rare words and spelling variants; new words have no vector until the model is trained again.</li>
+</ul></td></tr>
+</table>
+
+<h2>6. Can we imagine a better representation than word2vec?</h2>
+<p>Yes: the average of word vectors is the simplest way to turn word vectors into a text vector, and its limits are known. (1) Every word
+has the same weight, so the frequent words of the collection (<i>women</i>, <i>cotton</i>, <i>fit</i>) dominate the vector. (2) The order and the
+combination of the words are lost: "shirt for women, not for men" and "shirt for men, not for women" have the same vector. (3) Each word has
+one vector, whatever its context. (4) In a long description the few words that describe the product are diluted. The alternatives try to
+solve some of these points.</p>
+<table>
+<tr><th style="width:17%">Representation</th><th style="width:26%">Idea</th><th style="width:27%">Pros</th><th>Cons</th></tr>
+<tr><td><b>Weighted averages</b> (TF-IDF weights; SIF, Arora et al. 2017)</td>
+<td>Still an average of word vectors, but rare words weigh more; SIF also removes the direction shared by all the documents.</td>
+<td>No new training, same cost as the plain average. Addresses limit (1).</td>
+<td>Still a bag of words: limits (2) and (3) remain. In our test it was not better than the plain average.</td></tr>
+<tr><td><b>doc2vec</b> (Le &amp; Mikolov 2014)</td>
+<td>The model learns one vector per document, trained to predict the words of that document (PV-DBOW) or the next word together with the context words (PV-DM).</td>
+<td>The document vector is learned for the document, not computed with a fixed rule, so no weighting scheme has to be chosen. PV-DM uses some word order. One vector of fixed size per document.</td>
+<td>The query is not in the training set: its vector has to be <b>inferred</b> with gradient steps, which is slower, random by default, and poorly determined for a query of 3-5 words. New products also need inference or a new training. It needs many documents, and ours are short and repetitive. More parameters to choose. In our test it was not better.</td></tr>
+<tr><td><b>Sentence embeddings</b>: Sent2Vec (Pagliardini et al. 2018), Sentence-BERT and other transformer encoders (Reimers &amp; Gurevych 2019)</td>
+<td>A model trained so that the vector of a whole sentence is good for comparing sentences. Transformer encoders read the sentence with attention, so each word is represented in its context.</td>
+<td>They address limits (2) and (3): word order, negation and combinations of words change the vector. They are pre-trained on very large corpora, so they know the synonyms and spelling variants that our corpus is too small to learn (<i>gray</i>/<i>grey</i>, <i>hoodie</i>/<i>hooded</i>, <i>trousers</i>/<i>pants</i>). They work on the raw text, with no stemming.</td>
+<td>Much higher cost: a large model, the 28,080 documents have to be encoded (once) and each query at search time. Long descriptions are truncated to the maximum input length. A general model may not separate the fine attributes of products, and a cosine still cannot guarantee that the colour or the gender is the requested one, so a lexical or structured filter is still needed. Not interpretable. <b>We did not test them.</b></td></tr>
+</table>
+<p><b>What we measured.</b> We compared the representations that can be trained on our collection with gensim, with the same pipeline (AND + cosine) and the same judgments.
+The IDF-weighted average, SIF and the title-only average use the word vectors of section 5; skip-gram and doc2vec are trained with the same
+dimensions and window.</p>
+<table class='avoid'><tr><th>Representation</th><th class=num>Val. MAP</th><th class=num>Test MAP</th><th class=num>Test P@10</th><th class=num>Test NDCG@10</th><th class=num>AP T2</th><th class=num>Relevant in top 20 of T2</th><th class=num>Mean title length, top 20 of T2</th></tr><tr><td>word2vec average, CBOW (section 5)</td><td class=num>0.745</td><td class=num>0.745</td><td class=num>0.94</td><td class=num>0.929</td><td class=num>0.220</td><td class=num>8</td><td class=num>6.5</td></tr><tr><td>word2vec average, skip-gram</td><td class=num>0.729</td><td class=num>0.716</td><td class=num>0.80</td><td class=num>0.800</td><td class=num>0.046</td><td class=num>0</td><td class=num>7.1</td></tr><tr><td>IDF-weighted average</td><td class=num>0.738</td><td class=num>0.715</td><td class=num>0.82</td><td class=num>0.814</td><td class=num>0.065</td><td class=num>3</td><td class=num>7.6</td></tr><tr><td>SIF: weighted average, first component removed</td><td class=num>0.749</td><td class=num>0.703</td><td class=num>0.80</td><td class=num>0.800</td><td class=num>0.022</td><td class=num>0</td><td class=num>7.1</td></tr><tr><td>Average of the title terms only</td><td class=num>0.667</td><td class=num>0.813</td><td class=num>0.96</td><td class=num>0.967</td><td class=num>0.491</td><td class=num>19</td><td class=num>5.4</td></tr><tr><td>doc2vec PV-DBOW</td><td class=num>0.740</td><td class=num>0.700</td><td class=num>0.80</td><td class=num>0.800</td><td class=num>0.045</td><td class=num>0</td><td class=num>6.0</td></tr><tr><td>doc2vec PV-DM</td><td class=num>0.749</td><td class=num>0.700</td><td class=num>0.84</td><td class=num>0.826</td><td class=num>0.075</td><td class=num>3</td><td class=num>5.8</td></tr></table>
+<ul>
+  <li><b>None of the "better" representations improves the plain average in our setting.</b> The IDF-weighted average, SIF and the two doc2vec models have a test MAP between
+      0.700 and 0.715, against 0.745 for the plain average, and similar validation MAP. The training algorithm of the word vectors (CBOW or skip-gram)
+      changes the result as much as the way of combining them.</li>
+  <li><b>Most of the differences come from T2,</b> and they are explained by the length of the documents and not by meaning. The pre-processing removes the letter
+      <i>v</i>, so in the title of a V-neck T-shirt only <i>neck</i> is left, while a round-neck title also contains <i>round</i>: the V-neck documents are the ones with
+      fewer words that are not in the query. A representation that prefers such documents finds them: with the title-only average, 19 of the top 20 of T2 are relevant
+      (mean title length 5.4 terms, against 6.6 for all the matches). It is the best representation on the test queries (0.813) and the worst on the validation
+      queries (0.667), where the same titles appear among the relevant and the non-relevant judged documents (for example <i>Full Sleeve Printed Women Sweatshirt</i> in Q1), so the title cannot separate them.</li>
+</ul>
+<p><b>Our answer.</b> A better representation than the average of word2vec vectors exists: for comparing the meaning of two texts, a
+transformer sentence encoder is the strongest option, because it uses the context and the order of the words and brings knowledge that a
+corpus of 28,080 product descriptions cannot give. doc2vec is a smaller step: it learns the document vector instead of averaging, but the
+inference of the query vector is its weak point for search, and with our data it did not help. However, in our pipeline the representation
+is not what limits the result. The candidates already contain all the query terms and are near-duplicates of each other, so any representation
+only has to order very similar documents, and the remaining errors come from what Part 2 found (information removed by the pre-processing,
+relevant documents lost by the AND). Where a better representation would pay off is <b>before</b> the ranking: retrieving the documents that
+the AND loses and adding them after the lexical results, as in the last experiment of section 5.4.</p>
+
+<h2>7. Summary and conclusions</h2>
+<figure class="avoid"><img src="figures/average_precision_by_method.png" style="max-width:100%">
+<figcaption>Figure 3. Average precision of each query with the four rankings (the values are in the table of section 5.4).</figcaption></figure>
+<ul>
+  <li><b>The four rankings have a similar relevance</b> on our seven queries (test MAP between 0.731 and 0.745, validation MAP between 0.745 and 0.772). The reason is the
+      pipeline: the conjunctive query has already selected documents that contain all the terms, so the ranking only orders near-duplicate products.
+      The query with the largest differences, T2, is decided by the length of the documents.</li>
+  <li><b>TF-IDF + cosine vs BM25:</b> both prefer short documents; the cosine more strongly, because it normalises by all the terms of the document, while BM25 saturates the
+      term frequency and normalises only by length. BM25 is the better basis for a combined score.</li>
+  <li><b>Our score</b> keeps the relevance of BM25 and changes which of the matching products are shown first: mean rating 3.63 → 4.03, discount 54.2% → 57.1%,
+      out of stock 12.9% → 0% in the top 10. Its weights are set by hand and should be learned from clicks when Part 4 provides them.</li>
+  <li><b>word2vec + cosine</b> is a valid re-ranker but not a retriever: without the AND the average vector cannot keep gender, colour or fabric. Its use
+      is to complete the lexical results with the documents that the AND loses.</li>
+  <li><b>Better representations</b> exist (sentence encoders), but for this collection the next improvements are still the ones of Part 2: what is indexed and how the query is matched.</li>
+</ul>
+
+<h2>AI usage statement</h2>
+<p>We used Claude (Anthropic) as an assistant during this part: to write and test the code of the rankers, to run the experiments and to
+draft this report. Every number of the report is produced by the notebook and stored in <code>results/</code>; the new rankers are covered by tests
+(our score and word2vec + cosine against direct implementations of their formulas, BM25 against a value computed by hand). We reviewed the code,
+the results and the text, and the decisions and their justification are our own responsibility.</p>
+
+<h2 style="page-break-before: always; break-before: page;">Appendix A. Top-20 lists with word2vec + cosine</h2>
+<p>Conjunctive search (all the query terms) ranked by the cosine between the average word2vec vector of the query and of the document. Rel. is our
+relevance judgment of Part 2 (1 = relevant); it is not used by the ranking. Brand is the value stored in the dataset (often truncated). The same lists are in
+<code>results/word2vec_top20.csv</code>.</p>
+<div class='avoid'><h3>T1: men black track pants polyester <span class='light'>(79 documents contain all the terms; 19 of the 20 are relevant)</span></h3><table class='top'><tr><th class=num>Rank</th><th class=num>Cosine</th><th>pid</th><th>Title</th><th>Brand (as stored)</th><th class=num>Rating</th><th class=num>Rel.</th></tr><tr><td class=num>1</td><td class=num>0.8764</td><td><code>TKPFZDVZVQHWEUVF</code></td><td>Solid Men Black Track Pants</td><td>Onei</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>2</td><td class=num>0.8739</td><td><code>TKPFZMZSWZN5HKEZ</code></td><td>Solid Men Black Track Pants</td><td>—</td><td class=num>2.1</td><td class=num>1</td></tr><tr><td class=num>3</td><td class=num>0.8380</td><td><code>TKPFZAZ4QCAZFAGA</code></td><td>Solid Men Black, Dark Blue Track Pants</td><td>Onei</td><td class=num>5.0</td><td class=num>1</td></tr><tr><td class=num>4</td><td class=num>0.8191</td><td><code>TKPF3FPQGCHXHGRM</code></td><td>Solid Men Black, Grey Track Pants</td><td>Fairdea</td><td class=num>2.6</td><td class=num>1</td></tr><tr><td class=num>5</td><td class=num>0.8191</td><td><code>TKPF3FPNZ5XCHZ6R</code></td><td>Solid Men Black, Grey Track Pants</td><td>Fairdea</td><td class=num>2.6</td><td class=num>1</td></tr><tr><td class=num>6</td><td class=num>0.8191</td><td><code>TKPF3FPKTYM55SAV</code></td><td>Solid Men Black, Grey Track Pants</td><td>Fairdea</td><td class=num>2.6</td><td class=num>1</td></tr><tr><td class=num>7</td><td class=num>0.8172</td><td><code>TKPFZDKXX7MQAYYK</code></td><td>Solid Men Black Track Pants</td><td>Ravil</td><td class=num>3.4</td><td class=num>1</td></tr><tr><td class=num>8</td><td class=num>0.8157</td><td><code>TKPF3FPJNVVBKPRG</code></td><td>Solid Men Blue, Black Track Pants</td><td>Fairdea</td><td class=num>2.6</td><td class=num>1</td></tr><tr><td class=num>9</td><td class=num>0.8157</td><td><code>TKPF3FPZRRJUWTAZ</code></td><td>Solid Men Blue, Black Track Pants</td><td>Fairdea</td><td class=num>2.6</td><td class=num>1</td></tr><tr><td class=num>10</td><td class=num>0.8157</td><td><code>TKPF3FPKHNWZ3UMG</code></td><td>Solid Men Blue, Black Track Pants</td><td>Fairdea</td><td class=num>2.6</td><td class=num>1</td></tr><tr><td class=num>11</td><td class=num>0.8116</td><td><code>TKPFYWGFE5WWQUED</code></td><td>Solid Men Black Track Pants</td><td>Blue Sha</td><td class=num>3.5</td><td class=num>1</td></tr><tr><td class=num>12</td><td class=num>0.7991</td><td><code>TKPFWCVUMWW96BEY</code></td><td>Solid Men Black Track Pants</td><td>Breakboun</td><td class=num>2.8</td><td class=num>1</td></tr><tr><td class=num>13</td><td class=num>0.7951</td><td><code>TKPFZYS9FBE5S8VZ</code></td><td>Solid Men Black Track Pants</td><td>REAZ</td><td class=num>4.3</td><td class=num>1</td></tr><tr><td class=num>14</td><td class=num>0.7926</td><td><code>TKPEYQ6YNHW8FV5R</code></td><td>Solid Men Black, Orange Track Pants</td><td>Fairdea</td><td class=num>3.5</td><td class=num>1</td></tr><tr><td class=num>15</td><td class=num>0.7813</td><td><code>TKPFGP48RBBKAGSZ</code></td><td>Striped Men Black Track Pants</td><td>adidas Origina</td><td class=num>4.0</td><td class=num>1</td></tr><tr><td class=num>16</td><td class=num>0.7594</td><td><code>TKPFZHV4MZB4TF7G</code></td><td>Striped Men Grey, Black Track Pants</td><td>Glitc</td><td class=num>—</td><td class=num>0</td></tr><tr><td class=num>17</td><td class=num>0.7577</td><td><code>TKPFYWCFRN572UFY</code></td><td>Solid Men Black Track Pants</td><td>Blue Sha</td><td class=num>3.5</td><td class=num>1</td></tr><tr><td class=num>18</td><td class=num>0.7468</td><td><code>TKPFTZ7WG62BFDKC</code></td><td>Solid Men Black Track Pants</td><td>JACK AND HAR</td><td class=num>3.8</td><td class=num>1</td></tr><tr><td class=num>19</td><td class=num>0.7467</td><td><code>TKPFZ3JRDVRHWSFY</code></td><td>Solid Men Black Track Pants</td><td>REEB</td><td class=num>3.5</td><td class=num>1</td></tr><tr><td class=num>20</td><td class=num>0.7462</td><td><code>TKPFZ3JRWHEETCJP</code></td><td>Color Block Men Black Track Pants</td><td>REEB</td><td class=num>2.8</td><td class=num>1</td></tr></table></div>
+<div class='avoid'><h3>T2: women black v neck tshirt <span class='light'>(1,584 documents contain all the terms; 8 of the 20 are relevant)</span></h3><table class='top'><tr><th class=num>Rank</th><th class=num>Cosine</th><th>pid</th><th>Title</th><th>Brand (as stored)</th><th class=num>Rating</th><th class=num>Rel.</th></tr><tr><td class=num>1</td><td class=num>0.9426</td><td><code>TSHFYUQYXW4BY9GR</code></td><td>Striped Women Round Neck Black, White T-Shirt</td><td>Steenb</td><td class=num>3.7</td><td class=num>0</td></tr><tr><td class=num>2</td><td class=num>0.9425</td><td><code>TSHEYRU4NH2ERTGV</code></td><td>Abstract Women V-Neck Black, Yellow T-Shirt</td><td>Fairdea</td><td class=num>2.6</td><td class=num>1</td></tr><tr><td class=num>3</td><td class=num>0.9424</td><td><code>TSHEYQ73G7VKU9WN</code></td><td>Chevron/Zig Zag Women V-Neck Red, Black T-Shirt</td><td>Fairdea</td><td class=num>2.6</td><td class=num>1</td></tr><tr><td class=num>4</td><td class=num>0.9420</td><td><code>TSHF3MHQKA4NWX2Y</code></td><td>Printed Women V-neck Black, Yellow T-Shirt</td><td>Fairdea</td><td class=num>2.6</td><td class=num>1</td></tr><tr><td class=num>5</td><td class=num>0.9416</td><td><code>TSHF3MHNGFFAKPB4</code></td><td>Solid Women V-neck Black, Yellow T-Shirt</td><td>Fairdea</td><td class=num>2.6</td><td class=num>1</td></tr><tr><td class=num>6</td><td class=num>0.9416</td><td><code>TSHF3MHZGSEHCBQ4</code></td><td>Solid Women V-neck Black, Yellow T-Shirt</td><td>Fairdea</td><td class=num>2.6</td><td class=num>1</td></tr><tr><td class=num>7</td><td class=num>0.9410</td><td><code>TSHEYRU3TH46Z4Z3</code></td><td>Abstract Women V-Neck Blue, Black T-Shirt</td><td>Fairdea</td><td class=num>2.6</td><td class=num>1</td></tr><tr><td class=num>8</td><td class=num>0.9394</td><td><code>TSHFDHGJQNM39YYN</code></td><td>Color Block Women Round Neck Black T-Shirt</td><td>Amp</td><td class=num>3.4</td><td class=num>0</td></tr><tr><td class=num>9</td><td class=num>0.9393</td><td><code>TSHFWF57CTFWRGFZ</code></td><td>Solid Women Round Neck Black T-Shirt</td><td>MASH UNLIMIT</td><td class=num>3.2</td><td class=num>0</td></tr><tr><td class=num>10</td><td class=num>0.9381</td><td><code>TSHEYQ73JNWYHJCZ</code></td><td>Printed Women V-Neck White, Black T-Shirt</td><td>Fairdea</td><td class=num>3.8</td><td class=num>1</td></tr><tr><td class=num>11</td><td class=num>0.9381</td><td><code>TSHFW38TBJSD3ST8</code></td><td>Printed Women Round Neck Grey, Black T-Shirt</td><td>Xi</td><td class=num>—</td><td class=num>0</td></tr><tr><td class=num>12</td><td class=num>0.9379</td><td><code>TSHFW3947QNACHHQ</code></td><td>Printed Women Round Neck Grey, Black T-Shirt</td><td>Xi</td><td class=num>—</td><td class=num>0</td></tr><tr><td class=num>13</td><td class=num>0.9379</td><td><code>TSHFW38SBN7QX5KM</code></td><td>Printed Women Round Neck Grey, Black T-Shirt</td><td>Xi</td><td class=num>—</td><td class=num>0</td></tr><tr><td class=num>14</td><td class=num>0.9374</td><td><code>TSHFYUTFYNDTXRFM</code></td><td>Solid Women Polo Neck Black T-Shirt</td><td>Steenb</td><td class=num>3.7</td><td class=num>0</td></tr><tr><td class=num>15</td><td class=num>0.9374</td><td><code>TSHFPCZ8KFHZYR3Y</code></td><td>Printed Women V Neck Black T-Shirt</td><td>ATTIITU</td><td class=num>4.2</td><td class=num>1</td></tr><tr><td class=num>16</td><td class=num>0.9368</td><td><code>TSHFDHGSHKWYERQG</code></td><td>Color Block Women Round Neck Black T-Shirt</td><td>Amp</td><td class=num>3.0</td><td class=num>0</td></tr><tr><td class=num>17</td><td class=num>0.9356</td><td><code>TSHFW38TG8HXAT5Z</code></td><td>Printed Women Round Neck White, Black T-Shirt</td><td>Xi</td><td class=num>—</td><td class=num>0</td></tr><tr><td class=num>18</td><td class=num>0.9354</td><td><code>TSHFW394E2XRZ76G</code></td><td>Printed Women Round Neck White, Black T-Shirt</td><td>Xi</td><td class=num>—</td><td class=num>0</td></tr><tr><td class=num>19</td><td class=num>0.9354</td><td><code>TSHFW38TKZQNHU5F</code></td><td>Printed Women Round Neck White, Black T-Shirt</td><td>Xi</td><td class=num>—</td><td class=num>0</td></tr><tr><td class=num>20</td><td class=num>0.9350</td><td><code>TSHFZX2G3HMGH4YQ</code></td><td>Printed Women Polo Neck Black T-Shirt</td><td>TEE BUD</td><td class=num>2.7</td><td class=num>0</td></tr></table></div>
+<div class='avoid'><h3>T3: men grey hooded sweatshirt <span class='light'>(40 documents contain all the terms; 19 of the 20 are relevant)</span></h3><table class='top'><tr><th class=num>Rank</th><th class=num>Cosine</th><th>pid</th><th>Title</th><th>Brand (as stored)</th><th class=num>Rating</th><th class=num>Rel.</th></tr><tr><td class=num>1</td><td class=num>0.8398</td><td><code>SWSFXMKRJYMSYTTA</code></td><td>Full Sleeve Solid Men Sweatshirt</td><td>Breakboun</td><td class=num>—</td><td class=num>1</td></tr><tr><td class=num>2</td><td class=num>0.8382</td><td><code>SWSFZ7GXWNGANCUA</code></td><td>Sleeveless Solid Men Sweatshirt</td><td>LIVST</td><td class=num>3.3</td><td class=num>1</td></tr><tr><td class=num>3</td><td class=num>0.8376</td><td><code>SWSFXMKPWFS9HRGS</code></td><td>Full Sleeve Printed Men Sweatshirt</td><td>Breakboun</td><td class=num>2.8</td><td class=num>1</td></tr><tr><td class=num>4</td><td class=num>0.8249</td><td><code>SWSFZUEBEBWJUQWG</code></td><td>Full Sleeve Printed Men Sweatshirt</td><td>RELIEF ZO</td><td class=num>4.3</td><td class=num>1</td></tr><tr><td class=num>5</td><td class=num>0.8198</td><td><code>SWSFYNY4CWHCDWM5</code></td><td>Full Sleeve Printed Men Sweatshirt</td><td>MASH UNLIMIT</td><td class=num>3.2</td><td class=num>1</td></tr><tr><td class=num>6</td><td class=num>0.8178</td><td><code>SWSFHABMCWFP8GJR</code></td><td>Sleeveless Solid Men Sweatshirt</td><td>TeeMoo</td><td class=num>3.0</td><td class=num>1</td></tr><tr><td class=num>7</td><td class=num>0.8174</td><td><code>SWSFZKX9T2SGSKRA</code></td><td>Full Sleeve Color Block Men Sweatshirt</td><td>REEB</td><td class=num>2.4</td><td class=num>1</td></tr><tr><td class=num>8</td><td class=num>0.8127</td><td><code>SWSFVEMQPH2V96BF</code></td><td>Full Sleeve Printed Men Sweatshirt</td><td>Steenb</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>9</td><td class=num>0.8092</td><td><code>SWSFYQFQZTYY3YVM</code></td><td>Full Sleeve Printed Men Sweatshirt</td><td>Rose We</td><td class=num>3.2</td><td class=num>1</td></tr><tr><td class=num>10</td><td class=num>0.8090</td><td><code>SWSFJY5ZTQ35VBV7</code></td><td>Full Sleeve Color Block Men Sweatshirt</td><td>REEB</td><td class=num>3.9</td><td class=num>1</td></tr><tr><td class=num>11</td><td class=num>0.7980</td><td><code>SWSFNMS5V7TVXY8Z</code></td><td>Full Sleeve Solid Men Sweatshirt</td><td>FLEXIM</td><td class=num>3.9</td><td class=num>1</td></tr><tr><td class=num>12</td><td class=num>0.7980</td><td><code>SWSFNMS5BKHGHJXF</code></td><td>Full Sleeve Solid Men Sweatshirt</td><td>FLEXIM</td><td class=num>3.9</td><td class=num>1</td></tr><tr><td class=num>13</td><td class=num>0.7976</td><td><code>SWSFZ2H4PW2GHY9H</code></td><td>Full Sleeve Solid Men Sweatshirt</td><td>ECKO Unl</td><td class=num>—</td><td class=num>1</td></tr><tr><td class=num>14</td><td class=num>0.7976</td><td><code>SWSFZ2HJXN9HNG7E</code></td><td>Full Sleeve Solid Men Sweatshirt</td><td>ECKO Unl</td><td class=num>—</td><td class=num>1</td></tr><tr><td class=num>15</td><td class=num>0.7904</td><td><code>SWSE8FYZMDFNNTHH</code></td><td>Full Sleeve Solid Men Sweatshirt</td><td>Scott Internation</td><td class=num>3.8</td><td class=num>1</td></tr><tr><td class=num>16</td><td class=num>0.7904</td><td><code>SWSE8FYZQXR52M45</code></td><td>Full Sleeve Solid Men Sweatshirt</td><td>Scott Internation</td><td class=num>3.8</td><td class=num>1</td></tr><tr><td class=num>17</td><td class=num>0.7820</td><td><code>SWSFVNB8HRBSY6E3</code></td><td>Full Sleeve Printed Men Sweatshirt</td><td>Marca Disa</td><td class=num>4.4</td><td class=num>0</td></tr><tr><td class=num>18</td><td class=num>0.7685</td><td><code>SWSFJY5ZTHZUNVNV</code></td><td>Full Sleeve Solid Men Sweatshirt</td><td>REEB</td><td class=num>4.0</td><td class=num>1</td></tr><tr><td class=num>19</td><td class=num>0.7574</td><td><code>SWSFJY5ZQDHHSJGY</code></td><td>Full Sleeve Solid Men Sweatshirt</td><td>REEB</td><td class=num>4.4</td><td class=num>1</td></tr><tr><td class=num>20</td><td class=num>0.7551</td><td><code>SWSF9W59YQWQCVWN</code></td><td>Full Sleeve Self Design Men Sweatshirt</td><td>AXMA</td><td class=num>4.3</td><td class=num>1</td></tr></table></div>
+<div class='avoid'><h3>T4: women striped shirt <span class='light'>(114 documents contain all the terms; 20 of the 20 are relevant)</span></h3><table class='top'><tr><th class=num>Rank</th><th class=num>Cosine</th><th>pid</th><th>Title</th><th>Brand (as stored)</th><th class=num>Rating</th><th class=num>Rel.</th></tr><tr><td class=num>1</td><td class=num>0.8777</td><td><code>SHTFAHDZ7H9ZFYNZ</code></td><td>Women Slim Fit Striped Spread Collar Casual Shirt</td><td>Purple Sta</td><td class=num>3.8</td><td class=num>1</td></tr><tr><td class=num>2</td><td class=num>0.8738</td><td><code>SHTFAHDYU7QAHTEZ</code></td><td>Women Regular Fit Striped Casual Shirt</td><td>Purple Sta</td><td class=num>2.9</td><td class=num>1</td></tr><tr><td class=num>3</td><td class=num>0.8682</td><td><code>SHTFCA3J7UZ2TGHN</code></td><td>Women Regular Fit Striped Formal Shirt</td><td>Mo</td><td class=num>4.8</td><td class=num>1</td></tr><tr><td class=num>4</td><td class=num>0.8639</td><td><code>SHTFHPZ7HYGXGJK6</code></td><td>Women Slim Fit Striped Casual Shirt</td><td>SUR</td><td class=num>4.0</td><td class=num>1</td></tr><tr><td class=num>5</td><td class=num>0.8637</td><td><code>SHTFHPZ7WFH8NKRT</code></td><td>Women Slim Fit Striped Casual Shirt</td><td>SUR</td><td class=num>4.0</td><td class=num>1</td></tr><tr><td class=num>6</td><td class=num>0.8632</td><td><code>SHTFHPZ7YTVWZWHW</code></td><td>Women Slim Fit Striped Casual Shirt</td><td>SUR</td><td class=num>4.0</td><td class=num>1</td></tr><tr><td class=num>7</td><td class=num>0.8632</td><td><code>SHTFYW8Z4EHRRT8Y</code></td><td>Women Slim Fit Striped Casual Shirt</td><td>Purple Sta</td><td class=num>2.9</td><td class=num>1</td></tr><tr><td class=num>8</td><td class=num>0.8616</td><td><code>SHTFWHDQJ34GDCHQ</code></td><td>Women Slim Fit Striped Casual Shirt</td><td>AS Tre</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>9</td><td class=num>0.8616</td><td><code>SHTFWHDQRKZJB4VT</code></td><td>Women Slim Fit Striped Casual Shirt</td><td>AS Tre</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>10</td><td class=num>0.8574</td><td><code>SHTFWHE2ZAZNTYAY</code></td><td>Women Slim Fit Striped Spread Collar Casual Shirt</td><td>AS Tre</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>11</td><td class=num>0.8559</td><td><code>SHTFEKRWKFHHH9ZT</code></td><td>Women Slim Fit Striped Spread Collar Casual Shirt</td><td>True Bl</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>12</td><td class=num>0.8530</td><td><code>SHTFWHE2XGBR3NRV</code></td><td>Women Slim Fit Striped Casual Shirt</td><td>AS Tre</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>13</td><td class=num>0.8530</td><td><code>SHTFWHE22SVV5TTM</code></td><td>Women Slim Fit Striped Casual Shirt</td><td>AS Tre</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>14</td><td class=num>0.8514</td><td><code>SHTFRR7FDFMZYXJU</code></td><td>Women Slim Fit Striped Casual Shirt</td><td>ECKO Unl</td><td class=num>2.5</td><td class=num>1</td></tr><tr><td class=num>15</td><td class=num>0.8485</td><td><code>SHTFVGSFKGFVHZGW</code></td><td>Women Slim Fit Printed, Striped, Checkered Casual Shirt</td><td>Marca Disa</td><td class=num>4.2</td><td class=num>1</td></tr><tr><td class=num>16</td><td class=num>0.8478</td><td><code>SHTFRR7YFGBZG3BW</code></td><td>Women Slim Fit Striped Cut Away Collar Casual Shirt</td><td>ECKO Unl</td><td class=num>2.5</td><td class=num>1</td></tr><tr><td class=num>17</td><td class=num>0.8464</td><td><code>SHTFWP8CDRGUQTBP</code></td><td>Women Regular Fit Striped Casual Shirt</td><td>Mett</td><td class=num>2.1</td><td class=num>1</td></tr><tr><td class=num>18</td><td class=num>0.8464</td><td><code>SHTFWP8C4QRRU2GA</code></td><td>Women Regular Fit Striped Casual Shirt</td><td>Mett</td><td class=num>2.2</td><td class=num>1</td></tr><tr><td class=num>19</td><td class=num>0.8448</td><td><code>SHTFMRH8CZPAUZ3G</code></td><td>Women Slim Fit Striped Spread Collar Casual Shirt</td><td>Solid Styl</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>20</td><td class=num>0.8435</td><td><code>SHTEX9HYBYKEQX6H</code></td><td>Women Slim Fit Striped Spread Collar Casual Shirt</td><td>G</td><td class=num>2.8</td><td class=num>1</td></tr></table></div>
+<div class='avoid'><h3>T5: men denim jacket <span class='light'>(73 documents contain all the terms; 20 of the 20 are relevant)</span></h3><table class='top'><tr><th class=num>Rank</th><th class=num>Cosine</th><th>pid</th><th>Title</th><th>Brand (as stored)</th><th class=num>Rating</th><th class=num>Rel.</th></tr><tr><td class=num>1</td><td class=num>0.8362</td><td><code>JCKFMHKMYEWHQFNU</code></td><td>Full Sleeve Printed Men Denim Casual Jacket</td><td>Solid Styl</td><td class=num>3.3</td><td class=num>1</td></tr><tr><td class=num>2</td><td class=num>0.8136</td><td><code>JCKFKKFZ7QB2KUQV</code></td><td>Full Sleeve Washed Men Denim Jacket</td><td>Solid Styl</td><td class=num>3.8</td><td class=num>1</td></tr><tr><td class=num>3</td><td class=num>0.8106</td><td><code>JCKFKKFZMDEHEZQS</code></td><td>Full Sleeve Washed Men Denim Jacket</td><td>Solid Styl</td><td class=num>2.4</td><td class=num>1</td></tr><tr><td class=num>4</td><td class=num>0.8030</td><td><code>JCKFWC5ZHSAEVYMS</code></td><td>Full Sleeve Solid Men Denim Jacket</td><td>VOXA</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>5</td><td class=num>0.8013</td><td><code>JCKFZJWZNCGGZGSE</code></td><td>Full Sleeve Washed Men Denim Jacket</td><td>saltla</td><td class=num>2.9</td><td class=num>1</td></tr><tr><td class=num>6</td><td class=num>0.8013</td><td><code>JCKFZJWZBZCCTYXM</code></td><td>Full Sleeve Washed Men Denim Jacket</td><td>saltla</td><td class=num>2.9</td><td class=num>1</td></tr><tr><td class=num>7</td><td class=num>0.8011</td><td><code>JCKFYY97BC7KWPM4</code></td><td>Full Sleeve Solid Men Denim Jacket</td><td>VOXA</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>8</td><td class=num>0.8002</td><td><code>JCKFURYWGYKVKFH3</code></td><td>Full Sleeve Solid Men Denim Jacket</td><td>VOXA</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>9</td><td class=num>0.8000</td><td><code>JCKFVDPW4WNPBGS2</code></td><td>Full Sleeve Solid Men Denim Jacket</td><td>VOXA</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>10</td><td class=num>0.7993</td><td><code>JCKFWC5YPXZG6S7F</code></td><td>Full Sleeve Solid Men Denim Jacket</td><td>VOXA</td><td class=num>4.0</td><td class=num>1</td></tr><tr><td class=num>11</td><td class=num>0.7975</td><td><code>JCKFWC5YZKFWXGEB</code></td><td>Full Sleeve Solid Men Denim Jacket</td><td>VOXA</td><td class=num>4.0</td><td class=num>1</td></tr><tr><td class=num>12</td><td class=num>0.7938</td><td><code>JCKFWC5ZAF3BRTPA</code></td><td>Full Sleeve Solid Men Denim Jacket</td><td>VOXA</td><td class=num>3.7</td><td class=num>1</td></tr><tr><td class=num>13</td><td class=num>0.7885</td><td><code>JCKFZZN6AWQZ8FC2</code></td><td>Full Sleeve Solid Men Denim Jacket</td><td>—</td><td class=num>—</td><td class=num>1</td></tr><tr><td class=num>14</td><td class=num>0.7855</td><td><code>JCKFVJ54N4NZGPTP</code></td><td>Full Sleeve Washed Men Denim Riding Jacket</td><td>Solid Styl</td><td class=num>3.3</td><td class=num>1</td></tr><tr><td class=num>15</td><td class=num>0.7694</td><td><code>JCKFXNVMP5XZZNHA</code></td><td>Full Sleeve Solid Men Denim Jacket</td><td>VOXA</td><td class=num>3.6</td><td class=num>1</td></tr><tr><td class=num>16</td><td class=num>0.7691</td><td><code>JCKFXNVMC435YMSU</code></td><td>Full Sleeve Solid Men Denim Jacket</td><td>VOXA</td><td class=num>3.6</td><td class=num>1</td></tr><tr><td class=num>17</td><td class=num>0.7658</td><td><code>JCKFXNVMZZ4UP9CE</code></td><td>Full Sleeve Solid Men Denim Jacket</td><td>VOXA</td><td class=num>3.6</td><td class=num>1</td></tr><tr><td class=num>18</td><td class=num>0.7616</td><td><code>JCKFUG3T7BQYB6KQ</code></td><td>Sleeveless Solid Men Denim Jacket</td><td>MagMatri</td><td class=num>4.1</td><td class=num>1</td></tr><tr><td class=num>19</td><td class=num>0.7595</td><td><code>JCKFUG3THFXJUY4G</code></td><td>Sleeveless Solid Men Denim Jacket</td><td>MagMatri</td><td class=num>4.1</td><td class=num>1</td></tr><tr><td class=num>20</td><td class=num>0.7544</td><td><code>JCKFPEVFF5DWZB4H</code></td><td>Full Sleeve Washed Men Denim Jacket</td><td>Solid Styl</td><td class=num>3.3</td><td class=num>1</td></tr></table></div>
+
+</body>
+</html>

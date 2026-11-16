@@ -132,6 +132,46 @@ git push -u origin main
 3. Make sure to update the `.env` file with your Groq API key (can be found [here](https://groq.com/), the free version is more than enough for our purposes) and any other necessary configurations. IMPORTANT: Do not share your `.env` file publicly as it contains sensitive information. It is included in `.gitignore` to prevent accidental commits. (It should never be included in the repos and appear here only for demonstration purposes).
 4. Have fun and be creative!
 
+## Project progress (Parts 1-3): how to run the code
+
+Each part has its own folder with the code, the executed notebook, the report (PDF) and a `README.md` with the
+step-by-step instructions to reproduce its results.
+
+| Part | Folder | Notebook | Instructions |
+|---|---|---|---|
+| 1. Text processing and exploratory data analysis | `project_progress/part_1` | `processing_eda.ipynb` | [README](project_progress/part_1/README.md) |
+| 2. Indexing and evaluation | `project_progress/part_2` | `indexing_evaluation.ipynb` | [README](project_progress/part_2/README.md) |
+| 3. Ranking and filtering | `project_progress/part_3` | `ranking_filtering.ipynb` | [README](project_progress/part_3/README.md) |
+
+Steps (after creating the virtualenv and installing `requirements.txt` as explained above):
+
+1. Put `fashion_products_dataset.json` and `validation_labels.csv` in the `data` folder.
+2. Run the notebooks in order (Part 1 writes `data/processed_corpus.pkl`, which Parts 2 and 3 read; if it is missing they
+   create it again):
+   ```bash
+   cd project_progress/part_1 && jupyter nbconvert --to notebook --execute --inplace processing_eda.ipynb && cd ../..
+   cd project_progress/part_2 && jupyter nbconvert --to notebook --execute --inplace indexing_evaluation.ipynb && cd ../..
+   cd project_progress/part_3 && jupyter nbconvert --to notebook --execute --inplace ranking_filtering.ipynb && cd ../..
+   ```
+
+### Running a search and selecting the ranking algorithm
+
+Every query is conjunctive (AND): only the documents that contain all the query terms are returned. The ranking of those
+documents is selected with `--method`:
+
+```bash
+cd project_progress/part_3
+python search.py "men denim jacket" --method tfidf       # TF-IDF + cosine similarity (default)
+python search.py "men denim jacket" --method bm25        # BM25            (options: --k1 1.2 --b 0.75)
+python search.py "men denim jacket" --method custom      # our own score   (options: --title-boost, --rating-weight,
+                                                         #                  --discount-weight, --out-of-stock-factor)
+python search.py "men denim jacket" --method word2vec    # word2vec + cosine similarity
+python search.py "men denim jacket" --method all --top 5 # the four rankings, 5 results each (--top, default 20)
+```
+
+The same engines can be used from Python (`ranking.build_engines`); see the
+[Part 3 README](project_progress/part_3/README.md) for the options and the description of each algorithm.
+
 ## Attribution:
 The project is adapted from the following sources:
 - [IRWA Template 2021](https://github.com/irwa-labs/search-engine-web-app)

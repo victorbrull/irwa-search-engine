@@ -74,3 +74,7 @@ notebook==7.6.3
 seaborn==0.13.2
 spacy==3.8.16
 wordcloud==1.9.6
+gensim==4.4.0
+scipy==1.18.1
+smart_open==9.0.4
+wrapt==2.5.2
