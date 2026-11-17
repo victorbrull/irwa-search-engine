@@ -1,6 +1,6 @@
 # Ranking functions of Part 3: our own score, word2vec + cosine, and the representations compared with word2vec.
 #
-# The retrieval pipeline is the one of Part 2 (project_progress/part_2/indexing.py, used WITHOUT any change):
+# The retrieval pipeline is the one of Part 2 (project_progress/part_2/indexing.py):
 #     query -> preprocess_text (Part 1) -> conjunctive (AND) retrieval on the inverted index -> ranking of the matches.
 # TF-IDF + cosine (`TfidfRanker`) and BM25 (`Bm25Ranker`) are already implemented in Part 2 and are imported from there.
 # This file adds the rankers that are new in Part 3. All of them have the same interface as the Part 2 rankers,
@@ -21,7 +21,7 @@ for _part in ("part_1", "part_2"):                      # make the Part 1 and Pa
     if _path not in sys.path:
         sys.path.append(_path)
 
-from indexing import Bm25Ranker, InvertedIndex, SearchEngine, TfidfRanker  # noqa: E402  (Part 2, unchanged)
+from indexing import Bm25Ranker, InvertedIndex, SearchEngine, TfidfRanker
 
 Ranking = List[Tuple[int, float]]
 
@@ -40,7 +40,7 @@ def _sort(scored: Sequence[Tuple[int, float]]) -> Ranking:
     return sorted(scored, key=lambda x: (-x[1], x[0]))
 
 
-# ------------------------------------------------------------------------------------------------- our score
+# Our score
 
 @dataclass(frozen=True)
 class CustomScoreParams:
@@ -137,7 +137,7 @@ class CustomRanker:
         return _sort(scored)
 
 
-# ------------------------------------------------------------------------------------------ word2vec + cosine
+# word2vec + cosine
 
 def stable_hash(text: str) -> int:
     """
@@ -272,7 +272,7 @@ class Word2VecRanker:
         return _sort(zip(candidates, _cosines(self.doc_vectors[candidates], query / norm)))
 
 
-# ------------------------------------------------------------------- doc2vec (only for the comparison of section 3)
+# doc2vec (only for the comparison of section 3)
 
 def train_doc2vec(term_lists: Sequence[Sequence[str]], dm: int = 0, vector_size: int = 100, window: int = 5,
                   min_count: int = 1, negative: int = 10, epochs: int = 20, seed: int = 42):
@@ -338,7 +338,7 @@ class Doc2VecRanker:
         return _sort(zip(candidates, _cosines(self.doc_vectors[candidates], query / norm)))
 
 
-# --------------------------------------------------------------------------------------------------- pipeline
+# pipeline
 
 def build_engines(corpus, preprocess: Callable[[str], List[str]], word2vec_path: Optional[str] = None,
                   index: Optional[InvertedIndex] = None, custom_params: CustomScoreParams = CustomScoreParams(),

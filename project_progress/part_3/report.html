@@ -61,10 +61,6 @@ rankers, the evaluation metrics and our relevance judgments. The new code is in 
 <table class='avoid'><tr><th>Id</th><th>Query</th><th>Terms after pre-processing</th><th class=num>AND matches</th><th class=num>Relevant (R)</th></tr><tr><td>Q1</td><td>women full sleeve sweatshirt cotton</td><td><code>women full sleev sweatshirt cotton</code></td><td class=num>496</td><td class=num>13</td></tr><tr><td>Q2</td><td>men slim jeans blue</td><td><code>men slim jean blue</code></td><td class=num>224</td><td class=num>10</td></tr><tr><td>T1</td><td>men black track pants polyester</td><td><code>men black track pant polyest</code></td><td class=num>79</td><td class=num>79</td></tr><tr><td>T2</td><td>women black v neck tshirt</td><td><code>women black neck tshirt</code></td><td class=num>1,584</td><td class=num>43</td></tr><tr><td>T3</td><td>men grey hooded sweatshirt</td><td><code>men grey hood sweatshirt</code></td><td class=num>40</td><td class=num>48</td></tr><tr><td>T4</td><td>women striped shirt</td><td><code>women stripe shirt</code></td><td class=num>114</td><td class=num>74</td></tr><tr><td>T5</td><td>men denim jacket</td><td><code>men denim jacket</code></td><td class=num>73</td><td class=num>38</td></tr></table>
 <p>Seven queries are few. A difference of one or two hundredths in MAP between two rankings is not evidence that one is better, so we use
 the metrics to find the large effects and we explain each of them by looking at the documents.</p>
-<p class="small"><b>Note on the TF-IDF figures.</b> The Part 2 report gives MAP 0.760 (val.) and 0.723 (test) for TF-IDF. Those values were computed with
-base-10 logarithms in the weights; <code>part_2/indexing.py</code> now uses base 2 (the formula written in that report), which gives
-0.764 and 0.737. The base changes the weight of a repeated term (1 + log tf is 2.0 for tf = 2 with base 2 and 1.3 with base 10), so the
-order of a few documents changes. The BM25 figures are identical to the ones of Part 2.</p>
 
 <h2>2. Retrieval pipeline</h2>
 <p>Every search has three steps: (1) the query is pre-processed with the function of Part 1, like the documents; (2) the inverted index of
@@ -78,8 +74,8 @@ methods return exactly the same documents for the seven queries. The method is s
 <div class="box">
 <b>TF-IDF + cosine:</b> &nbsp; w<sub>t,d</sub> = (1 + log<sub>2</sub> tf<sub>t,d</sub>) · log<sub>2</sub>(N / df<sub>t</sub>)
 &nbsp;&nbsp;&nbsp; score(q, d) = Σ<sub>t∈q</sub> w<sub>t,q</sub> · w<sub>t,d</sub> / (‖q‖ · ‖d‖)<br>
-<b>BM25:</b> &nbsp; score(q, d) = Σ<sub>t∈q</sub> log<sub>2</sub>(1 + (N − df<sub>t</sub> + 0.5) / (df<sub>t</sub> + 0.5)) ·
-tf<sub>t,d</sub> · (k<sub>1</sub> + 1) / (tf<sub>t,d</sub> + k<sub>1</sub> · (1 − b + b · |d| / avgdl)) &nbsp;&nbsp; k<sub>1</sub> = 1.2, b = 0.75
+<b>BM25:</b> &nbsp; score(q, d) = Σ<sub>t∈q</sub> log<sub>2</sub>(1 + (N - df<sub>t</sub> + 0.5) / (df<sub>t</sub> + 0.5)) ·
+tf<sub>t,d</sub> · (k<sub>1</sub> + 1) / (tf<sub>t,d</sub> + k<sub>1</sub> · (1 - b + b · |d| / avgdl)) &nbsp;&nbsp; k<sub>1</sub> = 1.2, b = 0.75
 </div>
 <p>In the cosine, ‖d‖ is the norm of the whole document vector, so it depends on <b>every</b> term of the document. In BM25 the document
 only enters through the frequency of the query terms and through its length |d| (number of terms) relative to the average length
@@ -92,8 +88,8 @@ only enters through the frequency of the query terms and through its length |d| 
   <li><b>Same general order, different first positions.</b> Kendall's τ is between 0.72 and 0.84, but the two top 10 share only
       4.4 documents on average (none in T4, all ten in T5). Many products are near-duplicates (same title, another colour or seller) with
       almost the same score, so a small change in the formula reorders them.</li>
-  <li><b>Both prefer short documents, the cosine more.</b> The correlation between the score and the logarithm of the length is −0.81 for the cosine and
-      −0.77 for BM25 (mean of the seven queries). The top-10 documents have 21.3 terms on average with the cosine and
+  <li><b>Both prefer short documents, the cosine more.</b> The correlation between the score and the logarithm of the length is -0.81 for the cosine and
+      -0.77 for BM25 (mean of the seven queries). The top-10 documents have 21.3 terms on average with the cosine and
       26.3 with BM25, while the matching documents have 53.3. The reason is the normalisation: the cosine divides by a
       norm that grows with every additional term of the document (and more if the term is rare); BM25 only compares the length with the
       average, and with b = 0.75 the correction is partial (Figure 1b). The 20 documents judged in Q1 are long (72.5 terms on average) and both scores
@@ -172,7 +168,7 @@ The numeric fields of a record are the rating, the discount, the two prices and 
 <tr><th style="width:15%">Factor</th><th style="width:37%">Definition</th><th>Why</th></tr>
 <tr><td>BM25(q, d)</td><td>BM25 on the merged field, as in section 3</td><td>Basis of the text relevance. We chose BM25 and not the cosine because its score is not divided by the norm of the whole document.</td></tr>
 <tr><td>title(q, d)</td><td>Share of the distinct query terms that appear in the <b>title</b> of the product (0 to 1)</td><td>Part 2 showed that many non-relevant results contain a query term only in the description (a T-shirt that "goes well with a denim jacket"). A product whose title has the query words <i>is</i> that product.</td></tr>
-<tr><td>rating(d)</td><td>(average_rating − 1) / 4, between 0 and 1. Missing (8.1% of the products) → mean of the collection (3.63)</td><td>Between two products that match equally, the better rated one is the better answer. The mean is a neutral value: an unrated product is not rewarded and not punished.</td></tr>
+<tr><td>rating(d)</td><td>(average_rating - 1) / 4, between 0 and 1. Missing (8.1% of the products) → mean of the collection (3.63)</td><td>Between two products that match equally, the better rated one is the better answer. The mean is a neutral value: an unrated product is not rewarded and not punished.</td></tr>
 <tr><td>discount(d)</td><td>discount / 100, between 0 and 1. Missing (2.8%) → 0: these products have no list price, so there is no discount to reward</td><td>A discounted product is a more attractive offer. It is a weaker signal than the rating (see the cons), so it has half the weight.</td></tr>
 <tr><td>stock(d)</td><td>1 if the product is in stock, γ if it is out of stock (5.9% of the products)</td><td>A product that cannot be bought is a worse result. It is moved down, not removed: the user can still see that it exists.</td></tr>
 </table>
@@ -181,7 +177,7 @@ is bounded: (1 + α·rating + β·discount) goes from 1 to 1.75, and over the co
 and 1.71 (median 1.46). So the numeric fields reorder products with a similar text score and cannot bring a poor match to the first positions.
 We set the weights by the size of the effect that we consider reasonable, not by optimisation: a product with all the query terms in the
 title doubles its score; five stars against one star is +50% (with no discount); a discount of 80% adds 0.20 to the factor; being out of stock halves the score.
-In the collection the rating is almost uncorrelated with the discount (−0.05) and with the price (−0.01), so the rating and the discount are not
+In the collection the rating is almost uncorrelated with the discount (-0.05) and with the price (-0.01), so the rating and the discount are not
 the same signal counted twice.</p>
 <p><b>Price is not used.</b> A cheaper product is not a more relevant one unless the user asks for it, and rewarding a low price would push the
 cheapest items of every query to the top. Price belongs in a filter or a sort option (Part 4), not in the relevance score.</p>
@@ -357,7 +353,7 @@ the AND loses and adding them after the lexical results, as in the last experime
   <li><b>TF-IDF + cosine vs BM25:</b> both prefer short documents; the cosine more strongly, because it normalises by all the terms of the document, while BM25 saturates the
       term frequency and normalises only by length. BM25 is the better basis for a combined score.</li>
   <li><b>Our score</b> keeps the relevance of BM25 and changes which of the matching products are shown first: mean rating 3.63 → 4.03, discount 54.2% → 57.1%,
-      out of stock 12.9% → 0% in the top 10. Its weights are set by hand and should be learned from clicks when Part 4 provides them.</li>
+      out of stock 12.9% → 0% in the top 10.</li>
   <li><b>word2vec + cosine</b> is a valid re-ranker but not a retriever: without the AND the average vector cannot keep gender, colour or fabric. Its use
       is to complete the lexical results with the documents that the AND loses.</li>
   <li><b>Better representations</b> exist (sentence encoders), but for this collection the next improvements are still the ones of Part 2: what is indexed and how the query is matched.</li>
